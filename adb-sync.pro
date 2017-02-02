@@ -9,7 +9,11 @@ INCLUDEPATH += .
 QT += widgets
 
 # Input
-HEADERS += src/dir.h src/history.h src/lista.h src/mainwindow.h src/synchro.h
+HEADERS += src/dir.h \
+           src/history.h \
+           src/lista.h \
+           src/mainwindow.h \
+           src/synchro.h
 FORMS += forms/mainwindow.ui
 SOURCES += src/dir.cpp \
            src/history.cpp \
@@ -19,3 +23,10 @@ SOURCES += src/dir.cpp \
            src/mainwindow.cpp \
            src/program.cpp \
            src/synchro.cpp
+
+
+DESTDIR = bin
+OBJECTS_DIR = build/.obj
+MOC_DIR = build/.moc
+RCC_DIR = build/.rcc
+UI_DIR = build/.ui
