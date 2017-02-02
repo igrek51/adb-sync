@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Igrek Synchronizator</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLabel" name="info_txt">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>560</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Naciśnij przycisk &quot;Szukaj&quot;, aby wyszukać elementy synchronizacji.</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>580</width>
+      <height>310</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Lista zadań</string>
+    </property>
+    <widget class="QTableWidget" name="list1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>520</width>
+       <height>220</height>
+      </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="verticalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="horizontalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="showGrid">
+      <bool>true</bool>
+     </property>
+     <property name="gridStyle">
+      <enum>Qt::SolidLine</enum>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>true</bool>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderHighlightSections">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>21</number>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>true</bool>
+     </attribute>
+    </widget>
+    <widget class="QPushButton" name="pb_szukaj">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>125</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Szukaj</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_porownaj">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>240</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Porównaj pliki</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_odwroc">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>240</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Odwróć</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_otworz">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>270</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Otwórz foldery</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_wykonaj1">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>240</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Wykonaj 1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_usun">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>270</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Usuń</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_wykonaj">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>270</y>
+       <width>125</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Wykonaj wszystko</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QProgressBar" name="progress1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>540</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
