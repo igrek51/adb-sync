@@ -5,11 +5,12 @@
 //TODO lock na kolejkę eventów przy dopisywaniu i usuwaniu
 
 #include "EventDispatcher.h"
+#include <typeinfo>
 
 EventDispatcher* EventDispatcher::instance = nullptr;
 
 EventDispatcher* EventDispatcher::getInstance() {
-    if (instance = nullptr) {
+    if (instance == nullptr) {
         instance = new EventDispatcher();
     }
     return instance;
@@ -20,8 +21,10 @@ EventDispatcher::EventDispatcher() {
     eventsQueue = new list<Event*>();
 }
 
-
-void EventDispatcher::registerEventObserver(string eventClass, IEventObserver* observer) {
+template<typename T>
+void EventDispatcher::registerEventObserver(IEventObserver* observer) {
+//    string s = boost::typeindex::type_id_with_cvr<decltype(T)>().pretty_name();
+    string eventClass = typeid(T).name();
     std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
     if (observers == nullptr) {
         observers = new list<IEventObserver*>();
@@ -37,7 +40,9 @@ void EventDispatcher::sendEvent(Event* event) {
     getInstance()->dispatchEvents();
 }
 
-void EventDispatcher::unregisterEvent(string eventClass) {
+template<typename T>
+void EventDispatcher::unregisterEvent() {
+    string eventClass = typeid(T).name();
     std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
     if (observers != nullptr) {
         observers->clear();

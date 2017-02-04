@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++11 -g   CMakeFiles/cmakedupa.dir/src/main.cpp.o CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o  -o cmakedupa /usr/lib/libQt5Widgets.so.5.8.0 /usr/lib/libQt5Gui.so.5.8.0 /usr/lib/libQt5Core.so.5.8.0 

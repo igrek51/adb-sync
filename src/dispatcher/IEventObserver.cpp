@@ -6,7 +6,7 @@
 #include "EventDispatcher.h"
 
 IEventObserver::IEventObserver(){
-    registerEvents();
+//    registerEvents();
 }
 
 IEventObserver::~IEventObserver(){

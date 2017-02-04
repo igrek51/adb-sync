@@ -18,7 +18,10 @@ HEADERS += \
 FORMS += forms/mainwindow.ui
 
 SOURCES += src/main.cpp \
-           src/logger/Logger.cpp
+           src/logger/Logger.cpp \
+           src/dispatcher/EventDispatcher.cpp \
+           src/dispatcher/IEventObserver.cpp \
+           src/dispatcher/Event.cpp 
 
 
 DESTDIR = bin

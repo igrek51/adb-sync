@@ -49,9 +49,15 @@ OBJECTS_DIR   = build/.obj/
 ####### Files
 
 SOURCES       = src/main.cpp \
-		src/logger/Logger.cpp 
+		src/logger/Logger.cpp \
+		src/dispatcher/EventDispatcher.cpp \
+		src/dispatcher/IEventObserver.cpp \
+		src/dispatcher/Event.cpp 
 OBJECTS       = build/.obj/main.o \
-		build/.obj/Logger.o
+		build/.obj/Logger.o \
+		build/.obj/EventDispatcher.o \
+		build/.obj/IEventObserver.o \
+		build/.obj/Event.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -283,7 +289,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
 		adb-sync.pro src/logger/Logger.h src/main.cpp \
-		src/logger/Logger.cpp
+		src/logger/Logger.cpp \
+		src/dispatcher/EventDispatcher.cpp \
+		src/dispatcher/IEventObserver.cpp \
+		src/dispatcher/Event.cpp
 QMAKE_TARGET  = adb-sync
 DESTDIR       = bin/
 TARGET        = bin/adb-sync
@@ -781,7 +790,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/logger/Logger.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -842,6 +851,23 @@ build/.obj/main.o: src/main.cpp src/logger/Logger.h \
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
 		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Logger.o src/logger/Logger.cpp
+
+build/.obj/EventDispatcher.o: src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/EventDispatcher.o src/dispatcher/EventDispatcher.cpp
+
+build/.obj/IEventObserver.o: src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
+		src/dispatcher/EventDispatcher.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/IEventObserver.o src/dispatcher/IEventObserver.cpp
+
+build/.obj/Event.o: src/dispatcher/Event.cpp src/dispatcher/Event.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Event.o src/dispatcher/Event.cpp
 
 ####### Install
 

@@ -12,7 +12,11 @@ using namespace std;
 class Event {
 
 public:
-    static virtual string className() = 0;
+    virtual ~Event();
+
+    virtual string className() = 0;
+
+
 };
 
 

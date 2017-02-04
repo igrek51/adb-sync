@@ -23,16 +23,11 @@ find_package(Qt5Gui REQUIRED)
 # only for colouring syntax in clion
 set(SOURCE_FILES
         src/main.cpp
-#        src/dir.cpp
-#        src/history.cpp
-#        src/lista.cpp
-#        src/listbox.cpp
-#        src/mainwindow.cpp
-#        src/program.cpp
-#        src/synchro.cpp
-#        src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h
         src/logger/Logger.cpp src/logger/Logger.h
-        src/dispatcher/IEventObserver.h src/dispatcher/Event.cpp src/dispatcher/Event.h src/dispatcher/IEventObserver.cpp)
+        src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h
+        src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h
+        src/dispatcher/Event.cpp src/dispatcher/Event.h
+        )
 
 # included qt libraries
 add_executable(cmakedupa ${SOURCE_FILES})

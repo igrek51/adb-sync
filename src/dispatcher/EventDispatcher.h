@@ -32,11 +32,13 @@ private:
 
 public:
 
-    static void registerEventObserver(string eventClass, IEventObserver* observer);
+    template<typename T>
+    static void registerEventObserver(IEventObserver* observer);
 
     static void sendEvent(Event* event);
 
-    static void unregisterEvent(string eventClass);
+    template<typename T>
+    static void unregisterEvent();
 
     static void unregisterEventObserver(IEventObserver* eventObserver);
 
