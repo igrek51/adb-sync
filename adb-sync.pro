@@ -8,6 +8,8 @@ INCLUDEPATH += .
 
 QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++11
+
 # Input
 HEADERS += src/dir.h \
            src/history.h \

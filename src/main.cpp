@@ -1,14 +1,18 @@
-#include "mainwindow.h"
-#include <QApplication>
+//#include "app.h"
 
-//TODO przebudować projekt, komentarze, optimize imoprts, reformat code
-//TODO funkcje indywidualne dla OS przenieść do system.h
-//TODO merge z wersją Winapi
+#include <iostream>
 
-int main(int argc, char *argv[]){
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    
-    return a.exec();
+using namespace std;
+
+//TODO logger- info, debug, warn, error z kolorkami w terminalu
+
+//TODO smart_ptr (unique, shared) ...
+
+int main(int argc, char** argv) {
+//    App* app = new App(argc, argv);
+//    delete app;
+    cout << "dupa\n";
+    return 0;
 }
+
+

@@ -1,0 +1,4 @@
+/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/adbsync.dir
+/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/cmakedupa.dir
