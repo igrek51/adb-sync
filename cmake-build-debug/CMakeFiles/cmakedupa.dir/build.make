@@ -81,20 +81,98 @@ CMakeFiles/cmakedupa.dir/src/main.cpp.o.provides: CMakeFiles/cmakedupa.dir/src/m
 CMakeFiles/cmakedupa.dir/src/main.cpp.o.provides.build: CMakeFiles/cmakedupa.dir/src/main.cpp.o
 
 
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o: CMakeFiles/cmakedupa.dir/flags.make
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o: ../src/logger/Logger.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o -c /mnt/data/Igrek/c++/adb-sync/src/logger/Logger.cpp
+
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/data/Igrek/c++/adb-sync/src/logger/Logger.cpp > CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.i
+
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Igrek/c++/adb-sync/src/logger/Logger.cpp -o CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.s
+
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.requires
+
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.provides: CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.provides.build
+.PHONY : CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.provides
+
+CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.provides.build: CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o
+
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o: CMakeFiles/cmakedupa.dir/flags.make
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o: ../src/dispatcher/Event.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o -c /mnt/data/Igrek/c++/adb-sync/src/dispatcher/Event.cpp
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/data/Igrek/c++/adb-sync/src/dispatcher/Event.cpp > CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.i
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Igrek/c++/adb-sync/src/dispatcher/Event.cpp -o CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.s
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.requires
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.provides: CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.provides.build
+.PHONY : CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.provides
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.provides.build: CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o
+
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o: CMakeFiles/cmakedupa.dir/flags.make
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o: ../src/dispatcher/IEventObserver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o -c /mnt/data/Igrek/c++/adb-sync/src/dispatcher/IEventObserver.cpp
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/data/Igrek/c++/adb-sync/src/dispatcher/IEventObserver.cpp > CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.i
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Igrek/c++/adb-sync/src/dispatcher/IEventObserver.cpp -o CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.s
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.requires:
+
+.PHONY : CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.requires
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.provides: CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.provides.build
+.PHONY : CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.provides
+
+CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.provides.build: CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o
+
+
 # Object files for target cmakedupa
 cmakedupa_OBJECTS = \
-"CMakeFiles/cmakedupa.dir/src/main.cpp.o"
+"CMakeFiles/cmakedupa.dir/src/main.cpp.o" \
+"CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o" \
+"CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o" \
+"CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o"
 
 # External object files for target cmakedupa
 cmakedupa_EXTERNAL_OBJECTS =
 
 cmakedupa: CMakeFiles/cmakedupa.dir/src/main.cpp.o
+cmakedupa: CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o
+cmakedupa: CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o
+cmakedupa: CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o
 cmakedupa: CMakeFiles/cmakedupa.dir/build.make
 cmakedupa: /usr/lib/libQt5Widgets.so.5.8.0
 cmakedupa: /usr/lib/libQt5Gui.so.5.8.0
 cmakedupa: /usr/lib/libQt5Core.so.5.8.0
 cmakedupa: CMakeFiles/cmakedupa.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable cmakedupa"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable cmakedupa"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmakedupa.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -103,6 +181,9 @@ CMakeFiles/cmakedupa.dir/build: cmakedupa
 .PHONY : CMakeFiles/cmakedupa.dir/build
 
 CMakeFiles/cmakedupa.dir/requires: CMakeFiles/cmakedupa.dir/src/main.cpp.o.requires
+CMakeFiles/cmakedupa.dir/requires: CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o.requires
+CMakeFiles/cmakedupa.dir/requires: CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o.requires
+CMakeFiles/cmakedupa.dir/requires: CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o.requires
 
 .PHONY : CMakeFiles/cmakedupa.dir/requires
 

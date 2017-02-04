@@ -136,6 +136,87 @@ cmakedupa/fast:
 	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/build
 .PHONY : cmakedupa/fast
 
+src/dispatcher/Event.o: src/dispatcher/Event.cpp.o
+
+.PHONY : src/dispatcher/Event.o
+
+# target to build an object file
+src/dispatcher/Event.cpp.o:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o
+.PHONY : src/dispatcher/Event.cpp.o
+
+src/dispatcher/Event.i: src/dispatcher/Event.cpp.i
+
+.PHONY : src/dispatcher/Event.i
+
+# target to preprocess a source file
+src/dispatcher/Event.cpp.i:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.i
+.PHONY : src/dispatcher/Event.cpp.i
+
+src/dispatcher/Event.s: src/dispatcher/Event.cpp.s
+
+.PHONY : src/dispatcher/Event.s
+
+# target to generate assembly for a file
+src/dispatcher/Event.cpp.s:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.s
+.PHONY : src/dispatcher/Event.cpp.s
+
+src/dispatcher/IEventObserver.o: src/dispatcher/IEventObserver.cpp.o
+
+.PHONY : src/dispatcher/IEventObserver.o
+
+# target to build an object file
+src/dispatcher/IEventObserver.cpp.o:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o
+.PHONY : src/dispatcher/IEventObserver.cpp.o
+
+src/dispatcher/IEventObserver.i: src/dispatcher/IEventObserver.cpp.i
+
+.PHONY : src/dispatcher/IEventObserver.i
+
+# target to preprocess a source file
+src/dispatcher/IEventObserver.cpp.i:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.i
+.PHONY : src/dispatcher/IEventObserver.cpp.i
+
+src/dispatcher/IEventObserver.s: src/dispatcher/IEventObserver.cpp.s
+
+.PHONY : src/dispatcher/IEventObserver.s
+
+# target to generate assembly for a file
+src/dispatcher/IEventObserver.cpp.s:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.s
+.PHONY : src/dispatcher/IEventObserver.cpp.s
+
+src/logger/Logger.o: src/logger/Logger.cpp.o
+
+.PHONY : src/logger/Logger.o
+
+# target to build an object file
+src/logger/Logger.cpp.o:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o
+.PHONY : src/logger/Logger.cpp.o
+
+src/logger/Logger.i: src/logger/Logger.cpp.i
+
+.PHONY : src/logger/Logger.i
+
+# target to preprocess a source file
+src/logger/Logger.cpp.i:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.i
+.PHONY : src/logger/Logger.cpp.i
+
+src/logger/Logger.s: src/logger/Logger.cpp.s
+
+.PHONY : src/logger/Logger.s
+
+# target to generate assembly for a file
+src/logger/Logger.cpp.s:
+	$(MAKE) -f CMakeFiles/cmakedupa.dir/build.make CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.s
+.PHONY : src/logger/Logger.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -173,6 +254,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... adbsync"
 	@echo "... cmakedupa"
+	@echo "... src/dispatcher/Event.o"
+	@echo "... src/dispatcher/Event.i"
+	@echo "... src/dispatcher/Event.s"
+	@echo "... src/dispatcher/IEventObserver.o"
+	@echo "... src/dispatcher/IEventObserver.i"
+	@echo "... src/dispatcher/IEventObserver.s"
+	@echo "... src/logger/Logger.o"
+	@echo "... src/logger/Logger.i"
+	@echo "... src/logger/Logger.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

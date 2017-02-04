@@ -4,6 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/mnt/data/Igrek/c++/adb-sync/src/dispatcher/Event.cpp" "/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/cmakedupa.dir/src/dispatcher/Event.cpp.o"
+  "/mnt/data/Igrek/c++/adb-sync/src/dispatcher/IEventObserver.cpp" "/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/cmakedupa.dir/src/dispatcher/IEventObserver.cpp.o"
+  "/mnt/data/Igrek/c++/adb-sync/src/logger/Logger.cpp" "/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/cmakedupa.dir/src/logger/Logger.cpp.o"
   "/mnt/data/Igrek/c++/adb-sync/src/main.cpp" "/mnt/data/Igrek/c++/adb-sync/cmake-build-debug/CMakeFiles/cmakedupa.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

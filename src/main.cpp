@@ -1,17 +1,17 @@
-//#include "app.h"
-
 #include <iostream>
+#include "logger/Logger.h"
 
 using namespace std;
 
-//TODO logger- info, debug, warn, error z kolorkami w terminalu
-
-//TODO smart_ptr (unique, shared) ...
+//TODO smart pointers, shared ...
+//TODO c++ 11 standards: nullptr, foreach, auto, enum class
 
 int main(int argc, char** argv) {
 //    App* app = new App(argc, argv);
 //    delete app;
-    cout << "dupa\n";
+
+    Logger::info("hello, logger");
+
     return 0;
 }
 

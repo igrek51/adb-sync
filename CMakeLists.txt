@@ -18,8 +18,9 @@ find_package(Qt5Gui REQUIRED)
 #include_directories(/usr/include/qt/QtGui/)
 #include_directories(${Qt5Widgets_INCLUDES})
 
-include_directories(/usr/include)
+#include_directories(/usr/include)
 
+# only for colouring syntax in clion
 set(SOURCE_FILES
         src/main.cpp
 #        src/dir.cpp
@@ -29,16 +30,12 @@ set(SOURCE_FILES
 #        src/mainwindow.cpp
 #        src/program.cpp
 #        src/synchro.cpp
-#        src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h src/logger/Logger.cpp src/logger/Logger.h
-        )
-
-set(HEADER_FILES
-#        src/app.h
-#        src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h src/logger/Logger.cpp src/logger/Logger.h
-        )
+#        src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h
+        src/logger/Logger.cpp src/logger/Logger.h
+        src/dispatcher/IEventObserver.h src/dispatcher/Event.cpp src/dispatcher/Event.h src/dispatcher/IEventObserver.cpp)
 
 # included qt libraries
-add_executable(cmakedupa ${HEADER_FILES} ${SOURCE_FILES})
+add_executable(cmakedupa ${SOURCE_FILES})
 target_link_libraries(cmakedupa Qt5::Widgets)
 
 

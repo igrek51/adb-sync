@@ -11,20 +11,14 @@ QT += widgets
 QMAKE_CXXFLAGS += -std=c++11
 
 # Input
-HEADERS += src/dir.h \
-           src/history.h \
-           src/lista.h \
-           src/mainwindow.h \
-           src/synchro.h
+HEADERS += \
+           src/logger/Logger.h
+           src/logger/LogLevel.h
+
 FORMS += forms/mainwindow.ui
-SOURCES += src/dir.cpp \
-           src/history.cpp \
-           src/lista.cpp \
-           src/listbox.cpp \
-           src/main.cpp \
-           src/mainwindow.cpp \
-           src/program.cpp \
-           src/synchro.cpp
+
+SOURCES += src/main.cpp \
+           src/logger/Logger.cpp
 
 
 DESTDIR = bin

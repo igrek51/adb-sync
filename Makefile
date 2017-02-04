@@ -48,23 +48,10 @@ OBJECTS_DIR   = build/.obj/
 
 ####### Files
 
-SOURCES       = src/dir.cpp \
-		src/history.cpp \
-		src/lista.cpp \
-		src/listbox.cpp \
-		src/main.cpp \
-		src/mainwindow.cpp \
-		src/program.cpp \
-		src/synchro.cpp build/.moc/moc_mainwindow.cpp
-OBJECTS       = build/.obj/dir.o \
-		build/.obj/history.o \
-		build/.obj/lista.o \
-		build/.obj/listbox.o \
-		build/.obj/main.o \
-		build/.obj/mainwindow.o \
-		build/.obj/program.o \
-		build/.obj/synchro.o \
-		build/.obj/moc_mainwindow.o
+SOURCES       = src/main.cpp \
+		src/logger/Logger.cpp 
+OBJECTS       = build/.obj/main.o \
+		build/.obj/Logger.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -295,18 +282,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		adb-sync.pro src/dir.h \
-		src/history.h \
-		src/lista.h \
-		src/mainwindow.h \
-		src/synchro.h src/dir.cpp \
-		src/history.cpp \
-		src/lista.cpp \
-		src/listbox.cpp \
-		src/main.cpp \
-		src/mainwindow.cpp \
-		src/program.cpp \
-		src/synchro.cpp
+		adb-sync.pro src/logger/Logger.h src/main.cpp \
+		src/logger/Logger.cpp
 QMAKE_TARGET  = adb-sync
 DESTDIR       = bin/
 TARGET        = bin/adb-sync
@@ -803,8 +780,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/dir.h src/history.h src/lista.h src/mainwindow.h src/synchro.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/dir.cpp src/history.cpp src/lista.cpp src/listbox.cpp src/main.cpp src/mainwindow.cpp src/program.cpp src/synchro.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/logger/Logger.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -837,18 +814,8 @@ compiler_moc_predefs_clean:
 build/.moc/moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -std=c++11 -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -Wall -W -dM -E -o build/.moc/moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: build/.moc/moc_mainwindow.cpp
+compiler_moc_header_make_all:
 compiler_moc_header_clean:
-	-$(DEL_FILE) build/.moc/moc_mainwindow.cpp
-build/.moc/moc_mainwindow.cpp: src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/history.h \
-		src/mainwindow.h \
-		build/.moc/moc_predefs.h \
-		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include build/.moc/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/mnt/data/Igrek/c++/adb-sync -I/mnt/data/Igrek/c++/adb-sync -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/6.3.1 -I/usr/include/c++/6.3.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.3.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.1/include-fixed -I/usr/include src/mainwindow.h -o build/.moc/moc_mainwindow.cpp
-
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: build/.ui/ui_mainwindow.h
@@ -864,67 +831,17 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_uic_clean 
 
 ####### Compile
 
-build/.obj/dir.o: src/dir.cpp src/dir.h \
-		src/mainwindow.h \
-		src/synchro.h \
-		src/lista.h \
-		src/history.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/dir.o src/dir.cpp
-
-build/.obj/history.o: src/history.cpp src/history.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/history.o src/history.cpp
-
-build/.obj/lista.o: src/lista.cpp src/lista.h \
-		src/mainwindow.h \
-		src/synchro.h \
-		src/dir.h \
-		src/history.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/lista.o src/lista.cpp
-
-build/.obj/listbox.o: src/listbox.cpp src/mainwindow.h \
-		src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/history.h \
-		build/.ui/ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/listbox.o src/listbox.cpp
-
-build/.obj/main.o: src/main.cpp src/mainwindow.h \
-		src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/history.h
+build/.obj/main.o: src/main.cpp src/logger/Logger.h \
+		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
-build/.obj/mainwindow.o: src/mainwindow.cpp src/mainwindow.h \
-		src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/history.h \
-		build/.ui/ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/mainwindow.o src/mainwindow.cpp
-
-build/.obj/program.o: src/program.cpp src/mainwindow.h \
-		src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/history.h \
-		build/.ui/ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/program.o src/program.cpp
-
-build/.obj/synchro.o: src/synchro.cpp src/synchro.h \
-		src/lista.h \
-		src/dir.h \
-		src/mainwindow.h \
-		src/history.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/synchro.o src/synchro.cpp
-
-build/.obj/moc_mainwindow.o: build/.moc/moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/moc_mainwindow.o build/.moc/moc_mainwindow.cpp
+build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Logger.o src/logger/Logger.cpp
 
 ####### Install
 
