@@ -1,4 +1,4 @@
-#include "thread.h"
+#include "Thread.h"
 #include "../log/log.h"
 #include "../utils.h"
 #include <boost/thread.hpp>

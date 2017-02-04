@@ -1,4 +1,4 @@
-#include "continuous_thread.h"
+#include "ContinuousThread.h"
 #include "../log/log.h"
 #include "../utils.h"
 #include <boost/thread.hpp>

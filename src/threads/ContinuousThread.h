@@ -5,7 +5,7 @@
 #ifndef CONTINUOUS_THREAD_H
 #define CONTINUOUS_THREAD_H
 
-#include "thread.h"
+#include "Thread.h"
 
 /**
  * \brief Wątek z procedurą wykonywaną cyklicznie
