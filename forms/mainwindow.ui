@@ -6,25 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>400</height>
+    <width>542</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Igrek Synchronizator</string>
+   <string>ADB Sync</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="info_txt">
+   <widget class="QLabel" name="ui_messages">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>560</width>
+      <width>541</width>
       <height>60</height>
      </rect>
     </property>
     <property name="text">
-     <string>Naciśnij przycisk &quot;Szukaj&quot;, aby wyszukać elementy synchronizacji.</string>
+     <string>ui messages</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -41,20 +41,20 @@
      <rect>
       <x>10</x>
       <y>80</y>
-      <width>580</width>
-      <height>310</height>
+      <width>521</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="title">
-     <string>Lista zadań</string>
+     <string>Differences list</string>
     </property>
     <widget class="QTableWidget" name="list1">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>520</width>
-       <height>220</height>
+       <y>29</y>
+       <width>501</width>
+       <height>211</height>
       </rect>
      </property>
      <property name="editTriggers">
@@ -94,98 +94,72 @@
       <bool>true</bool>
      </attribute>
     </widget>
-    <widget class="QPushButton" name="pb_szukaj">
+    <widget class="QPushButton" name="pb_scan">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
-       <width>125</width>
+       <y>250</y>
+       <width>160</width>
        <height>60</height>
       </rect>
      </property>
      <property name="text">
-      <string>Szukaj</string>
+      <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pb_porownaj">
+    <widget class="QPushButton" name="pb_reverse">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>240</y>
-       <width>125</width>
+       <x>180</x>
+       <y>250</y>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Porównaj pliki</string>
+      <string>Reverse</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pb_odwroc">
+    <widget class="QPushButton" name="pb_execute">
      <property name="geometry">
       <rect>
-       <x>270</x>
-       <y>240</y>
-       <width>125</width>
+       <x>350</x>
+       <y>250</y>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Odwróć</string>
+      <string>Execute</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pb_otworz">
+    <widget class="QPushButton" name="pb_delete">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>270</y>
-       <width>125</width>
+       <x>180</x>
+       <y>280</y>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Otwórz foldery</string>
+      <string>Delete</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pb_wykonaj1">
+    <widget class="QPushButton" name="pb_execute_all">
      <property name="geometry">
       <rect>
-       <x>400</x>
-       <y>240</y>
-       <width>125</width>
+       <x>350</x>
+       <y>280</y>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
      <property name="text">
-      <string>Wykonaj 1</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_usun">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>270</y>
-       <width>125</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Usuń</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_wykonaj">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>270</y>
-       <width>125</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Wykonaj wszystko</string>
+      <string>Execute all</string>
      </property>
     </widget>
    </widget>
@@ -194,8 +168,8 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>540</width>
-      <height>15</height>
+      <width>521</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="value">

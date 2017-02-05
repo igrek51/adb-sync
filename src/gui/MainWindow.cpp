@@ -3,7 +3,7 @@
 //
 
 #include "MainWindow.h"
-#include "../../build/ui_mainwindow.h"
+#include "../../build/.ui/ui_mainwindow.h"
 
 #include <QDesktopWidget>
 

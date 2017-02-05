@@ -1011,7 +1011,7 @@ build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/GUI.o src/gui/GUI.cpp
 
 build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
-		build/ui_mainwindow.h
+		build/.ui/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
