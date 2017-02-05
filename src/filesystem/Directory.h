@@ -5,9 +5,26 @@
 #ifndef ADBSYNC_DIRECTORY_H
 #define ADBSYNC_DIRECTORY_H
 
+#include "File.h"
+#include "RegularFile.h"
+#include <vector>
 
-class Directory {
+class Directory : public File {
+public:
+    Directory(string name);
 
+    ~Directory();
+
+    vector<File*>* getAllFiles();
+
+    vector<RegularFile*>* getRegularFiles();
+
+    vector<Directory*>* getDirectories();
+
+    void addFile(File* file);
+
+private:
+    vector<File*>* files;
 };
 
 

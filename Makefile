@@ -67,9 +67,9 @@ SOURCES       = src/main.cpp \
 		src/gui/MainWindow.cpp \
 		src/gui/DiffListBox.cpp \
 		src/synchronizer/Synchronizer.cpp \
-		src/synchronizer/commands/CommandExecutor.cpp \
-		src/synchronizer/diffs/DiffScanner.cpp \
-		src/synchronizer/diffs/Diff.cpp \
+		src/system/CmdExecutor.cpp \
+		src/synchronizer/DiffScanner.cpp \
+		src/diffs/Diff.cpp \
 		src/threads/SingleThread.cpp \
 		src/threads/Thread.cpp \
 		src/threads/LoopThread.cpp \
@@ -94,7 +94,7 @@ OBJECTS       = build/.obj/main.o \
 		build/.obj/MainWindow.o \
 		build/.obj/DiffListBox.o \
 		build/.obj/Synchronizer.o \
-		build/.obj/CommandExecutor.o \
+		build/.obj/CmdExecutor.o \
 		build/.obj/DiffScanner.o \
 		build/.obj/Diff.o \
 		build/.obj/SingleThread.o \
@@ -351,10 +351,10 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
 		src/synchronizer/Synchronizer.h \
-		src/synchronizer/commands/CommandExecutor.h \
-		src/synchronizer/diffs/DiffScanner.h \
-		src/synchronizer/diffs/Diff.h \
-		src/synchronizer/diffs/DiffType.h \
+		src/system/CmdExecutor.h \
+		src/synchronizer/DiffScanner.h \
+		src/diffs/Diff.h \
+		src/diffs/DiffType.h \
 		src/threads/SingleThread.h \
 		src/threads/Thread.h \
 		src/threads/LoopThread.h \
@@ -378,9 +378,9 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/gui/MainWindow.cpp \
 		src/gui/DiffListBox.cpp \
 		src/synchronizer/Synchronizer.cpp \
-		src/synchronizer/commands/CommandExecutor.cpp \
-		src/synchronizer/diffs/DiffScanner.cpp \
-		src/synchronizer/diffs/Diff.cpp \
+		src/system/CmdExecutor.cpp \
+		src/synchronizer/DiffScanner.cpp \
+		src/diffs/Diff.cpp \
 		src/threads/SingleThread.cpp \
 		src/threads/Thread.cpp \
 		src/threads/LoopThread.cpp \
@@ -882,8 +882,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/synchronizer/commands/CommandExecutor.h src/synchronizer/diffs/DiffScanner.h src/synchronizer/diffs/Diff.h src/synchronizer/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CmdExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CmdExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -988,22 +988,30 @@ build/.obj/Database.o: src/config/Database.cpp src/config/Database.h
 build/.obj/Error.o: src/errors/Error.cpp src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Error.o src/errors/Error.cpp
 
-build/.obj/FileSystem.o: src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h
+build/.obj/FileSystem.o: src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h \
+		src/filesystem/File.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/FileSystem.o src/filesystem/FileSystem.cpp
 
-build/.obj/LocalFS.o: src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h
+build/.obj/LocalFS.o: src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h \
+		src/filesystem/FileSystem.h \
+		src/filesystem/File.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/LocalFS.o src/filesystem/LocalFS.cpp
 
-build/.obj/ADB.o: src/filesystem/ADB.cpp src/filesystem/ADB.h
+build/.obj/ADB.o: src/filesystem/ADB.cpp src/filesystem/ADB.h \
+		src/filesystem/FileSystem.h \
+		src/filesystem/File.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/ADB.o src/filesystem/ADB.cpp
 
 build/.obj/File.o: src/filesystem/File.cpp src/filesystem/File.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/File.o src/filesystem/File.cpp
 
-build/.obj/Directory.o: src/filesystem/Directory.cpp src/filesystem/Directory.h
+build/.obj/Directory.o: src/filesystem/Directory.cpp src/filesystem/Directory.h \
+		src/filesystem/File.h \
+		src/filesystem/RegularFile.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Directory.o src/filesystem/Directory.cpp
 
-build/.obj/RegularFile.o: src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h
+build/.obj/RegularFile.o: src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h \
+		src/filesystem/File.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/RegularFile.o src/filesystem/RegularFile.cpp
 
 build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h \
@@ -1011,7 +1019,9 @@ build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/GUI.o src/gui/GUI.cpp
 
 build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
-		build/.ui/ui_mainwindow.h
+		build/.ui/ui_mainwindow.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
@@ -1023,15 +1033,17 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 		src/config/ConfigProperties.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
-build/.obj/CommandExecutor.o: src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/CommandExecutor.o src/synchronizer/commands/CommandExecutor.cpp
+build/.obj/CmdExecutor.o: src/system/CmdExecutor.cpp src/system/CmdExecutor.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/CmdExecutor.o src/system/CmdExecutor.cpp
 
-build/.obj/DiffScanner.o: src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffScanner.o src/synchronizer/diffs/DiffScanner.cpp
+build/.obj/DiffScanner.o: src/synchronizer/DiffScanner.cpp src/synchronizer/DiffScanner.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffScanner.o src/synchronizer/DiffScanner.cpp
 
-build/.obj/Diff.o: src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h \
-		src/synchronizer/diffs/DiffType.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Diff.o src/synchronizer/diffs/Diff.cpp
+build/.obj/Diff.o: src/diffs/Diff.cpp src/diffs/Diff.h \
+		src/diffs/DiffType.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Diff.o src/diffs/Diff.cpp
 
 build/.obj/SingleThread.o: src/threads/SingleThread.cpp src/threads/SingleThread.h \
 		src/logger/Logger.h \
@@ -1055,7 +1067,9 @@ build/.obj/App.o: src/App.cpp src/App.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/utils/string_utils.h \
+		src/system/CmdExecutor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/App.o src/App.cpp
 
 build/.obj/string_utils.o: src/utils/string_utils.cpp src/utils/string_utils.h

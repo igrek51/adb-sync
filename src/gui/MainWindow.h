@@ -7,8 +7,6 @@
 
 #include <QMainWindow>
 
-//TODO zmienić nazwy slotów na angielskie
-
 using namespace std;
 
 namespace Ui {
@@ -26,24 +24,26 @@ public:
     void resizeEvent(QResizeEvent*);
 
 private slots:
-    void on_pb_szukaj_clicked();
+    void on_pb_scan_clicked();
 
-    void on_pb_wykonaj_clicked();
+    void on_pb_delete_clicked();
 
-    void on_pb_usun_clicked();
+    void on_pb_reverse_clicked();
+
+    void on_pb_execute_clicked();
+
+    void on_pb_execute_all_clicked();
 
     void on_list1_cellClicked(int row, int column);
 
-    void on_pb_otworz_clicked();
-
-    void on_pb_wykonaj1_clicked();
-
-    void on_pb_porownaj_clicked();
-
-    void on_pb_odwroc_clicked();
-
 private:
     Ui::MainWindow *ui;
+
+    void uiMessage(string msg);
+
+    void buttonsEnable(bool enable);
+
+    void setProgress(double p);
 };
 
 

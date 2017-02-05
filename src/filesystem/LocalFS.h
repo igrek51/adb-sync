@@ -5,9 +5,11 @@
 #ifndef ADBSYNC_LOCALFS_H
 #define ADBSYNC_LOCALFS_H
 
+#include "FileSystem.h"
 
-class LocalFS {
-
+class LocalFS : FileSystem {
+public:
+    virtual vector<File*>* listPath(string path);
 };
 
 

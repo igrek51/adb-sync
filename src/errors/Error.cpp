@@ -3,3 +3,5 @@
 //
 
 #include "Error.h"
+
+Error::Error(const string& message) : message(message) {}

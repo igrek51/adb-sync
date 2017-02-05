@@ -45,10 +45,10 @@ set(SOURCE_FILES
         src/gui/MainWindow.cpp src/gui/MainWindow.h
         src/gui/DiffListBox.cpp src/gui/DiffListBox.h
         src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h
-        src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h
-        src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h
-        src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h
-        src/synchronizer/diffs/DiffType.h
+        src/system/CmdExecutor.cpp src/system/CmdExecutor.h
+        src/synchronizer/DiffScanner.cpp src/synchronizer/DiffScanner.h
+        src/diffs/Diff.cpp src/diffs/Diff.h
+        src/diffs/DiffType.h
         src/threads/SingleThread.cpp src/threads/SingleThread.h
         src/threads/Thread.cpp src/threads/Thread.h
         src/threads/LoopThread.cpp src/threads/LoopThread.h

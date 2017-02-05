@@ -26,6 +26,7 @@ volatile bool Logger::LOCK = false;
 void Logger::fatal(string s) {
     string s2 = C_BOLD + C_RED + "[FATAL] " + C_RESET + s;
     log(s2, LogLevel::FATAL);
+    exit(1);
 }
 
 void Logger::error(string s) {

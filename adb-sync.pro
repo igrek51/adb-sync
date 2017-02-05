@@ -31,10 +31,10 @@ HEADERS += \
            src/gui/MainWindow.h \
            src/gui/DiffListBox.h \
            src/synchronizer/Synchronizer.h \
-           src/synchronizer/commands/CommandExecutor.h \
-           src/synchronizer/diffs/DiffScanner.h \
-           src/synchronizer/diffs/Diff.h \
-           src/synchronizer/diffs/DiffType.h \
+           src/system/CmdExecutor.h \
+           src/synchronizer/DiffScanner.h \
+           src/diffs/Diff.h \
+           src/diffs/DiffType.h \
            src/threads/SingleThread.h \
            src/threads/Thread.h \
            src/threads/LoopThread.h \
@@ -62,9 +62,9 @@ SOURCES += src/main.cpp \
 	       src/gui/MainWindow.cpp \
 	       src/gui/DiffListBox.cpp \
 	       src/synchronizer/Synchronizer.cpp \
-	       src/synchronizer/commands/CommandExecutor.cpp \
-	       src/synchronizer/diffs/DiffScanner.cpp \
-	       src/synchronizer/diffs/Diff.cpp \
+	       src/system/CmdExecutor.cpp \
+	       src/synchronizer/DiffScanner.cpp \
+	       src/diffs/Diff.cpp \
 	       src/threads/SingleThread.cpp \
 	       src/threads/Thread.cpp \
 	       src/threads/LoopThread.cpp \

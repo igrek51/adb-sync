@@ -5,8 +5,15 @@
 #ifndef ADBSYNC_ADB_H
 #define ADBSYNC_ADB_H
 
+#include "FileSystem.h"
 
-class ADB {
+class ADB : FileSystem {
+public:
+    bool detectADB();
+
+    bool detectDevice();
+
+    virtual vector<File*>* listPath(string path);
 
 };
 

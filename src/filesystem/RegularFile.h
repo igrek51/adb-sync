@@ -6,8 +6,27 @@
 #define ADBSYNC_REGUARFILE_H
 
 
-class RegularFile {
+#include "File.h"
+#include <ctime>
 
+class RegularFile : public File {
+public:
+    RegularFile(string name);
+
+    ~RegularFile();
+
+    unsigned int getSize() const;
+
+    time_t getModifiedDate() const;
+
+    void setSize(unsigned int size);
+
+    void setModifiedDate(time_t modifiedDate);
+
+private:
+    unsigned int size;
+
+    time_t modifiedDate;
 };
 
 
