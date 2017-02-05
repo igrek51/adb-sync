@@ -48,7 +48,6 @@ void Logger::debug(string s) {
     log(s2, LogLevel::DEBUG);
 }
 
-
 void Logger::log(string s, LogLevel level) {
     if (level > ECHO_LEVEL) return;
     while(LOCK){

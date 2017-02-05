@@ -33,7 +33,6 @@ set(SOURCE_FILES
         src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h
         src/dispatcher/Event.cpp src/dispatcher/Event.h
         src/config/ConfigLoader.cpp src/config/ConfigLoader.h
-        src/config/ConfigProperties.cpp src/config/ConfigProperties.h
         src/config/Database.cpp src/config/Database.h
         src/errors/Error.cpp src/errors/Error.h
         src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h
@@ -54,7 +53,7 @@ set(SOURCE_FILES
         src/threads/Thread.cpp src/threads/Thread.h
         src/threads/LoopThread.cpp src/threads/LoopThread.h
         src/App.cpp src/App.h
-        )
+        src/config/ConfigProperties.cpp src/config/ConfigProperties.h)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})
