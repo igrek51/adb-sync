@@ -53,7 +53,8 @@ set(SOURCE_FILES
         src/threads/Thread.cpp src/threads/Thread.h
         src/threads/LoopThread.cpp src/threads/LoopThread.h
         src/App.cpp src/App.h
-        src/config/ConfigProperties.cpp src/config/ConfigProperties.h)
+        src/config/ConfigProperties.cpp src/config/ConfigProperties.h
+        src/utils/string_utils.cpp src/utils/string_utils.h)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})

@@ -13,32 +13,33 @@ QMAKE_LFLAGS += -lboost_system -lboost_thread
 
 # Input
 HEADERS += \
-           src/logger/Logger.h
-           src/dispatcher/EventDispatcher.h
-           src/dispatcher/IEventObserver.h
-           src/dispatcher/Event.h
-           src/config/ConfigLoader.h
-           src/config/ConfigProperties.h
-           src/config/Database.h
-           src/errors/Error.h
-           src/filesystem/FileSystem.h
-           src/filesystem/LocalFS.h
-           src/filesystem/ADB.h
-           src/filesystem/File.h
-           src/filesystem/Directory.h
-           src/filesystem/RegularFile.h
-           src/gui/GUI.h
-           src/gui/MainWindow.h
-           src/gui/DiffListBox.h
-           src/synchronizer/Synchronizer.h
-           src/synchronizer/commands/CommandExecutor.h
-           src/synchronizer/diffs/DiffScanner.h
-           src/synchronizer/diffs/Diff.h
-           src/synchronizer/diffs/DiffType.h
-           src/threads/SingleThread.h
-           src/threads/Thread.h
-           src/threads/LoopThread.h
-           src/App.h
+           src/logger/Logger.h \
+           src/dispatcher/EventDispatcher.h \
+           src/dispatcher/IEventObserver.h \
+           src/dispatcher/Event.h \
+           src/config/ConfigLoader.h \
+           src/config/ConfigProperties.h \
+           src/config/Database.h \
+           src/errors/Error.h \
+           src/filesystem/FileSystem.h \
+           src/filesystem/LocalFS.h \
+           src/filesystem/ADB.h \
+           src/filesystem/File.h \
+           src/filesystem/Directory.h \
+           src/filesystem/RegularFile.h \
+           src/gui/GUI.h \
+           src/gui/MainWindow.h \
+           src/gui/DiffListBox.h \
+           src/synchronizer/Synchronizer.h \
+           src/synchronizer/commands/CommandExecutor.h \
+           src/synchronizer/diffs/DiffScanner.h \
+           src/synchronizer/diffs/Diff.h \
+           src/synchronizer/diffs/DiffType.h \
+           src/threads/SingleThread.h \
+           src/threads/Thread.h \
+           src/threads/LoopThread.h \
+           src/App.h \
+           src/utils/string_utils.h
 
 FORMS += forms/mainwindow.ui
 
@@ -67,7 +68,8 @@ SOURCES += src/main.cpp \
 	       src/threads/SingleThread.cpp \
 	       src/threads/Thread.cpp \
 	       src/threads/LoopThread.cpp \
-	       src/App.cpp
+	       src/App.cpp \
+           src/utils/string_utils.cpp 
 
 
 DESTDIR = bin

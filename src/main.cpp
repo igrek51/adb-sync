@@ -2,6 +2,8 @@
 #include "logger/Logger.h"
 #include "config/ConfigLoader.h"
 
+#include "utils/string_utils.h"
+
 #include <vector>
 
 using namespace std;
@@ -12,12 +14,6 @@ using namespace std;
 int main(int argc, char** argv) {
 
     Logger::info("hello");
-
-    ConfigLoader* loader = new ConfigLoader();
-
-    vector<Database*>* dbs = loader->loadDatabases();
-
-
 
     return 0;
 }

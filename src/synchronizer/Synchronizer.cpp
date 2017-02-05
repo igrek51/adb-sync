@@ -3,3 +3,18 @@
 //
 
 #include "Synchronizer.h"
+#include "../config/ConfigLoader.h"
+
+Synchronizer::Synchronizer() {
+    // loading config
+    ConfigLoader* loader = new ConfigLoader();
+    databases = loader->loadDatabases();
+    delete loader;
+}
+
+Synchronizer::~Synchronizer() {
+    for(Database* db : *databases){
+        delete db;
+    }
+    databases->clear();
+}

@@ -19,14 +19,6 @@ public:
 
     ~ConfigLoader();
 
-    static string trimSpaces(string s);
-
-    static string itos(int number);
-
-    static bool beginsWith(string s, string prefix);
-
-    static bool containsKeyBeginningWith(vector<string>* keys, string prefixKey);
-
     vector<Database*>* loadDatabases();
 
 private:
