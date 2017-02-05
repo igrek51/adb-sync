@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = adb-sync
 INCLUDEPATH += .
 
-QT += widgets
+QT += core gui widgets
 
 QMAKE_CXXFLAGS += -std=c++11
 QMAKE_LFLAGS += -lboost_system -lboost_thread

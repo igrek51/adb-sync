@@ -1,10 +1,5 @@
 #include <iostream>
-#include "logger/Logger.h"
-#include "config/ConfigLoader.h"
-
-#include "utils/string_utils.h"
-
-#include <vector>
+#include "App.h"
 
 using namespace std;
 
@@ -13,9 +8,11 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    Logger::info("hello");
+    App* app = new App(argc, argv);
+    int result = app->run();
+    delete app;
 
-    return 0;
+    return result;
 }
 
 

@@ -74,7 +74,7 @@ SOURCES       = src/main.cpp \
 		src/threads/Thread.cpp \
 		src/threads/LoopThread.cpp \
 		src/App.cpp \
-		src/utils/string_utils.cpp 
+		src/utils/string_utils.cpp build/.moc/moc_MainWindow.cpp
 OBJECTS       = build/.obj/main.o \
 		build/.obj/Logger.o \
 		build/.obj/EventDispatcher.o \
@@ -101,7 +101,8 @@ OBJECTS       = build/.obj/main.o \
 		build/.obj/Thread.o \
 		build/.obj/LoopThread.o \
 		build/.obj/App.o \
-		build/.obj/string_utils.o
+		build/.obj/string_utils.o \
+		build/.obj/moc_MainWindow.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -915,8 +916,14 @@ compiler_moc_predefs_clean:
 build/.moc/moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -std=c++11 -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -Wall -W -dM -E -o build/.moc/moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: build/.moc/moc_MainWindow.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) build/.moc/moc_MainWindow.cpp
+build/.moc/moc_MainWindow.cpp: src/gui/MainWindow.h \
+		build/.moc/moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include build/.moc/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/mnt/data/Igrek/c++/adb-sync -I/mnt/data/Igrek/c++/adb-sync -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/6.3.1 -I/usr/include/c++/6.3.1/x86_64-pc-linux-gnu -I/usr/include/c++/6.3.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.3.1/include-fixed -I/usr/include src/gui/MainWindow.h -o build/.moc/moc_MainWindow.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: build/.ui/ui_mainwindow.h
@@ -932,16 +939,15 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_uic_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
-build/.obj/main.o: src/main.cpp src/logger/Logger.h \
-		src/logger/LogLevel.h \
-		src/config/ConfigLoader.h \
-		src/config/ConfigProperties.h \
+build/.obj/main.o: src/main.cpp src/App.h \
+		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
-		src/utils/string_utils.h
+		src/gui/GUI.h \
+		src/gui/MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
@@ -1000,16 +1006,21 @@ build/.obj/Directory.o: src/filesystem/Directory.cpp src/filesystem/Directory.h
 build/.obj/RegularFile.o: src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/RegularFile.o src/filesystem/RegularFile.cpp
 
-build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h
+build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h \
+		src/gui/MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/GUI.o src/gui/GUI.cpp
 
-build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h
+build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
+		build/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffListBox.o src/gui/DiffListBox.cpp
 
-build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h
+build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h \
+		src/config/Database.h \
+		src/config/ConfigLoader.h \
+		src/config/ConfigProperties.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
 build/.obj/CommandExecutor.o: src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h
@@ -1018,7 +1029,8 @@ build/.obj/CommandExecutor.o: src/synchronizer/commands/CommandExecutor.cpp src/
 build/.obj/DiffScanner.o: src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffScanner.o src/synchronizer/diffs/DiffScanner.cpp
 
-build/.obj/Diff.o: src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h
+build/.obj/Diff.o: src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h \
+		src/synchronizer/diffs/DiffType.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Diff.o src/synchronizer/diffs/Diff.cpp
 
 build/.obj/SingleThread.o: src/threads/SingleThread.cpp src/threads/SingleThread.h \
@@ -1037,11 +1049,20 @@ build/.obj/LoopThread.o: src/threads/LoopThread.cpp src/threads/LoopThread.h \
 		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/LoopThread.o src/threads/LoopThread.cpp
 
-build/.obj/App.o: src/App.cpp src/App.h
+build/.obj/App.o: src/App.cpp src/App.h \
+		src/synchronizer/Synchronizer.h \
+		src/config/Database.h \
+		src/gui/GUI.h \
+		src/gui/MainWindow.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/App.o src/App.cpp
 
 build/.obj/string_utils.o: src/utils/string_utils.cpp src/utils/string_utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/string_utils.o src/utils/string_utils.cpp
+
+build/.obj/moc_MainWindow.o: build/.moc/moc_MainWindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/moc_MainWindow.o build/.moc/moc_MainWindow.cpp
 
 ####### Install
 

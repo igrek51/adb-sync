@@ -6,7 +6,26 @@
 #define ADBSYNC_APP_H
 
 
+#include "synchronizer/Synchronizer.h"
+#include "gui/GUI.h"
+
 class App {
+public:
+    App(int argc, char** argv);
+
+    ~App();
+
+    int run();
+
+    void exit();
+
+private:
+    int argc;
+    char** argv;
+
+    GUI* gui;
+
+    Synchronizer* synchronizer;
 
 };
 

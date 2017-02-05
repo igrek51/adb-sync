@@ -6,8 +6,16 @@
 #define ADBSYNC_GUI_H
 
 
-class GUI {
+#include "MainWindow.h"
 
+class GUI {
+public:
+    GUI();
+
+    ~GUI();
+
+private:
+    MainWindow* mainwindow;
 };
 
 
