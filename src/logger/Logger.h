@@ -24,8 +24,6 @@ public:
 
     static void debug(string s);
 
-public:
-
     static const string C_RESET;
     static const string C_BOLD;
     static const string C_DIM;
@@ -44,6 +42,9 @@ public:
     static const LogLevel ECHO_LEVEL = LogLevel::ALL;
 
     static void log(string s, LogLevel level);
+
+private:
+    static volatile bool LOCK;
 
 };
 

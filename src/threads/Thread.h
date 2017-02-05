@@ -1,34 +1,33 @@
-/**
- * \file thread.h
- * \see thread.cpp
- */
 #ifndef THREAD_H
 #define THREAD_H
 
-/**
- * \brief osobny Wątek
- */
+#include <string>
+
+using namespace std;
+
 class Thread {
 public:
-    /// uruchomienie nowego wątku
     Thread();
 
-    /// zakończenie wątku
     virtual ~Thread();
 
+    static void sleepMs(int ms);
+
 protected:
-    /// główna funkcja wykonywana w osobnym wątku
     virtual void run() = 0;
 
-    /// czy zakończono inicjalizację
+    /// must be set to true to complete init
     volatile bool init;
-    /// czy polecono zamknięcie
-    volatile bool close_signal;
-    /// wskaźnik do wątku (zrzutowany na void, żeby za każdym razem nie dołączać biblioteki boost, co znacznie wydłuża kompilację)
-    void* boost_thread;
+
+    volatile bool closeSignal;
+
+    void* boostThread; // type void* to avoid including boost/thread.hpp in every including header
+
+    string threadName();
+
 private:
-    /// inicjalizacja uruchamiana w nowym wątku
     void start();
+
 };
 
 #endif

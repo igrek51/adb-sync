@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(PROJECT_FOLDER /mnt/data/Igrek/c++/adb-sync/)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lboost_system -lboost_thread")
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_FOLDER}build/")
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_FOLDER}build/")
@@ -32,11 +32,33 @@ set(SOURCE_FILES
         src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h
         src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h
         src/dispatcher/Event.cpp src/dispatcher/Event.h
-        src/config/ConfigLoader.cpp src/config/ConfigLoader.h src/config/ConfigProperties.cpp src/config/ConfigProperties.h src/config/Database.cpp src/config/Database.h src/errors/Error.cpp src/errors/Error.h src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h src/filesystem/ADB.cpp src/filesystem/ADB.h src/filesystem/File.cpp src/filesystem/File.h src/filesystem/Directory.cpp src/filesystem/Directory.h src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h src/gui/GUI.cpp src/gui/GUI.h src/gui/MainWindow.cpp src/gui/MainWindow.h src/gui/DiffListBox.cpp src/gui/DiffListBox.h src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h src/synchronizer/diffs/DiffType.h src/threads/SingleThread.cpp src/threads/SingleThread.h src/App.cpp src/App.h)
+        src/config/ConfigLoader.cpp src/config/ConfigLoader.h
+        src/config/ConfigProperties.cpp src/config/ConfigProperties.h
+        src/config/Database.cpp src/config/Database.h
+        src/errors/Error.cpp src/errors/Error.h
+        src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h
+        src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h
+        src/filesystem/ADB.cpp src/filesystem/ADB.h
+        src/filesystem/File.cpp src/filesystem/File.h
+        src/filesystem/Directory.cpp src/filesystem/Directory.h
+        src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h
+        src/gui/GUI.cpp src/gui/GUI.h
+        src/gui/MainWindow.cpp src/gui/MainWindow.h
+        src/gui/DiffListBox.cpp src/gui/DiffListBox.h
+        src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h
+        src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h
+        src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h
+        src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h
+        src/synchronizer/diffs/DiffType.h
+        src/threads/SingleThread.cpp src/threads/SingleThread.h
+        src/threads/Thread.cpp src/threads/Thread.h
+        src/threads/LoopThread.cpp src/threads/LoopThread.h
+        src/App.cpp src/App.h
+        )
 
-# included qt libraries
-add_executable(cmakedupa ${SOURCE_FILES})
-target_link_libraries(cmakedupa Qt5::Widgets)
+# highlighted included qt libraries
+add_executable(cmakebuilt ${SOURCE_FILES})
+target_link_libraries(cmakebuilt Qt5::Widgets)
 
 
 add_custom_target(adbsync COMMAND make -C ${PROJECT_FOLDER}/build CLION_EXE_DIR=${PROJECT_BINARY_DIR})

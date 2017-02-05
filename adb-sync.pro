@@ -9,19 +9,65 @@ INCLUDEPATH += .
 QT += widgets
 
 QMAKE_CXXFLAGS += -std=c++11
+QMAKE_LFLAGS += -lboost_system -lboost_thread
 
 # Input
 HEADERS += \
            src/logger/Logger.h
-           src/logger/LogLevel.h
+           src/dispatcher/EventDispatcher.h
+           src/dispatcher/IEventObserver.h
+           src/dispatcher/Event.h
+           src/config/ConfigLoader.h
+           src/config/ConfigProperties.h
+           src/config/Database.h
+           src/errors/Error.h
+           src/filesystem/FileSystem.h
+           src/filesystem/LocalFS.h
+           src/filesystem/ADB.h
+           src/filesystem/File.h
+           src/filesystem/Directory.h
+           src/filesystem/RegularFile.h
+           src/gui/GUI.h
+           src/gui/MainWindow.h
+           src/gui/DiffListBox.h
+           src/synchronizer/Synchronizer.h
+           src/synchronizer/commands/CommandExecutor.h
+           src/synchronizer/diffs/DiffScanner.h
+           src/synchronizer/diffs/Diff.h
+           src/synchronizer/diffs/DiffType.h
+           src/threads/SingleThread.h
+           src/threads/Thread.h
+           src/threads/LoopThread.h
+           src/App.h
 
 FORMS += forms/mainwindow.ui
 
 SOURCES += src/main.cpp \
            src/logger/Logger.cpp \
-           src/dispatcher/EventDispatcher.cpp \
-           src/dispatcher/IEventObserver.cpp \
-           src/dispatcher/Event.cpp 
+	       src/dispatcher/EventDispatcher.cpp \
+	       src/dispatcher/IEventObserver.cpp \
+	       src/dispatcher/Event.cpp \
+	       src/config/ConfigLoader.cpp \
+	       src/config/ConfigProperties.cpp \
+	       src/config/Database.cpp \
+	       src/errors/Error.cpp \
+	       src/filesystem/FileSystem.cpp \
+	       src/filesystem/LocalFS.cpp \
+	       src/filesystem/ADB.cpp \
+	       src/filesystem/File.cpp \
+	       src/filesystem/Directory.cpp \
+	       src/filesystem/RegularFile.cpp \
+	       src/gui/GUI.cpp \
+	       src/gui/MainWindow.cpp \
+	       src/gui/DiffListBox.cpp \
+	       src/synchronizer/Synchronizer.cpp \
+	       src/synchronizer/commands/CommandExecutor.cpp \
+	       src/synchronizer/diffs/DiffScanner.cpp \
+	       src/synchronizer/diffs/Diff.cpp \
+	       src/threads/SingleThread.cpp \
+	       src/threads/Thread.cpp \
+	       src/threads/LoopThread.cpp \
+	       src/App.cpp
 
 
 DESTDIR = bin

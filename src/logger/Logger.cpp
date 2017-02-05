@@ -2,6 +2,8 @@
 // Created by igrek on 04/02/17.
 //
 
+//TODO lock na funkcję log
+
 #include "Logger.h"
 
 const string Logger::C_RESET = "\033[0m";
@@ -18,6 +20,8 @@ const string Logger::C_BLUE  = "\033[34m";
 const string Logger::C_MAGENTA = "\033[35m";
 const string Logger::C_CYAN  = "\033[36m";
 const string Logger::C_WHITE = "\033[37m";
+
+volatile bool Logger::LOCK = false;
 
 void Logger::fatal(string s) {
     string s2 = C_BOLD + C_RED + "[FATAL] " + C_RESET + s;
@@ -47,5 +51,10 @@ void Logger::debug(string s) {
 
 void Logger::log(string s, LogLevel level) {
     if (level > ECHO_LEVEL) return;
+    while(LOCK){
+        continue;
+    }
+    LOCK = true;
     cout << s << endl;
+    LOCK = false;
 }

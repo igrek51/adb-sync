@@ -35,7 +35,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = adb-sync1.0.0
 DISTDIR = /mnt/data/Igrek/c++/adb-sync/build/.obj/adb-sync1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-O1 -Wl,-O1,--sort-common,--as-needed,-z,relro
+LFLAGS        = -lboost_system -lboost_thread -Wl,-O1 -Wl,-O1,--sort-common,--as-needed,-z,relro
 LIBS          = $(SUBLIBS) -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
@@ -52,12 +52,54 @@ SOURCES       = src/main.cpp \
 		src/logger/Logger.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
-		src/dispatcher/Event.cpp 
+		src/dispatcher/Event.cpp \
+		src/config/ConfigLoader.cpp \
+		src/config/ConfigProperties.cpp \
+		src/config/Database.cpp \
+		src/errors/Error.cpp \
+		src/filesystem/FileSystem.cpp \
+		src/filesystem/LocalFS.cpp \
+		src/filesystem/ADB.cpp \
+		src/filesystem/File.cpp \
+		src/filesystem/Directory.cpp \
+		src/filesystem/RegularFile.cpp \
+		src/gui/GUI.cpp \
+		src/gui/MainWindow.cpp \
+		src/gui/DiffListBox.cpp \
+		src/synchronizer/Synchronizer.cpp \
+		src/synchronizer/commands/CommandExecutor.cpp \
+		src/synchronizer/diffs/DiffScanner.cpp \
+		src/synchronizer/diffs/Diff.cpp \
+		src/threads/SingleThread.cpp \
+		src/threads/Thread.cpp \
+		src/threads/LoopThread.cpp \
+		src/App.cpp 
 OBJECTS       = build/.obj/main.o \
 		build/.obj/Logger.o \
 		build/.obj/EventDispatcher.o \
 		build/.obj/IEventObserver.o \
-		build/.obj/Event.o
+		build/.obj/Event.o \
+		build/.obj/ConfigLoader.o \
+		build/.obj/ConfigProperties.o \
+		build/.obj/Database.o \
+		build/.obj/Error.o \
+		build/.obj/FileSystem.o \
+		build/.obj/LocalFS.o \
+		build/.obj/ADB.o \
+		build/.obj/File.o \
+		build/.obj/Directory.o \
+		build/.obj/RegularFile.o \
+		build/.obj/GUI.o \
+		build/.obj/MainWindow.o \
+		build/.obj/DiffListBox.o \
+		build/.obj/Synchronizer.o \
+		build/.obj/CommandExecutor.o \
+		build/.obj/DiffScanner.o \
+		build/.obj/Diff.o \
+		build/.obj/SingleThread.o \
+		build/.obj/Thread.o \
+		build/.obj/LoopThread.o \
+		build/.obj/App.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -292,7 +334,28 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/logger/Logger.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
-		src/dispatcher/Event.cpp
+		src/dispatcher/Event.cpp \
+		src/config/ConfigLoader.cpp \
+		src/config/ConfigProperties.cpp \
+		src/config/Database.cpp \
+		src/errors/Error.cpp \
+		src/filesystem/FileSystem.cpp \
+		src/filesystem/LocalFS.cpp \
+		src/filesystem/ADB.cpp \
+		src/filesystem/File.cpp \
+		src/filesystem/Directory.cpp \
+		src/filesystem/RegularFile.cpp \
+		src/gui/GUI.cpp \
+		src/gui/MainWindow.cpp \
+		src/gui/DiffListBox.cpp \
+		src/synchronizer/Synchronizer.cpp \
+		src/synchronizer/commands/CommandExecutor.cpp \
+		src/synchronizer/diffs/DiffScanner.cpp \
+		src/synchronizer/diffs/Diff.cpp \
+		src/threads/SingleThread.cpp \
+		src/threads/Thread.cpp \
+		src/threads/LoopThread.cpp \
+		src/App.cpp
 QMAKE_TARGET  = adb-sync
 DESTDIR       = bin/
 TARGET        = bin/adb-sync
@@ -790,7 +853,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/logger/Logger.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -845,7 +908,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_uic_clean
 ####### Compile
 
 build/.obj/main.o: src/main.cpp src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/threads/SingleThread.h \
+		src/threads/Thread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
@@ -868,6 +933,75 @@ build/.obj/IEventObserver.o: src/dispatcher/IEventObserver.cpp src/dispatcher/IE
 
 build/.obj/Event.o: src/dispatcher/Event.cpp src/dispatcher/Event.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Event.o src/dispatcher/Event.cpp
+
+build/.obj/ConfigLoader.o: src/config/ConfigLoader.cpp src/config/ConfigLoader.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/ConfigLoader.o src/config/ConfigLoader.cpp
+
+build/.obj/ConfigProperties.o: src/config/ConfigProperties.cpp src/config/ConfigProperties.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/ConfigProperties.o src/config/ConfigProperties.cpp
+
+build/.obj/Database.o: src/config/Database.cpp src/config/Database.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Database.o src/config/Database.cpp
+
+build/.obj/Error.o: src/errors/Error.cpp src/errors/Error.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Error.o src/errors/Error.cpp
+
+build/.obj/FileSystem.o: src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/FileSystem.o src/filesystem/FileSystem.cpp
+
+build/.obj/LocalFS.o: src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/LocalFS.o src/filesystem/LocalFS.cpp
+
+build/.obj/ADB.o: src/filesystem/ADB.cpp src/filesystem/ADB.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/ADB.o src/filesystem/ADB.cpp
+
+build/.obj/File.o: src/filesystem/File.cpp src/filesystem/File.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/File.o src/filesystem/File.cpp
+
+build/.obj/Directory.o: src/filesystem/Directory.cpp src/filesystem/Directory.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Directory.o src/filesystem/Directory.cpp
+
+build/.obj/RegularFile.o: src/filesystem/RegularFile.cpp src/filesystem/RegularFile.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/RegularFile.o src/filesystem/RegularFile.cpp
+
+build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/GUI.o src/gui/GUI.cpp
+
+build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
+
+build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffListBox.o src/gui/DiffListBox.cpp
+
+build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
+
+build/.obj/CommandExecutor.o: src/synchronizer/commands/CommandExecutor.cpp src/synchronizer/commands/CommandExecutor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/CommandExecutor.o src/synchronizer/commands/CommandExecutor.cpp
+
+build/.obj/DiffScanner.o: src/synchronizer/diffs/DiffScanner.cpp src/synchronizer/diffs/DiffScanner.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffScanner.o src/synchronizer/diffs/DiffScanner.cpp
+
+build/.obj/Diff.o: src/synchronizer/diffs/Diff.cpp src/synchronizer/diffs/Diff.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Diff.o src/synchronizer/diffs/Diff.cpp
+
+build/.obj/SingleThread.o: src/threads/SingleThread.cpp src/threads/SingleThread.h \
+		src/threads/Thread.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/SingleThread.o src/threads/SingleThread.cpp
+
+build/.obj/Thread.o: src/threads/Thread.cpp src/threads/Thread.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Thread.o src/threads/Thread.cpp
+
+build/.obj/LoopThread.o: src/threads/LoopThread.cpp src/threads/LoopThread.h \
+		src/threads/Thread.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/LoopThread.o src/threads/LoopThread.cpp
+
+build/.obj/App.o: src/App.cpp src/App.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/App.o src/App.cpp
 
 ####### Install
 
