@@ -4,29 +4,23 @@
 
 #include "CmdExecutor.h"
 #include "../logger/Logger.h"
-#include "../errors/Error.h"
-#include "../utils/string_utils.h"
 #include <sstream>
 
-bool CommandExecutor::executeWithEcho(string cmd) {
+void CommandExecutor::executeVerbose(string cmd) {
     Logger::debug("executing: " + cmd);
 
-    if (system(cmd.c_str()) == 0)
-        return true;
-    Logger::error("Failed executing: " + cmd);
-    return false;
+    if (system(cmd.c_str()) != 0)
+        throw new SystemCmdError(cmd);
 }
 
-bool CommandExecutor::execute(string cmd) {
+void CommandExecutor::execute(string cmd) {
     Logger::debug("executing: " + cmd);
 
     FILE* fp = popen(cmd.c_str(), "r");
     int errorCode = pclose(fp);
-    if (errorCode == 0) {
-        return true;
+    if (errorCode != 0) {
+        throw new SystemCmdError(cmd);
     }
-    Logger::error("Failed executing: " + cmd);
-    return false;
 }
 
 string CommandExecutor::executeAndRead(string cmd) {
@@ -34,10 +28,9 @@ string CommandExecutor::executeAndRead(string cmd) {
 
     FILE* fp;
     char path[1035];
-    /* Open the command for reading. */
     fp = popen(cmd.c_str(), "r");
     if (fp == NULL) {
-        throw new Error("failed to run command: " + cmd);
+        throw new SystemCmdError(cmd);
     }
 
     stringstream ss;
@@ -47,7 +40,7 @@ string CommandExecutor::executeAndRead(string cmd) {
 
     int errorCode = pclose(fp);
     if (errorCode != 0) {
-        throw new Error("Failed to run command (" + itos(errorCode) + " error code): " + cmd);
+        throw new SystemCmdError(cmd, errorCode);
     }
 
     return ss.str();

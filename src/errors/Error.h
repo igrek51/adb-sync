@@ -13,6 +13,9 @@ class Error {
 public:
     Error(const string& message);
 
+    virtual string getMessage();
+
+protected:
     string message;
 };
 

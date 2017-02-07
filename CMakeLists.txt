@@ -34,7 +34,7 @@ set(SOURCE_FILES
         src/dispatcher/Event.cpp src/dispatcher/Event.h
         src/config/ConfigLoader.cpp src/config/ConfigLoader.h
         src/config/Database.cpp src/config/Database.h
-        src/errors/Error.cpp src/errors/Error.h
+        src/errors/Error.h
         src/filesystem/FileSystem.cpp src/filesystem/FileSystem.h
         src/filesystem/LocalFS.cpp src/filesystem/LocalFS.h
         src/filesystem/ADB.cpp src/filesystem/ADB.h
@@ -54,7 +54,7 @@ set(SOURCE_FILES
         src/threads/LoopThread.cpp src/threads/LoopThread.h
         src/App.cpp src/App.h
         src/config/ConfigProperties.cpp src/config/ConfigProperties.h
-        src/utils/string_utils.cpp src/utils/string_utils.h)
+        src/utils/string_utils.cpp src/utils/string_utils.h src/errors/SystemCmdError.cpp src/errors/SystemCmdError.h src/errors/Error.cpp src/errors/SystemCmdError.cpp)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})
