@@ -8,34 +8,17 @@
 #include "../logger/Logger.h"
 #include "../system/CmdExecutor.h"
 #include <sstream>
+#include <sys/stat.h>
 
 bool LocalFS::pathExists(string path) {
-//    try {
-//        string output = shell("ls \"" + path + "\"");
-//        vector<string>* lines = splitLines(output);
-//
-//        // check if there is a line with nonexisting directory message
-//        if (lines->size() <= 3) {
-//            for (string line : *lines) {
-//                if (endsWith(line, "No such file or directory")) {
-//                    delete lines;
-//                    return false;
-//                }
-//            }
-//        }
-//
-//        delete lines;
-//        return true;
-//    } catch (Error* e) {
-//        // exit code != 0
-//        Logger::error(e);
-//        return false;
-//    }
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0)
+        return false; // not exists
+    else
+        return (info.st_mode & S_IFDIR) != 0;  //is directory ?
 }
 
 vector<File*>* LocalFS::listPath(string path) {
-    //TODO skip line: total 253
-
     vector<File*>* files = new vector<File*>();
 
     string output = CommandExecutor::executeAndRead(
@@ -44,10 +27,13 @@ vector<File*>* LocalFS::listPath(string path) {
     for (string line : *lines) {
         if (endsWith(line, "No such file or directory")) {
             delete lines;
+            delete files;
             throw new Error("directory " + path + " does not exist");
         } else if (endsWith(line, "Permission denied")) {
             Logger::warn("listing path " + path + ": " + line);
             continue;
+        } else if (startsWith(line, "total ")) {
+            continue; // skipping line with total elements
         } else {
             try {
                 File* file = parseLsOutput(line);
@@ -72,7 +58,11 @@ File* LocalFS::parseLsOutput(string lsLine) {
 
     vector<string>* parts = splitByAny(lsLine, "\t ");
 
-    if (parts->size() >= 7) {
+    for (string part : *parts) {
+        Logger::debug("part[" + toString(part.size()) + "]: " + part);
+    }
+
+    if (parts->size() >= 8) {
         if (parts->at(0).size() == 10) {
             if (startsWith(parts->at(0), "d")) {
                 File* result = parseLsDirectory(parts);
@@ -93,8 +83,10 @@ File* LocalFS::parseLsOutput(string lsLine) {
 Directory* LocalFS::parseLsDirectory(vector<string>* parts) {
     unsigned int index = 0;
     string permissions = nextNonemptyPart(parts, index);
+    string num1 = nextNonemptyPart(parts, index);
     string owner = nextNonemptyPart(parts, index);
     string group = nextNonemptyPart(parts, index);
+    string blockSize = nextNonemptyPart(parts, index);
     string modifiedDate = nextNonemptyPart(parts, index);
     string modifiedHour = nextNonemptyPart(parts, index);
     stringstream ss;
@@ -107,6 +99,10 @@ Directory* LocalFS::parseLsDirectory(vector<string>* parts) {
     }
     string name = ss.str();
 
+    if (name == "." || name == "..") {
+        return nullptr; // skip symbolic folders
+    }
+
     // verification
     if (name.length() == 0)
         throw new ParseError("empty directory name");
@@ -118,6 +114,7 @@ Directory* LocalFS::parseLsDirectory(vector<string>* parts) {
 RegularFile* LocalFS::parseLsRegularFile(vector<string>* parts) {
     unsigned int index = 0;
     string permissions = nextNonemptyPart(parts, index);
+    string num1 = nextNonemptyPart(parts, index);
     string owner = nextNonemptyPart(parts, index);
     string group = nextNonemptyPart(parts, index);
     string blockSize = nextNonemptyPart(parts, index);

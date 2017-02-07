@@ -6,6 +6,7 @@
 #include "logger/Logger.h"
 #include "utils/string_utils.h"
 #include "filesystem/ADB.h"
+#include "filesystem/LocalFS.h"
 #include <QApplication>
 #include <execinfo.h>
 #include <unistd.h>
@@ -39,8 +40,10 @@ int App::run() {
 
     try {
 
-        ADB* adb = new ADB();
-        vector<File*>* files = adb->listPath("/storage/extSdCard/tmp");
+        LocalFS* fs = new LocalFS();
+
+        Logger::info("exists: " + toString(fs->pathExists("/mnt/data/Igrek/c++/adb-sync/bin/")));
+        vector<File*>* files = fs->listPath("/mnt/data/Igrek/c++/adb-sync/bin");
 
         for (File* file : *files) {
             Logger::info("file: " + file->getName());

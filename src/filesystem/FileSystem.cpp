@@ -5,7 +5,7 @@
 #include "FileSystem.h"
 #include "../errors/ParseError.h"
 
-string nextNonemptyPart(vector<string>* parts, unsigned int& index) {
+string FileSystem::nextNonemptyPart(vector<string>* parts, unsigned int& index) {
     for (; index < parts->size(); index++) {
         string& part = parts->at(index);
         if (!part.empty()) {
@@ -16,7 +16,7 @@ string nextNonemptyPart(vector<string>* parts, unsigned int& index) {
     return "";
 }
 
-time_t parseLsTime(string date, string pattern) {
+time_t FileSystem::parseLsTime(string date, string pattern) {
     struct tm tm;
     if (strptime(date.c_str(), pattern.c_str(), &tm) == NULL) {
         throw new ParseError("invalid date: " + date);

@@ -92,6 +92,7 @@ vector<File*>* ADB::listPath(string path) {
     for (string line : *lines) {
         if (endsWith(line, "No such file or directory")) {
             delete lines;
+            delete files;
             throw new Error("directory " + path + " does not exist");
         } else if (endsWith(line, "Permission denied")) {
             Logger::warn("listing path " + path + ": " + line);
