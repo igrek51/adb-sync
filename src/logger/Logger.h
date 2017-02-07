@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "LogLevel.h"
+#include "../errors/Error.h"
 
 using namespace std;
 
@@ -17,6 +18,8 @@ public:
     static void fatal(string s);
 
     static void error(string s);
+
+    static void error(Error* error);
 
     static void warn(string s);
 

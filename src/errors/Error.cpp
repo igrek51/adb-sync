@@ -4,8 +4,13 @@
 
 #include "Error.h"
 
+Error::Error() {}
+
 Error::Error(const string& message) : message(message) {}
+
+Error::~Error() {}
 
 string Error::getMessage() {
     return message;
 }
+

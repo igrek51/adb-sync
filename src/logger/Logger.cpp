@@ -2,8 +2,6 @@
 // Created by igrek on 04/02/17.
 //
 
-//TODO lock na funkcję log
-
 #include "Logger.h"
 
 const string Logger::C_RESET = "\033[0m";
@@ -31,6 +29,12 @@ void Logger::fatal(string s) {
 
 void Logger::error(string s) {
     string s2 = C_BOLD + C_RED + "[ERROR] " + C_RESET + s;
+    log(s2, LogLevel::ERROR);
+}
+
+void Logger::error(Error* error) {
+    string s2 = C_BOLD + C_RED + "[ERROR] " + C_RESET + error->getMessage();
+    delete error;
     log(s2, LogLevel::ERROR);
 }
 

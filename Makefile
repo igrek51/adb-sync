@@ -74,7 +74,8 @@ SOURCES       = src/main.cpp \
 		src/threads/Thread.cpp \
 		src/threads/LoopThread.cpp \
 		src/App.cpp \
-		src/utils/string_utils.cpp build/.moc/moc_MainWindow.cpp
+		src/utils/string_utils.cpp \
+		src/errors/SystemCmdError.cpp build/.moc/moc_MainWindow.cpp
 OBJECTS       = build/.obj/main.o \
 		build/.obj/Logger.o \
 		build/.obj/EventDispatcher.o \
@@ -102,6 +103,7 @@ OBJECTS       = build/.obj/main.o \
 		build/.obj/LoopThread.o \
 		build/.obj/App.o \
 		build/.obj/string_utils.o \
+		build/.obj/SystemCmdError.o \
 		build/.obj/moc_MainWindow.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -359,7 +361,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/threads/Thread.h \
 		src/threads/LoopThread.h \
 		src/App.h \
-		src/utils/string_utils.h src/main.cpp \
+		src/utils/string_utils.h \
+		src/errors/SystemCmdError.h src/main.cpp \
 		src/logger/Logger.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
@@ -385,7 +388,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/threads/Thread.cpp \
 		src/threads/LoopThread.cpp \
 		src/App.cpp \
-		src/utils/string_utils.cpp
+		src/utils/string_utils.cpp \
+		src/errors/SystemCmdError.cpp
 QMAKE_TARGET  = adb-sync
 DESTDIR       = bin/
 TARGET        = bin/adb-sync
@@ -882,8 +886,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CmdExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CmdExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CmdExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h src/errors/SystemCmdError.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CmdExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp src/errors/SystemCmdError.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -951,21 +955,24 @@ build/.obj/main.o: src/main.cpp src/App.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Logger.o src/logger/Logger.cpp
 
 build/.obj/EventDispatcher.o: src/dispatcher/EventDispatcher.cpp src/dispatcher/EventDispatcher.h \
 		src/dispatcher/IEventObserver.h \
 		src/dispatcher/Event.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/EventDispatcher.o src/dispatcher/EventDispatcher.cpp
 
 build/.obj/IEventObserver.o: src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h \
 		src/dispatcher/Event.h \
 		src/dispatcher/EventDispatcher.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/IEventObserver.o src/dispatcher/IEventObserver.cpp
 
 build/.obj/Event.o: src/dispatcher/Event.cpp src/dispatcher/Event.h
@@ -976,6 +983,7 @@ build/.obj/ConfigLoader.o: src/config/ConfigLoader.cpp src/config/ConfigLoader.h
 		src/config/Database.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
+		src/errors/Error.h \
 		src/utils/string_utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/ConfigLoader.o src/config/ConfigLoader.cpp
 
@@ -1021,7 +1029,8 @@ build/.obj/GUI.o: src/gui/GUI.cpp src/gui/GUI.h \
 build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
 		build/.ui/ui_mainwindow.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
@@ -1034,6 +1043,8 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
 build/.obj/CmdExecutor.o: src/system/CmdExecutor.cpp src/system/CmdExecutor.h \
+		src/errors/SystemCmdError.h \
+		src/errors/Error.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/CmdExecutor.o src/system/CmdExecutor.cpp
@@ -1047,18 +1058,21 @@ build/.obj/Diff.o: src/diffs/Diff.cpp src/diffs/Diff.h \
 
 build/.obj/SingleThread.o: src/threads/SingleThread.cpp src/threads/SingleThread.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/SingleThread.o src/threads/SingleThread.cpp
 
 build/.obj/Thread.o: src/threads/Thread.cpp src/threads/Thread.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Thread.o src/threads/Thread.cpp
 
 build/.obj/LoopThread.o: src/threads/LoopThread.cpp src/threads/LoopThread.h \
 		src/threads/Thread.h \
 		src/logger/Logger.h \
-		src/logger/LogLevel.h
+		src/logger/LogLevel.h \
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/LoopThread.o src/threads/LoopThread.cpp
 
 build/.obj/App.o: src/App.cpp src/App.h \
@@ -1068,12 +1082,19 @@ build/.obj/App.o: src/App.cpp src/App.h \
 		src/gui/MainWindow.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
+		src/errors/Error.h \
 		src/utils/string_utils.h \
-		src/system/CmdExecutor.h
+		src/system/CmdExecutor.h \
+		src/errors/SystemCmdError.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/App.o src/App.cpp
 
 build/.obj/string_utils.o: src/utils/string_utils.cpp src/utils/string_utils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/string_utils.o src/utils/string_utils.cpp
+
+build/.obj/SystemCmdError.o: src/errors/SystemCmdError.cpp src/errors/SystemCmdError.h \
+		src/errors/Error.h \
+		src/utils/string_utils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/SystemCmdError.o src/errors/SystemCmdError.cpp
 
 build/.obj/moc_MainWindow.o: build/.moc/moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/moc_MainWindow.o build/.moc/moc_MainWindow.cpp

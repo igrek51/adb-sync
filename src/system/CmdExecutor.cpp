@@ -26,22 +26,25 @@ void CommandExecutor::execute(string cmd) {
 string CommandExecutor::executeAndRead(string cmd) {
     Logger::debug("executing: " + cmd);
 
-    FILE* fp;
-    char path[1035];
-    fp = popen(cmd.c_str(), "r");
-    if (fp == NULL) {
-        throw new SystemCmdError(cmd);
+    char buffer[128];
+    stringstream result;
+    // stderr to stdout
+    FILE* pipe = popen((cmd + " 2>&1").c_str(), "r");
+    if (!pipe) throw new SystemCmdError(cmd);
+    try {
+        while (!feof(pipe)) {
+            if (fgets(buffer, 128, pipe) != NULL)
+                result << buffer;
+        }
+    } catch (...) {
+        pclose(pipe);
+        throw;
     }
 
-    stringstream ss;
-    while (fgets(path, sizeof(path) - 1, fp) != NULL) {
-        ss << path;
-    }
-
-    int errorCode = pclose(fp);
+    int errorCode = pclose(pipe);
     if (errorCode != 0) {
-        throw new SystemCmdError(cmd, errorCode);
+        throw new SystemCmdError(cmd, errorCode, result.str());
     }
 
-    return ss.str();
+    return result.str();
 }

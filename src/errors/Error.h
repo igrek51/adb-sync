@@ -11,7 +11,11 @@ using namespace std;
 
 class Error {
 public:
+    Error();
+
     Error(const string& message);
+
+    virtual ~Error();
 
     virtual string getMessage();
 

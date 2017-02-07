@@ -7,10 +7,8 @@
 #include "logger/Logger.h"
 #include "utils/string_utils.h"
 #include "system/CmdExecutor.h"
-#include "errors/Error.h"
 #include <QApplication>
 #include <execinfo.h>
-#include <signal.h>
 #include <unistd.h>
 
 void backtraceHandler(int sig) {
@@ -46,12 +44,12 @@ int App::run() {
 
     try {
 
-        string out = CommandExecutor::executeAndRead("adb versiondupa");
+        string out = CommandExecutor::executeAndRead("adb versiond");
 
-        Logger::info("ouput: " + out);
+        Logger::info("ouput:\n" + out);
 
     }catch(Error* e){
-        Logger::error(e->message);
+        Logger::error(e);
     }
 
     QApplication a(argc, argv);

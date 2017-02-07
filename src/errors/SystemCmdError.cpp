@@ -3,21 +3,34 @@
 //
 
 #include "SystemCmdError.h"
-#include "../utils/string_utils.h"
+#include <sstream>
 
-SystemCmdError::SystemCmdError(string message) : Error(message) {
+SystemCmdError::SystemCmdError(string cmd) : Error() {
+    this->cmd = cmd;
     errorCode = 0;
+    output = "";
 }
 
-SystemCmdError::SystemCmdError(string message, int errorCode) : Error(message) {
+SystemCmdError::SystemCmdError(string cmd, int errorCode, string output) : Error() {
+    this->cmd = cmd;
     this->errorCode = errorCode;
+    this->output = output;
 }
+
+SystemCmdError::~SystemCmdError() {}
 
 string SystemCmdError::getMessage() {
     if (errorCode == 0) {
-        return "failed executing command: " + message;
+        return "failed executing command: " + cmd;
     } else {
-        return "failed executing command (exit code " + itos(errorCode) + "): " + message;
+        stringstream ss;
+        ss << "failed executing command (exit code " << errorCode << "): " << cmd;
+        if (!output.empty()) {
+            ss << ", output:" << endl << output;
+        }
+        return ss.str();
     }
 }
+
+
 
