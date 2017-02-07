@@ -17,8 +17,6 @@ public:
 
     int run();
 
-    void exit();
-
 private:
     int argc;
     char** argv;

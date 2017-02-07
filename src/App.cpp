@@ -1,12 +1,11 @@
 //
 // Created by igrek on 04/02/17.
 //
-//TODO catching Errors
 
 #include "App.h"
 #include "logger/Logger.h"
 #include "utils/string_utils.h"
-#include "system/CmdExecutor.h"
+#include "filesystem/ADB.h"
 #include <QApplication>
 #include <execinfo.h>
 #include <unistd.h>
@@ -34,23 +33,23 @@ App::~App() {
 
 }
 
-void App::exit() {
-
-}
-
 int App::run() {
 
     Logger::info("hello");
 
     try {
 
-        string out = CommandExecutor::executeAndRead("adb versiond");
+        ADB* adb = new ADB();
+        vector<File*>* files = adb->listPath("/storage/extSdCard/tmp");
 
-        Logger::info("ouput:\n" + out);
+        for (File* file : *files) {
+            Logger::info("file: " + file->getName());
+        }
 
-    }catch(Error* e){
+    } catch (Error* e) {
         Logger::error(e);
     }
+
 
     QApplication a(argc, argv);
     MainWindow w;

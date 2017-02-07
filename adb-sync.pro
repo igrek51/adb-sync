@@ -40,7 +40,8 @@ HEADERS += \
            src/threads/LoopThread.h \
            src/App.h \
            src/utils/string_utils.h \
-           src/errors/SystemCmdError.h
+           src/errors/SystemCmdError.h \
+           src/errors/ParseError.h
 
 FORMS += forms/mainwindow.ui
 
@@ -71,7 +72,8 @@ SOURCES += src/main.cpp \
 	       src/threads/LoopThread.cpp \
 	       src/App.cpp \
            src/utils/string_utils.cpp \
-           src/errors/SystemCmdError.cpp 
+           src/errors/SystemCmdError.cpp \
+           src/errors/ParseError.cpp 
 
 
 DESTDIR = bin

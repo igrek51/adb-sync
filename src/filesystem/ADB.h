@@ -6,15 +6,27 @@
 #define ADBSYNC_ADB_H
 
 #include "FileSystem.h"
+#include "Directory.h"
+#include "RegularFile.h"
 
 class ADB : FileSystem {
 public:
-    bool detectADB();
+    void testADB();
 
-    bool detectDevice();
+    void detectDevice();
 
-    virtual vector<File*>* listPath(string path);
+    string shell(string cmd);
 
+    bool pathExists(string path);
+
+    vector<File*>* listPath(string path);
+
+private:
+    File* parseLsOutput(string lsLine);
+
+    Directory* parseLsDirectory(vector<string>* parts);
+
+    RegularFile* parseLsRegularFile(vector<string>* parts);
 };
 
 

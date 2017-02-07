@@ -13,7 +13,14 @@ using namespace std;
 
 class FileSystem {
 public:
+    virtual bool pathExists(string path) = 0;
+
     virtual vector<File*>* listPath(string path) = 0;
+
+protected:
+    string nextNonemptyPart(vector<string>* parts, unsigned int& index);
+
+    time_t parseLsTime(string date, string pattern);
 };
 
 

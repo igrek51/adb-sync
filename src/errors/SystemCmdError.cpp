@@ -11,6 +11,12 @@ SystemCmdError::SystemCmdError(string cmd) : Error() {
     output = "";
 }
 
+SystemCmdError::SystemCmdError(string cmd, int errorCode) : Error() {
+    this->cmd = cmd;
+    this->errorCode = errorCode;
+    output = "";
+}
+
 SystemCmdError::SystemCmdError(string cmd, int errorCode, string output) : Error() {
     this->cmd = cmd;
     this->errorCode = errorCode;

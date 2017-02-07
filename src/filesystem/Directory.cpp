@@ -46,3 +46,9 @@ vector<Directory*>* Directory::getDirectories() {
     }
     return list;
 }
+
+void Directory::addFiles(vector<File*>* filesList) {
+    for (File* file : *filesList) {
+        addFile(file);
+    }
+}

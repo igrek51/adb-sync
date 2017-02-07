@@ -23,6 +23,8 @@ public:
 
     void addFile(File* file);
 
+    void addFiles(vector<File*>* filesList);
+
 private:
     vector<File*>* files;
 };

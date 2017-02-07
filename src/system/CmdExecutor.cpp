@@ -19,7 +19,7 @@ void CommandExecutor::execute(string cmd) {
     FILE* fp = popen(cmd.c_str(), "r");
     int errorCode = pclose(fp);
     if (errorCode != 0) {
-        throw new SystemCmdError(cmd);
+        throw new SystemCmdError(cmd, errorCode);
     }
 }
 

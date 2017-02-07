@@ -11,6 +11,8 @@ class SystemCmdError : public Error {
 public:
     SystemCmdError(string cmd);
 
+    SystemCmdError(string cmd, int errorCode);
+
     SystemCmdError(string cmd, int errorCode, string result);
 
     virtual ~SystemCmdError();
