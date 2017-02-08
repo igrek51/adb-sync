@@ -33,6 +33,7 @@ string select_drive(){
 			IO::geti()->error(ss.str());
             delete drives;
 			return "";
+    if(drives->size()==0){
 		}
 	}
 	//szukanie istnienia folderów na dysku docelowym

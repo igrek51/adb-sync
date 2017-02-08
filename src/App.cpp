@@ -5,8 +5,7 @@
 #include "App.h"
 #include "logger/Logger.h"
 #include "utils/string_utils.h"
-#include "filesystem/ADB.h"
-#include "filesystem/LocalFS.h"
+#include "synchronizer/DiffScanner.h"
 #include <QApplication>
 #include <execinfo.h>
 #include <unistd.h>
@@ -40,13 +39,13 @@ int App::run() {
 
     try {
 
-        LocalFS* fs = new LocalFS();
+        DiffScanner* diffscanner = new DiffScanner();
 
-        Logger::info("exists: " + toString(fs->pathExists("/mnt/data/Igrek/c++/adb-sync/bin/")));
-        vector<File*>* files = fs->listPath("/mnt/data/Igrek/c++/adb-sync/bin");
+        diffscanner->scanDiffs();
+        vector<Diff*>* diffs = diffscanner->getDiffs();
 
-        for (File* file : *files) {
-            Logger::info("file: " + file->getName());
+        for (Diff* diff : *diffs) {
+            Logger::info("diff: " + diff->localFile);
         }
 
     } catch (Error* e) {

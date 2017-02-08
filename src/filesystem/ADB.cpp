@@ -62,7 +62,7 @@ string ADB::shell(string cmd) {
 
 bool ADB::pathExists(string path) {
     try {
-        string output = shell("ls \"" + path + "\"");
+        string output = shell("ls " + escapePath(path));
         vector<string>* lines = splitLines(output);
 
         // check if there is a line with nonexisting directory message
@@ -87,13 +87,13 @@ bool ADB::pathExists(string path) {
 vector<File*>* ADB::listPath(string path) {
     vector<File*>* files = new vector<File*>();
 
-    string output = shell("ls -al \"" + path + "\"");
+    string output = shell("ls -al " + escapePath(path));
     vector<string>* lines = splitLines(output);
     for (string line : *lines) {
         if (endsWith(line, "No such file or directory")) {
             delete lines;
             delete files;
-            throw new Error("directory " + path + " does not exist");
+            throw new Error("remote directory " + path + " does not exist");
         } else if (endsWith(line, "Permission denied")) {
             Logger::warn("listing path " + path + ": " + line);
             continue;
@@ -199,4 +199,14 @@ RegularFile* ADB::parseLsRegularFile(vector<string>* parts) {
     file->setModifiedDate(modifiedTime);
 
     return file;
+}
+
+string ADB::escapePath(string path) {
+    // adding quotes
+    // 1. escaping quote as \" in system command
+    // 2. escaping backslash as \\ and " as \" in cpp file
+    string result = "\\\"" + path + "\\\"";
+    // escaping single quotes
+    result = replaceAll(result, "'", "\\'");
+    return result;
 }

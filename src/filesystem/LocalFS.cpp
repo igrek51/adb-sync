@@ -28,7 +28,7 @@ vector<File*>* LocalFS::listPath(string path) {
         if (endsWith(line, "No such file or directory")) {
             delete lines;
             delete files;
-            throw new Error("directory " + path + " does not exist");
+            throw new Error("local directory " + path + " does not exist");
         } else if (endsWith(line, "Permission denied")) {
             Logger::warn("listing path " + path + ": " + line);
             continue;
@@ -54,13 +54,7 @@ File* LocalFS::parseLsOutput(string lsLine) {
     if (lsLine.empty())
         return nullptr;
 
-    Logger::debug("parsing ls line: " + lsLine);
-
     vector<string>* parts = splitByAny(lsLine, "\t ");
-
-    for (string part : *parts) {
-        Logger::debug("part[" + toString(part.size()) + "]: " + part);
-    }
 
     if (parts->size() >= 8) {
         if (parts->at(0).size() == 10) {

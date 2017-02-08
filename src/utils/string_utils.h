@@ -28,4 +28,6 @@ string toString(size_t i);
 
 string toString(bool b);
 
+string replaceAll(string str, const string& from, const string& to);
+
 #endif //ADBSYNC_STRING_UTILS_H

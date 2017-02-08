@@ -62,3 +62,15 @@ vector<string>* splitByAny(string s, string delimiters) {
     boost::split(*strs, s, boost::is_any_of(delimiters));
     return strs;
 }
+
+string replaceAll(string str, const string& from, const string& to) {
+    string result = str;
+    if (from.empty())
+        return result;
+    size_t start_pos = 0;
+    while ((start_pos = result.find(from, start_pos)) != std::string::npos) {
+        result.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+    }
+    return result;
+}

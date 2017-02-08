@@ -27,6 +27,8 @@ private:
     Directory* parseLsDirectory(vector<string>* parts);
 
     RegularFile* parseLsRegularFile(vector<string>* parts);
+
+    string escapePath(string path);
 };
 
 

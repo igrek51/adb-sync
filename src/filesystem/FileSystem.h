@@ -13,6 +13,10 @@ using namespace std;
 
 class FileSystem {
 public:
+    FileSystem();
+
+    virtual ~FileSystem();
+
     virtual bool pathExists(string path) = 0;
 
     virtual vector<File*>* listPath(string path) = 0;
