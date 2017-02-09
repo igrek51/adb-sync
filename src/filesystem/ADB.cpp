@@ -9,6 +9,14 @@
 #include "../utils/string_utils.h"
 #include "../errors/ParseError.h"
 
+//TODO get modified date and size from busybox stat
+//TODO save modified date by touch -m -d 213456456 file.txt
+
+ADB::ADB() {
+    //TODO move to configuration file
+    busyboxPath = "/data/local/tmp/adb-sync/";
+}
+
 void ADB::testADB() {
     try {
         CommandExecutor::executeAndRead("adb version");
@@ -49,6 +57,11 @@ void ADB::detectDevice() {
     throw new Error("ADB device not found");
 }
 
+void ADB::checkBusyBox() {
+    //TODO check if exists buxybox, if not, create it
+    //TODO testbusybox execution
+}
+
 string ADB::shell(string cmd) {
     try {
         return CommandExecutor::executeAndRead("adb shell " + cmd);
@@ -60,6 +73,7 @@ string ADB::shell(string cmd) {
 
 bool ADB::pathExists(string path) {
     try {
+        //TODO use platform independent busybox binaries
         string output = shell("ls " + escapePath(path));
         vector<string>* lines = splitLines(output);
 
@@ -85,7 +99,8 @@ bool ADB::pathExists(string path) {
 vector<File*>* ADB::listPath(string path) {
     vector<File*>* files = new vector<File*>();
 
-    string output = shell("ls -al " + escapePath(path));
+    //TODO use platform independent busybox binaries
+    string output = shell(busyboxPath + "ls -al " + escapePath(path));
     vector<string>* lines = splitLines(output);
     for (string line : *lines) {
         if (endsWith(line, "No such file or directory")) {
@@ -110,6 +125,8 @@ vector<File*>* ADB::listPath(string path) {
     delete lines;
     return files;
 }
+
+//TODO common interface for parsing ls and stat output (files and directories)
 
 File* ADB::parseLsOutput(string lsLine) {
     if (lsLine.empty())
@@ -208,3 +225,5 @@ string ADB::escapePath(string path) {
     result = replaceAll(result, "'", "\\'");
     return result;
 }
+
+

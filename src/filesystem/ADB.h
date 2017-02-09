@@ -11,9 +11,13 @@
 
 class ADB : FileSystem {
 public:
+    ADB();
+
     void testADB();
 
     void detectDevice();
+
+    void checkBusyBox();
 
     string shell(string cmd);
 
@@ -29,6 +33,8 @@ private:
     RegularFile* parseLsRegularFile(vector<string>* parts);
 
     string escapePath(string path);
+
+    string busyboxPath;
 };
 
 
