@@ -100,7 +100,7 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
 
     // get output from stat: total size (bytes), last data modification, seconds since Epoch
     string output = shell(busyboxPath +
-                          "stat -c %s\\\\ %Y " + escapePath(path));
+                          "stat -c %s\\\\ %Y " + escapePath(file->getPathName()));
     vector<string>* parts = splitByAny(output, " \n\r");
     unsigned int index = 0;
     string sizeStr = nextNonemptyPart(parts, index);
@@ -116,8 +116,8 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
         throw new ParseError("undefined modification date: " + output);
 
     file->setSize((unsigned int) stoi(sizeStr));
-    time_t t = (unsigned int) stoi(modificationTimeStr);
 
+    time_t t = (unsigned int) stoi(modificationTimeStr);
     file->setModifiedDate(boost::posix_time::from_time_t(t));
 
     return file;
@@ -166,8 +166,11 @@ string ADB::escapePath(string path) {
     // 1. escaping quote as \" in system command
     // 2. escaping backslash as \\ and " as \" in cpp file
     string result = "\\\"" + path + "\\\"";
-    // escaping single quotes
+    // escaping single characters
     result = replaceAll(result, "'", "\\'");
+    result = replaceAll(result, "&", "\\&");
+    result = replaceAll(result, "(", "\\(");
+    result = replaceAll(result, ")", "\\)");
     return result;
 }
 

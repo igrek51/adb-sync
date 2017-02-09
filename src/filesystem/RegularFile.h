@@ -26,6 +26,7 @@ public:
 private:
     unsigned int size;
 
+    //TODO optimize scanning by storing data in integer (seconds from epoch)
     boost::posix_time::ptime modifiedDate;
 };
 

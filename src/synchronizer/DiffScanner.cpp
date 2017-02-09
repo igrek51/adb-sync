@@ -5,7 +5,6 @@
 #include "DiffScanner.h"
 #include "../config/ConfigLoader.h"
 #include "../logger/Logger.h"
-#include "../utils/string_utils.h"
 
 //TODO multithreading
 
@@ -74,7 +73,7 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
     vector<File*>* localFiles = localFS->listPath(localPath);
     vector<File*>* remoteFiles = adb->listPath(remotePath);
 
-//    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
+    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
 
     // check local files list as mirror pattern
     for (unsigned int i = 0; i < localFiles->size(); i++) {
@@ -112,16 +111,22 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                     RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
                     //different size (block size)
                     if (localRegFile->getSize() != remoteRegFile->getSize()) {
+
+//                        Logger::debug("different size, file: " + localFile->getName() + ", local: " +
+//                                              to_string(localRegFile->getSize()) +
+//                                              ", remote: " +
+//                                              to_string(remoteRegFile->getSize()));
+
                         addDiff(localFile, localPath, remotePath, DiffType::DIFFERENT_SIZE);
                     } else if (localRegFile->getModifiedDate() !=
                                remoteRegFile->getModifiedDate()) {
 
-                        Logger::debug("modified date, file: " + localFile->getName() + ", local: " +
-                                      time2string(localRegFile->getModifiedDate(),
-                                                  "%Y-%m-%d %H:%M") +
-                                      ", remote: " +
-                                      time2string(remoteRegFile->getModifiedDate(),
-                                                  "%Y-%m-%d %H:%M"));
+//                        Logger::debug("modified date, file: " + localFile->getName() + ", local: " +
+//                                      time2string(localRegFile->getModifiedDate(),
+//                                                  "%Y-%m-%d %H:%M") +
+//                                      ", remote: " +
+//                                      time2string(remoteRegFile->getModifiedDate(),
+//                                                  "%Y-%m-%d %H:%M"));
 
                         addDiff(localFile, localPath, remotePath, DiffType::MODIFIED_DATE);
                     }

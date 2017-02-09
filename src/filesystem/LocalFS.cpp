@@ -22,7 +22,7 @@ RegularFile* LocalFS::getRegularFileDetails(string path, string name) {
 
     // get output from stat: total size (bytes), last data modification, seconds since Epoch
     string output = CommandExecutor::executeAndRead(
-            "stat -c %s\\ %Y " + escapePath(path));
+            "stat -c %s\\ %Y " + escapePath(file->getPathName()));
     vector<string>* parts = splitByAny(output, " \n\r");
     unsigned int index = 0;
     string sizeStr = nextNonemptyPart(parts, index);
@@ -38,8 +38,8 @@ RegularFile* LocalFS::getRegularFileDetails(string path, string name) {
         throw new ParseError("undefined modification date: " + output);
 
     file->setSize((unsigned int) stoi(sizeStr));
-    time_t t = (unsigned int) stoi(modificationTimeStr);
 
+    time_t t = (unsigned int) stoi(modificationTimeStr);
     file->setModifiedDate(boost::posix_time::from_time_t(t));
 
     return file;
