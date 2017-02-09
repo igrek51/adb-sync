@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "File.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ public:
 protected:
     string nextNonemptyPart(vector<string>* parts, unsigned int& index);
 
-    time_t parseLsTime(string date, string pattern);
+    boost::posix_time::ptime parseLsTime(string date, string pattern);
 };
 
 

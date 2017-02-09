@@ -7,7 +7,6 @@
 #include "../utils/string_utils.h"
 #include "../logger/Logger.h"
 #include "../system/CmdExecutor.h"
-#include <sstream>
 #include <sys/stat.h>
 
 bool LocalFS::pathExists(string path) {
@@ -54,6 +53,7 @@ File* LocalFS::parseLsOutput(string lsLine) {
     if (lsLine.empty())
         return nullptr;
 
+//    Logger::debug("parsing ls line: " + lsLine);
     vector<string>* parts = splitByAny(lsLine, "\t ");
 
     if (parts->size() >= 8) {
@@ -134,7 +134,8 @@ RegularFile* LocalFS::parseLsRegularFile(vector<string>* parts) {
         throw new ParseError("empty modifiedHour");
 
     //parsing modification time
-    time_t modifiedTime = parseLsTime(modifiedDate + " " + modifiedHour, "%Y-%m-%d %H:%M");
+    boost::posix_time::ptime modifiedTime = parseLsTime(modifiedDate + " " + modifiedHour,
+                                                        "%Y-%m-%d %H:%M");
 
     RegularFile* file = new RegularFile(name);
     file->setSize((unsigned int) stoi(blockSize));

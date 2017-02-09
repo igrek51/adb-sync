@@ -13,5 +13,5 @@ string File::getName() {
 }
 
 void File::setName(const string& name) {
-    File::name = name;
+    this->name = name;
 }

@@ -4,6 +4,7 @@
 
 #include "FileSystem.h"
 #include "../errors/ParseError.h"
+#include "../utils/string_utils.h"
 
 FileSystem::FileSystem() {}
 
@@ -20,14 +21,10 @@ string FileSystem::nextNonemptyPart(vector<string>* parts, unsigned int& index) 
     return "";
 }
 
-time_t FileSystem::parseLsTime(string date, string pattern) {
-    struct tm tm;
-    if (strptime(date.c_str(), pattern.c_str(), &tm) == NULL) {
+boost::posix_time::ptime FileSystem::parseLsTime(string date, string pattern) {
+    boost::posix_time::ptime t = string2time(date, pattern);
+    if (t == boost::posix_time::ptime()) {
         throw new ParseError("invalid date: " + date);
     }
-    time_t tim = mktime(&tm);
-    if (tim == -1) {
-        throw new ParseError("mktime error for date: " + date);
-    }
-    return tim;
+    return t;
 }

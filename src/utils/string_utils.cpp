@@ -3,8 +3,6 @@
 //
 
 #include "string_utils.h"
-
-#include <sstream>
 #include <boost/algorithm/string.hpp>
 
 string trimSpaces(string s) {
@@ -17,24 +15,6 @@ string trimSpaces(string s) {
         s = s.substr(1);
     }
     return s;
-}
-
-string itos(int number) {
-    stringstream ss;
-    ss << number;
-    return ss.str();
-}
-
-string toString(int i) {
-    return itos(i);
-}
-
-string toString(size_t i) {
-    return itos(i);
-}
-
-string toString(bool b) {
-    return b ? "true" : "false";
 }
 
 bool startsWith(string s, string prefix) {
@@ -73,4 +53,24 @@ string replaceAll(string str, const string& from, const string& to) {
         start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
     }
     return result;
+}
+
+
+string time2string(boost::posix_time::ptime time, string pattern) {
+    boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
+    facet->format(pattern.c_str());
+    stringstream stream;
+    stream.imbue(std::locale(std::locale::classic(), facet));
+    stream << time;
+    return stream.str();
+}
+
+boost::posix_time::ptime string2time(string s, string pattern) {
+    const std::locale format = std::locale(std::locale::classic(),
+                                           new boost::posix_time::time_input_facet(pattern));
+    boost::posix_time::ptime pt;
+    std::istringstream is(s);
+    is.imbue(format);
+    is >> pt;
+    return pt;
 }

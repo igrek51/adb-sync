@@ -95,15 +95,15 @@ vector<Database*>* ConfigLoader::loadDatabases() {
         // counts databases defined in configuration
         int dbsCount = 0;
         while (properties->keyExists(
-                CONFIG_DB_PREFIX + itos(dbsCount + 1) + CONFIG_LOCAL_PATH_SUFFIX)) {
+                CONFIG_DB_PREFIX + to_string(dbsCount + 1) + CONFIG_LOCAL_PATH_SUFFIX)) {
             dbsCount++;
         }
 
         for (int dbi = 1; dbi <= dbsCount; dbi++) {
             string localPath = properties->getValue(
-                    CONFIG_DB_PREFIX + itos(dbi) + CONFIG_LOCAL_PATH_SUFFIX);
+                    CONFIG_DB_PREFIX + to_string(dbi) + CONFIG_LOCAL_PATH_SUFFIX);
             string remotePath = properties->getValue(
-                    CONFIG_DB_PREFIX + itos(dbi) + CONFIG_REMOTE_PATH_SUFFIX);
+                    CONFIG_DB_PREFIX + to_string(dbi) + CONFIG_REMOTE_PATH_SUFFIX);
             Database* db = new Database(localPath, remotePath);
             databases->push_back(db);
         }

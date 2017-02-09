@@ -7,7 +7,7 @@
 
 
 #include "File.h"
-#include <ctime>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 class RegularFile : public File {
 public:
@@ -17,16 +17,16 @@ public:
 
     unsigned int getSize() const;
 
-    time_t getModifiedDate() const;
+    boost::posix_time::ptime getModifiedDate() const;
 
     void setSize(unsigned int size);
 
-    void setModifiedDate(time_t modifiedDate);
+    void setModifiedDate(boost::posix_time::ptime modifiedDate);
 
 private:
     unsigned int size;
 
-    time_t modifiedDate;
+    boost::posix_time::ptime modifiedDate;
 };
 
 

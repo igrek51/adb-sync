@@ -7,22 +7,8 @@
 #include "utils/string_utils.h"
 #include "synchronizer/DiffScanner.h"
 #include <QApplication>
-#include <execinfo.h>
-#include <unistd.h>
-
-void backtraceHandler(int sig) {
-    void* array[10];
-    int size;
-    size = backtrace(array, 10);
-    Logger::error("Error signal " + itos(sig) + ":");
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
-    exit(1);
-}
 
 App::App(int argc, char** argv) {
-    // catching errors, printing stack trace
-//    signal(SIGSEGV, backtraceHandler);
-
     this->argc = argc;
     this->argv = argv;
     gui = new GUI();
@@ -45,7 +31,7 @@ int App::run() {
         vector<Diff*>* diffs = diffscanner->getDiffs();
 
         for (Diff* diff : *diffs) {
-            Logger::info("diff: " + diff->localFile);
+            Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
         }
 
     } catch (Error* e) {
@@ -54,6 +40,7 @@ int App::run() {
 
 
     QApplication a(argc, argv);
+    //TODO start MainWindow in GUI
     MainWindow w;
     w.show();
 

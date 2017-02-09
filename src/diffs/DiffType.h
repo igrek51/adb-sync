@@ -6,12 +6,12 @@
 #define ADBSYNC_DIFFTYPE_H
 
 enum class DiffType {
-    NO_DIRECTORY,
-    NO_REGULAR_FILE,
-    MODIFIED_DATE, // different last modification date
-    DIFFERENT_SIZE,
-    REDUNDANT_DIRECTORY,
-    REDUNDANT_REGULAR_FILE,
+    NO_DIRECTORY = 1,
+    NO_REGULAR_FILE = 2,
+    MODIFIED_DATE = 3, // different last modification date
+    DIFFERENT_SIZE = 4,
+    REDUNDANT_DIRECTORY = 5,
+    REDUNDANT_REGULAR_FILE = 6,
 };
 
 #endif //ADBSYNC_DIFFTYPE_H

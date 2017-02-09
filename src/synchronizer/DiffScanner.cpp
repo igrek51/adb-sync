@@ -5,6 +5,7 @@
 #include "DiffScanner.h"
 #include "../config/ConfigLoader.h"
 #include "../logger/Logger.h"
+#include "../utils/string_utils.h"
 
 //TODO multithreading
 
@@ -73,7 +74,7 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
     vector<File*>* localFiles = localFS->listPath(localPath);
     vector<File*>* remoteFiles = adb->listPath(remotePath);
 
-    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
+//    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
 
     // check local files list as pattern
     for (unsigned int i = 0; i < localFiles->size(); i++) {
@@ -113,6 +114,14 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                         addDiff(localFile, localPath, remotePath, DiffType::DIFFERENT_SIZE);
                     } else if (dynamic_cast<RegularFile*>(localFile)->getModifiedDate() !=
                                dynamic_cast<RegularFile*>(remoteFile)->getModifiedDate()) {
+
+                        Logger::debug("modified date, file: " + localFile->getName() + ", local: " +
+                                      time2string(
+                                              dynamic_cast<RegularFile*>(localFile)->getModifiedDate(),
+                                              "%Y-%m-%d %H:%M") + ", remote: " + time2string(
+                                dynamic_cast<RegularFile*>(remoteFile)->getModifiedDate(),
+                                "%Y-%m-%d %H:%M"));
+
                         addDiff(localFile, localPath, remotePath, DiffType::MODIFIED_DATE);
                     }
                 }
@@ -145,7 +154,7 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
 }
 
 File* DiffScanner::findFile(vector<File*>* files, string name) {
-    //TODO search from set
+    //TODO quick search from set
     for (File* file : *files) {
         if (file->getName() == name) {
             return file;

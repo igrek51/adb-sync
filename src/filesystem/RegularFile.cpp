@@ -17,14 +17,14 @@ unsigned int RegularFile::getSize() const {
     return size;
 }
 
-time_t RegularFile::getModifiedDate() const {
+boost::posix_time::ptime RegularFile::getModifiedDate() const {
     return modifiedDate;
 }
 
 void RegularFile::setSize(unsigned int size) {
-    RegularFile::size = size;
+    this->size = size;
 }
 
-void RegularFile::setModifiedDate(time_t modifiedDate) {
-    RegularFile::modifiedDate = modifiedDate;
+void RegularFile::setModifiedDate(boost::posix_time::ptime modifiedDate) {
+    this->modifiedDate = modifiedDate;
 }
