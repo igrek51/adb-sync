@@ -76,7 +76,7 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
 
 //    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
 
-    // check local files list as pattern
+    // check local files list as mirror pattern
     for (unsigned int i = 0; i < localFiles->size(); i++) {
         File* localFile = localFiles->at(i);
         File* remoteFile = findFile(remoteFiles, localFile->getName());
@@ -95,8 +95,8 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                             (progressTo - progressFrom) * calcProgres(i + 1, localFiles->size()) +
                             progressFrom;
                     //scan subfolder
-                    scanDirs(subfolder(localPath, localFile->getName()),
-                             subfolder(remotePath, localFile->getName()),
+                    scanDirs(File::subfolder(localPath, localFile->getName()),
+                             File::subfolder(remotePath, localFile->getName()),
                              progress1, progress2);
                 }
             }
@@ -108,19 +108,20 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                     addDiff(localFile, localPath, remotePath, DiffType::NO_REGULAR_FILE);
                     //TODO remove file with incompatible type
                 } else {
+                    RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
+                    RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
                     //different size (block size)
-                    if (dynamic_cast<RegularFile*>(localFile)->getSize() !=
-                        dynamic_cast<RegularFile*>(remoteFile)->getSize()) {
+                    if (localRegFile->getSize() != remoteRegFile->getSize()) {
                         addDiff(localFile, localPath, remotePath, DiffType::DIFFERENT_SIZE);
-                    } else if (dynamic_cast<RegularFile*>(localFile)->getModifiedDate() !=
-                               dynamic_cast<RegularFile*>(remoteFile)->getModifiedDate()) {
+                    } else if (localRegFile->getModifiedDate() !=
+                               remoteRegFile->getModifiedDate()) {
 
                         Logger::debug("modified date, file: " + localFile->getName() + ", local: " +
-                                      time2string(
-                                              dynamic_cast<RegularFile*>(localFile)->getModifiedDate(),
-                                              "%Y-%m-%d %H:%M") + ", remote: " + time2string(
-                                dynamic_cast<RegularFile*>(remoteFile)->getModifiedDate(),
-                                "%Y-%m-%d %H:%M"));
+                                      time2string(localRegFile->getModifiedDate(),
+                                                  "%Y-%m-%d %H:%M") +
+                                      ", remote: " +
+                                      time2string(remoteRegFile->getModifiedDate(),
+                                                  "%Y-%m-%d %H:%M"));
 
                         addDiff(localFile, localPath, remotePath, DiffType::MODIFIED_DATE);
                     }
@@ -167,17 +168,6 @@ void DiffScanner::setProgress(double p) {
     //TODO send event to set progress in mainwindow
 }
 
-string DiffScanner::subfolder(string path, string dirName) {
-    if (path.empty()) {
-        return dirName;
-    }
-    // append "/" bettween folders
-    if (path.at(path.length() - 1) != '/') {
-        path += '/';
-    }
-    return path + dirName;
-}
-
 template<typename T>
 bool DiffScanner::instanceof(File* file) {
     return dynamic_cast<T>(file) != nullptr;
@@ -185,8 +175,8 @@ bool DiffScanner::instanceof(File* file) {
 
 void DiffScanner::addDiff(File* file, string localPath, string remotePath, DiffType type) {
     string fileName = file->getName();
-    string localFileName = subfolder(localPath, fileName);
-    string remoteFileName = subfolder(remotePath, fileName);
+    string localFileName = File::subfolder(localPath, fileName);
+    string remoteFileName = File::subfolder(remotePath, fileName);
     Diff* diff = new Diff(localFileName, remoteFileName, type);
     diffs->push_back(diff);
 }

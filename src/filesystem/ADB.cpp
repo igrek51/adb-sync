@@ -73,7 +73,6 @@ string ADB::shell(string cmd) {
 
 bool ADB::pathExists(string path) {
     try {
-        //TODO use platform independent busybox binaries
         string output = shell("ls " + escapePath(path));
         vector<string>* lines = splitLines(output);
 
@@ -96,11 +95,41 @@ bool ADB::pathExists(string path) {
     }
 }
 
+RegularFile* ADB::getRegularFileDetails(string path, string name) {
+    RegularFile* file = new RegularFile(path, name);
+
+    // get output from stat: total size (bytes), last data modification, seconds since Epoch
+    string output = shell(busyboxPath +
+                          "stat -c %s\\\\ %Y " + escapePath(path));
+    vector<string>* parts = splitByAny(output, " \n\r");
+    unsigned int index = 0;
+    string sizeStr = nextNonemptyPart(parts, index);
+    string modificationTimeStr = nextNonemptyPart(parts, index);
+    delete parts;
+
+    // validation
+    if (sizeStr.empty())
+        throw new ParseError("total size part not found: " + output);
+    if (modificationTimeStr.empty())
+        throw new ParseError("modification date part not found: " + output);
+    if (modificationTimeStr == "0")
+        throw new ParseError("undefined modification date: " + output);
+
+    file->setSize((unsigned int) stoi(sizeStr));
+    time_t t = (unsigned int) stoi(modificationTimeStr);
+
+    file->setModifiedDate(boost::posix_time::from_time_t(t));
+
+    return file;
+}
+
+
 vector<File*>* ADB::listPath(string path) {
     vector<File*>* files = new vector<File*>();
 
-    //TODO use platform independent busybox binaries
-    string output = shell(busyboxPath + "ls -al " + escapePath(path));
+    //TODO platform independent binaries
+    string output = shell(
+            "ls -al " + escapePath(path));
     vector<string>* lines = splitLines(output);
     for (string line : *lines) {
         if (endsWith(line, "No such file or directory")) {
@@ -110,9 +139,11 @@ vector<File*>* ADB::listPath(string path) {
         } else if (endsWith(line, "Permission denied")) {
             Logger::warn("listing path " + path + ": " + line);
             continue;
+        } else if (startsWith(line, "total ")) {
+            continue; // skipping line with total elements
         } else {
             try {
-                File* file = parseLsOutput(line);
+                File* file = parseLsOutput(path, line);
                 if (file != nullptr) {
                     files->push_back(file);
                 }
@@ -126,9 +157,22 @@ vector<File*>* ADB::listPath(string path) {
     return files;
 }
 
-//TODO common interface for parsing ls and stat output (files and directories)
+void ADB::saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) {
+    //TODO
+}
 
-File* ADB::parseLsOutput(string lsLine) {
+string ADB::escapePath(string path) {
+    // adding quotes
+    // 1. escaping quote as \" in system command
+    // 2. escaping backslash as \\ and " as \" in cpp file
+    string result = "\\\"" + path + "\\\"";
+    // escaping single quotes
+    result = replaceAll(result, "'", "\\'");
+    return result;
+}
+
+
+File* ADB::parseLsOutput(string path, string lsLine) {
     if (lsLine.empty())
         return nullptr;
 
@@ -138,11 +182,11 @@ File* ADB::parseLsOutput(string lsLine) {
     if (parts->size() >= 7) {
         if (parts->at(0).size() == 10) {
             if (startsWith(parts->at(0), "d")) {
-                File* result = parseLsDirectory(parts);
+                File* result = parseLsDirectory(path, parts);
                 delete parts;
                 return result;
             } else if (startsWith(parts->at(0), "-")) {
-                File* result = parseLsRegularFile(parts);
+                File* result = parseLsRegularFile(path, parts);
                 delete parts;
                 return result;
             }
@@ -153,7 +197,7 @@ File* ADB::parseLsOutput(string lsLine) {
     return nullptr;
 }
 
-Directory* ADB::parseLsDirectory(vector<string>* parts) {
+Directory* ADB::parseLsDirectory(string path, vector<string>* parts) {
     unsigned int index = 0;
     string permissions = nextNonemptyPart(parts, index);
     string owner = nextNonemptyPart(parts, index);
@@ -170,15 +214,18 @@ Directory* ADB::parseLsDirectory(vector<string>* parts) {
     }
     string name = ss.str();
 
+    if (name == "." || name == "..") {
+        return nullptr; // skip symbolic folders
+    }
+
     // verification
     if (name.length() == 0)
         throw new ParseError("empty directory name");
 
-    Directory* dir = new Directory(name);
-    return dir;
+    return new Directory(path, name);
 }
 
-RegularFile* ADB::parseLsRegularFile(vector<string>* parts) {
+RegularFile* ADB::parseLsRegularFile(string path, vector<string>* parts) {
     unsigned int index = 0;
     string permissions = nextNonemptyPart(parts, index);
     string owner = nextNonemptyPart(parts, index);
@@ -205,25 +252,15 @@ RegularFile* ADB::parseLsRegularFile(vector<string>* parts) {
     if (modifiedHour.length() == 0)
         throw new ParseError("empty modifiedHour");
 
-    //parsing modification time
-    boost::posix_time::ptime modifiedTime = parseLsTime(modifiedDate + " " + modifiedHour,
-                                                        "%Y-%m-%d %H:%M");
+//    //parsing modification time
+//    boost::posix_time::ptime modifiedTime = string2time(modifiedDate + " " + modifiedHour,
+//                                                        "%Y-%m-%d %H:%M");
+//    if (modifiedTime == boost::posix_time::ptime()) {
+//        throw new ParseError("invalid date: " + modifiedDate + " " + modifiedHour);
+//    }
 
-    RegularFile* file = new RegularFile(name);
-    file->setSize((unsigned int) stoi(blockSize));
-    file->setModifiedDate(modifiedTime);
-
-    return file;
+    return getRegularFileDetails(path, name);
 }
 
-string ADB::escapePath(string path) {
-    // adding quotes
-    // 1. escaping quote as \" in system command
-    // 2. escaping backslash as \\ and " as \" in cpp file
-    string result = "\\\"" + path + "\\\"";
-    // escaping single quotes
-    result = replaceAll(result, "'", "\\'");
-    return result;
-}
 
 

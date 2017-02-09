@@ -4,8 +4,7 @@
 
 #include "RegularFile.h"
 
-RegularFile::RegularFile(string name) {
-    this->name = name;
+RegularFile::RegularFile(string path, string name) : File(path, name) {
     size = 0;
 }
 

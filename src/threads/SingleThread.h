@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//TODO inherit from Thread
 class SingleThread {
 public:
     SingleThread();

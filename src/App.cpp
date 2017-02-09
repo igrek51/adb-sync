@@ -25,14 +25,21 @@ int App::run() {
 
     try {
 
-        DiffScanner* diffscanner = new DiffScanner();
-
-        diffscanner->scanDiffs();
-        vector<Diff*>* diffs = diffscanner->getDiffs();
-
-        for (Diff* diff : *diffs) {
-            Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
+        ADB* adb = new ADB();
+        vector<File*>* files = adb->listPath("/storage/extSdCard/guitarDB/0thers");
+        for (File* file : *files) {
+            Logger::info("file: " + file->getFullPath());
         }
+
+
+//        DiffScanner* diffscanner = new DiffScanner();
+//
+//        diffscanner->scanDiffs();
+//        vector<Diff*>* diffs = diffscanner->getDiffs();
+//
+//        for (Diff* diff : *diffs) {
+//            Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
+//        }
 
     } catch (Error* e) {
         Logger::error(e);

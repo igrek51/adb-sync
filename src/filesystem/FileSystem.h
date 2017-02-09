@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 #include "File.h"
+#include "Directory.h"
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace std;
 
+//TODO common interface for parsing ls and stat output (files and directories)
 class FileSystem {
 public:
     FileSystem();
@@ -22,10 +24,14 @@ public:
 
     virtual vector<File*>* listPath(string path) = 0;
 
-protected:
-    string nextNonemptyPart(vector<string>* parts, unsigned int& index);
+    virtual void saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) = 0;
 
-    boost::posix_time::ptime parseLsTime(string date, string pattern);
+protected:
+    virtual RegularFile* getRegularFileDetails(string path, string name) = 0;
+
+    virtual string escapePath(string path) = 0;
+
+    string nextNonemptyPart(vector<string>* parts, unsigned int& index);
 };
 
 

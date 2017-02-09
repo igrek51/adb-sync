@@ -4,8 +4,7 @@
 
 #include "Directory.h"
 
-Directory::Directory(string name) {
-    this->name = name;
+Directory::Directory(string path, string name) : File(path, name) {
     files = new vector<File*>();
 }
 

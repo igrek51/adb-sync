@@ -10,14 +10,26 @@
 using namespace std;
 
 class File {
-protected:
-    string name;
 public:
+    File(string path, string name);
+
     virtual ~File();
 
     string getName();
 
     void setName(const string& name);
+
+    string getPath();
+
+    void setPath(const string& path);
+
+    string getFullPath();
+
+    static string subfolder(string path, string dirName);
+
+protected:
+    string name;
+    string path;
 };
 
 

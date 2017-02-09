@@ -38,8 +38,6 @@ private:
 
     void setProgress(double p);
 
-    string subfolder(string path, string dirName);
-
     File* findFile(vector<File*>* files, string name);
 
     template<typename T>

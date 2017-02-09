@@ -11,7 +11,7 @@ public:
 
 protected:
 
-    virtual void run();
+    virtual void run() override;
 
     virtual void runLoop() = 0;
 

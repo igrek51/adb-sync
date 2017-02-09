@@ -11,7 +11,7 @@
 
 class RegularFile : public File {
 public:
-    RegularFile(string name);
+    RegularFile(string path, string name);
 
     ~RegularFile();
 

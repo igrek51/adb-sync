@@ -11,7 +11,7 @@
 
 class Directory : public File {
 public:
-    Directory(string name);
+    Directory(string path, string name);
 
     ~Directory();
 

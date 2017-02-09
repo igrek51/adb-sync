@@ -21,18 +21,23 @@ public:
 
     string shell(string cmd);
 
-    bool pathExists(string path);
+    bool pathExists(string path) override;
 
-    vector<File*>* listPath(string path);
+    vector<File*>* listPath(string path) override;
+
+    virtual void saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) override;
+
+protected:
+    RegularFile* getRegularFileDetails(string path, string name) override;
+
+    string escapePath(string path) override;
 
 private:
-    File* parseLsOutput(string lsLine);
+    File* parseLsOutput(string path, string lsLine);
 
-    Directory* parseLsDirectory(vector<string>* parts);
+    Directory* parseLsDirectory(string path, vector<string>* parts);
 
-    RegularFile* parseLsRegularFile(vector<string>* parts);
-
-    string escapePath(string path);
+    RegularFile* parseLsRegularFile(string path, vector<string>* parts);
 
     string busyboxPath;
 };
