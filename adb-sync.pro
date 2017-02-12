@@ -41,7 +41,8 @@ HEADERS += \
            src/App.h \
            src/utils/string_utils.h \
            src/errors/SystemCmdError.h \
-           src/errors/ParseError.h
+           src/errors/ParseError.h \
+           src/test/TestApp.h
 
 FORMS += forms/mainwindow.ui
 
@@ -73,7 +74,8 @@ SOURCES += src/main.cpp \
 	       src/App.cpp \
            src/utils/string_utils.cpp \
            src/errors/SystemCmdError.cpp \
-           src/errors/ParseError.cpp 
+           src/errors/ParseError.cpp \
+           src/test/TestApp.cpp 
 
 
 DESTDIR = bin

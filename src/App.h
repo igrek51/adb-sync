@@ -13,9 +13,9 @@ class App {
 public:
     App(int argc, char** argv);
 
-    ~App();
+    virtual ~App();
 
-    int run();
+    virtual int run();
 
 private:
     int argc;
