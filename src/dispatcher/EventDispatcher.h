@@ -69,7 +69,6 @@ void EventDispatcher::registerEventObserver(IEventObserver* observer) {
         observers = new list<IEventObserver*>();
         getInstance()->eventObservers->insert(make_pair(eventClass, observers));
     }
-//    getInstance()->eventObservers->at(eventClass) = observers;
     if (!getInstance()->observersContains(observers, observer)) {
         observers->push_back(observer);
     }

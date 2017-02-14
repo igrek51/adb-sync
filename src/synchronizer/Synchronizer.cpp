@@ -26,9 +26,9 @@ void Synchronizer::registerEvents() {
 
 void Synchronizer::onEvent(Event* e) {
     Logger::info("Synchronizer on event");
-//    if(e->instanceof<DiffScanButtonClicked*>()){
-//        scanDiffs();
-//    }
+    if (e->instanceof<DiffScanButtonClicked*>()) {
+        scanDiffs();
+    }
 
 }
 

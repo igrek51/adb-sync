@@ -27,6 +27,8 @@ private:
     GUI* gui;
 
     Synchronizer* synchronizer;
+
+    static void stackTraceHandler(int sig);
 };
 
 

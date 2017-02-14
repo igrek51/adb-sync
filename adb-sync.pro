@@ -9,7 +9,7 @@ INCLUDEPATH += .
 QT += core gui widgets
 
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_LFLAGS += -lboost_system -lboost_thread
+QMAKE_LFLAGS += -lboost_system -lboost_thread -g -rdynamic
 
 CONFIG += console
 

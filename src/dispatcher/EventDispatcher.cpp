@@ -33,15 +33,17 @@ void EventDispatcher::sendEvent(Event* event) {
 }
 
 void EventDispatcher::unregisterEventObserver(IEventObserver* eventObserver) {
+    // for every event class check if there is registered that observer
     for (std::map<string, std::list<IEventObserver*>*>::iterator it = getInstance()->eventObservers->begin();
          it != getInstance()->eventObservers->end(); ++it) {
         string eventClass = it->first;
         std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
         if (observers != nullptr) {
+            // remove all matching observers
             std::list<IEventObserver*>::iterator it2 = observers->begin();
             while (it2 != observers->end()) {
                 if ((*it2) == eventObserver) { // equals
-                    observers->erase(it2);
+                    it2 = observers->erase(it2);
                 } else {
                     ++it2;
                 }
@@ -58,7 +60,7 @@ void EventDispatcher::dispatchEvents() {
         EventClass* ec = eventsQueue->front();
         dispatch(ec);
         eventsQueue->pop_front();
-//        delete ec;
+        delete ec;
     }
 
     dispatching = false;
