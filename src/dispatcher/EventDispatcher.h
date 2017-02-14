@@ -34,6 +34,8 @@ private:
 
 public:
 
+    ~EventDispatcher();
+
     template<typename T>
     static void registerEventObserver(IEventObserver* observer);
 

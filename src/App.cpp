@@ -6,17 +6,19 @@
 #include "logger/Logger.h"
 
 App::App(int argc, char** argv) {
+    Logger::debug("constructing app");
     this->argc = argc;
     this->argv = argv;
-    a = new QApplication(argc, argv);
-    gui = new GUI();
+    qapp = new QApplication(argc, argv);
     synchronizer = new Synchronizer();
+    gui = new GUI();
 }
 
 App::~App() {
+    Logger::debug("destructing app");
     delete gui;
     delete synchronizer;
-    delete a;
+    delete qapp;
 }
 
 int App::run() {
@@ -44,7 +46,12 @@ int App::run() {
 //        Logger::error(e);
 //    }
 
-    return a->exec();
+    try {
+        return qapp->exec();
+    } catch (const std::bad_alloc&) {
+        Logger::fatal("std::bad_alloc error caught from QApplication.exec()");
+        return -1;
+    }
 }
 
 

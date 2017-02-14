@@ -963,6 +963,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 build/.obj/main.o: src/main.cpp src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
@@ -1082,8 +1084,16 @@ build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h
 
 build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
 		src/config/ConfigLoader.h \
-		src/config/ConfigProperties.h
+		src/config/ConfigProperties.h \
+		src/dispatcher/EventDispatcher.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h \
+		src/errors/Error.h \
+		src/dispatcher/EventClass.h \
+		src/events/DiffScanButtonClicked.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
 build/.obj/CmdExecutor.o: src/system/CmdExecutor.cpp src/system/CmdExecutor.h \
@@ -1136,21 +1146,13 @@ build/.obj/LoopThread.o: src/threads/LoopThread.cpp src/threads/LoopThread.h \
 build/.obj/App.o: src/App.cpp src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
-		src/errors/Error.h \
-		src/utils/string_utils.h \
-		src/synchronizer/DiffScanner.h \
-		src/diffs/Diff.h \
-		src/diffs/DiffType.h \
-		src/filesystem/LocalFS.h \
-		src/filesystem/FileSystem.h \
-		src/filesystem/File.h \
-		src/filesystem/Directory.h \
-		src/filesystem/RegularFile.h \
-		src/filesystem/ADB.h
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/App.o src/App.cpp
 
 build/.obj/string_utils.o: src/utils/string_utils.cpp src/utils/string_utils.h
@@ -1168,6 +1170,8 @@ build/.obj/TestApp.o: src/test/TestApp.cpp src/test/TestApp.h \
 		src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/Event.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/logger/Logger.h \

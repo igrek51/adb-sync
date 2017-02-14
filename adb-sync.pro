@@ -11,6 +11,8 @@ QT += core gui widgets
 QMAKE_CXXFLAGS += -std=c++11
 QMAKE_LFLAGS += -lboost_system -lboost_thread
 
+CONFIG += console
+
 # Input
 HEADERS += \
            src/logger/Logger.h \

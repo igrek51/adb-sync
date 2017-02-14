@@ -20,6 +20,10 @@ EventDispatcher::EventDispatcher() {
     eventsQueue = new list<EventClass*>();
 }
 
+EventDispatcher::~EventDispatcher() {
+    Logger::debug("destructing EventDispatcher");
+}
+
 void EventDispatcher::sendEvent(Event* event) {
 
     Logger::debug("sending event " + EventClass::getClassName(event));

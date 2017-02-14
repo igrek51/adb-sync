@@ -8,19 +8,17 @@
 #include "../events/DiffScanButtonClicked.h"
 #include "../dispatcher/EventDispatcher.h"
 
-#include <QDesktopWidget>
-
 MainWindow::MainWindow(QWidget* parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    QDesktopWidget widget;
-    QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
-    int screen_w = mainScreenSize.width();
-    int screen_h = mainScreenSize.height();
-    this->move((screen_w - this->geometry().width()) / 2,
-               (screen_h - this->geometry().height()) / 2);
+//    QDesktopWidget widget;
+//    QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
+//    int screen_w = mainScreenSize.width();
+//    int screen_h = mainScreenSize.height();
+//    this->move((screen_w - this->geometry().width()) / 2,
+//               (screen_h - this->geometry().height()) / 2);
 
     setProgress(0);
 //    listbox_init();
@@ -105,6 +103,6 @@ void MainWindow::buttonsEnable(bool enable){
 
 void MainWindow::setProgress(double p){
     if(p>1) p=1;
-    ui->progress1->setValue(p*100);
+    ui->progress1->setValue((int) (p * 100));
     this->repaint();
 }

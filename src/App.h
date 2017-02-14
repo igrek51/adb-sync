@@ -22,7 +22,7 @@ private:
     int argc;
     char** argv;
 
-    QApplication* a;
+    QApplication* qapp;
 
     GUI* gui;
 
