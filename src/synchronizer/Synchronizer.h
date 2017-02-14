@@ -6,18 +6,27 @@
 #define ADBSYNC_SYNCHRONIZER_H
 
 #include "../config/Database.h"
+#include "../dispatcher/IEventObserver.h"
 #include <vector>
 
 using namespace std;
 
-class Synchronizer {
+class Synchronizer : public IEventObserver {
 public:
     Synchronizer();
 
     ~Synchronizer();
 
+    virtual void registerEvents() override;
+
+    virtual void onEvent(Event* e) override;
+
 private:
     vector<Database*>* databases;
+
+    void loadConfig();
+
+    void scanDiffs();
 };
 
 

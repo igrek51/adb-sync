@@ -5,7 +5,6 @@
 //TODO lock na kolejkę eventów przy dopisywaniu i usuwaniu, mutexy
 
 #include "EventDispatcher.h"
-#include <typeinfo>
 
 EventDispatcher* EventDispatcher::instance = nullptr;
 
@@ -21,42 +20,12 @@ EventDispatcher::EventDispatcher() {
     eventsQueue = new list<EventClass*>();
 }
 
-template<typename T>
-void EventDispatcher::registerEventObserver(IEventObserver* observer) {
-//    string s = boost::typeindex::type_id_with_cvr<decltype(T)>().pretty_name();
-    string eventClass = typeid(T).name();
-
-    Logger::debug("registering observer for events " + eventClass);
-
-    std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
-    if (observers == nullptr) {
-        observers = new list<IEventObserver*>();
-    }
-    if (!getInstance()->observersContains(observers, observer)) {
-        observers->push_back(observer);
-    }
-    getInstance()->eventObservers->at(eventClass) = observers;
-}
-
 void EventDispatcher::sendEvent(Event* event) {
 
     Logger::debug("sending event " + EventClass::getClassName(event));
 
     getInstance()->eventsQueue->push_back(new EventClass(event));
     getInstance()->dispatchEvents();
-}
-
-template<typename T>
-void EventDispatcher::unregisterEvent() {
-    string eventClass = typeid(T).name();
-    std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
-    if (observers != nullptr) {
-        observers->clear();
-    }
-    auto it = getInstance()->eventObservers->find(eventClass);
-    if (it != getInstance()->eventObservers->end()) {
-        getInstance()->eventObservers->erase(it);
-    }
 }
 
 void EventDispatcher::unregisterEventObserver(IEventObserver* eventObserver) {
@@ -85,7 +54,7 @@ void EventDispatcher::dispatchEvents() {
         EventClass* ec = eventsQueue->front();
         dispatch(ec);
         eventsQueue->pop_front();
-        delete ec;
+//        delete ec;
     }
 
     dispatching = false;
@@ -100,6 +69,9 @@ void EventDispatcher::dispatch(EventClass* ec) {
     }
     if (observers != nullptr) {
         for (IEventObserver* observer : *observers) {
+
+            Logger::debug("dispatching " + eventClass);
+
             observer->onEvent(event);
         }
     }

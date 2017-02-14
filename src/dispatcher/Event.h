@@ -14,7 +14,14 @@ class Event {
 public:
     virtual ~Event();
 
+    template<typename T>
+    bool instanceof();
+
 };
 
+template<typename T>
+bool Event::instanceof() {
+    return dynamic_cast<T>(this) != nullptr;
+}
 
 #endif //ADBSYNC_EVENT_H
