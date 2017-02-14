@@ -13,7 +13,6 @@
 
 using namespace std;
 
-//TODO common interface for parsing ls and stat output (files and directories)
 class FileSystem {
 public:
     FileSystem();

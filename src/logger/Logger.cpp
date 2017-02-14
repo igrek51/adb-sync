@@ -4,6 +4,8 @@
 
 #include "Logger.h"
 
+//TODO mutexy
+
 const string Logger::C_RESET = "\033[0m";
 const string Logger::C_BOLD = "\033[1m";
 const string Logger::C_DIM = "\033[2m";

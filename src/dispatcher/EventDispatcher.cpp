@@ -2,7 +2,7 @@
 // Created by igrek on 04/02/17.
 //
 
-//TODO lock na kolejkę eventów przy dopisywaniu i usuwaniu
+//TODO lock na kolejkę eventów przy dopisywaniu i usuwaniu, mutexy
 
 #include "EventDispatcher.h"
 #include <typeinfo>
@@ -18,13 +18,16 @@ EventDispatcher* EventDispatcher::getInstance() {
 
 EventDispatcher::EventDispatcher() {
     eventObservers = new map<string, std::list<IEventObserver*>*>();
-    eventsQueue = new list<Event*>();
+    eventsQueue = new list<EventClass*>();
 }
 
 template<typename T>
 void EventDispatcher::registerEventObserver(IEventObserver* observer) {
 //    string s = boost::typeindex::type_id_with_cvr<decltype(T)>().pretty_name();
     string eventClass = typeid(T).name();
+
+    Logger::debug("registering observer for events " + eventClass);
+
     std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
     if (observers == nullptr) {
         observers = new list<IEventObserver*>();
@@ -36,7 +39,10 @@ void EventDispatcher::registerEventObserver(IEventObserver* observer) {
 }
 
 void EventDispatcher::sendEvent(Event* event) {
-    getInstance()->eventsQueue->push_back(event);
+
+    Logger::debug("sending event " + EventClass::getClassName(event));
+
+    getInstance()->eventsQueue->push_back(new EventClass(event));
     getInstance()->dispatchEvents();
 }
 
@@ -76,19 +82,21 @@ void EventDispatcher::dispatchEvents() {
     dispatching = true;
 
     while (!eventsQueue->empty()) {
-        Event* e = eventsQueue->front();
-        dispatch(e);
+        EventClass* ec = eventsQueue->front();
+        dispatch(ec);
         eventsQueue->pop_front();
-        delete e;
+        delete ec;
     }
 
     dispatching = false;
 }
 
-void EventDispatcher::dispatch(Event* event) {
-    std::list<IEventObserver*>* observers = getObservers(event->className());
+void EventDispatcher::dispatch(EventClass* ec) {
+    Event* event = ec->event;
+    string eventClass = ec->className;
+    std::list<IEventObserver*>* observers = getObservers(eventClass);
     if (observers == nullptr || observers->empty()) {
-        Logger::warn("no observer for event " + event->className());
+        Logger::warn("no observer for event " + eventClass);
     }
     if (observers != nullptr) {
         for (IEventObserver* observer : *observers) {

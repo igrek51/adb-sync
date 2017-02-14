@@ -11,6 +11,7 @@
 #include "IEventObserver.h"
 #include "Event.h"
 #include "../logger/Logger.h"
+#include "EventClass.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ private:
 
     map<string, std::list<IEventObserver*>*>* eventObservers;
 
-    list<Event*>* eventsQueue;
+    list<EventClass*>* eventsQueue;
 
     bool dispatching = false;
 
@@ -45,7 +46,7 @@ public:
 private:
     void dispatchEvents();
 
-    void dispatch(Event* event);
+    void dispatch(EventClass* ec);
 
     bool observersContains(std::list<IEventObserver*>* observers, IEventObserver* searched);
 

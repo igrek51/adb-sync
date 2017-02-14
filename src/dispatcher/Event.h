@@ -14,9 +14,6 @@ class Event {
 public:
     virtual ~Event();
 
-    virtual string className() = 0;
-
-
 };
 
 

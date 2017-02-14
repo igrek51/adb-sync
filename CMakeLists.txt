@@ -49,7 +49,7 @@ set(SOURCE_FILES
         src/config/ConfigProperties.cpp src/config/ConfigProperties.h
         src/utils/string_utils.cpp src/utils/string_utils.h
         src/errors/SystemCmdError.cpp src/errors/SystemCmdError.h
-        src/test/TestApp.cpp src/test/TestApp.h)
+        src/test/TestApp.cpp src/test/TestApp.h src/events/DiffScanButtonClicked.h src/dispatcher/EventClass.cpp src/dispatcher/EventClass.h)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})

@@ -8,6 +8,7 @@
 
 #include "synchronizer/Synchronizer.h"
 #include "gui/GUI.h"
+#include <QApplication>
 
 class App {
 public:
@@ -21,10 +22,11 @@ private:
     int argc;
     char** argv;
 
+    QApplication* a;
+
     GUI* gui;
 
     Synchronizer* synchronizer;
-
 };
 
 

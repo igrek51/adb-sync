@@ -53,6 +53,7 @@ SOURCES       = src/main.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
 		src/dispatcher/Event.cpp \
+		src/dispatcher/EventClass.cpp \
 		src/config/ConfigLoader.cpp \
 		src/config/ConfigProperties.cpp \
 		src/config/Database.cpp \
@@ -83,6 +84,7 @@ OBJECTS       = build/.obj/main.o \
 		build/.obj/EventDispatcher.o \
 		build/.obj/IEventObserver.o \
 		build/.obj/Event.o \
+		build/.obj/EventClass.o \
 		build/.obj/ConfigLoader.o \
 		build/.obj/ConfigProperties.o \
 		build/.obj/Database.o \
@@ -343,6 +345,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/dispatcher/EventDispatcher.h \
 		src/dispatcher/IEventObserver.h \
 		src/dispatcher/Event.h \
+		src/dispatcher/EventClass.h \
 		src/config/ConfigLoader.h \
 		src/config/ConfigProperties.h \
 		src/config/Database.h \
@@ -368,11 +371,13 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/utils/string_utils.h \
 		src/errors/SystemCmdError.h \
 		src/errors/ParseError.h \
-		src/test/TestApp.h src/main.cpp \
+		src/test/TestApp.h \
+		src/events/DiffScanButtonClicked.h src/main.cpp \
 		src/logger/Logger.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
 		src/dispatcher/Event.cpp \
+		src/dispatcher/EventClass.cpp \
 		src/config/ConfigLoader.cpp \
 		src/config/ConfigProperties.cpp \
 		src/config/Database.cpp \
@@ -894,8 +899,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CmdExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h src/errors/SystemCmdError.h src/errors/ParseError.h src/test/TestApp.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CmdExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp src/errors/SystemCmdError.cpp src/errors/ParseError.cpp src/test/TestApp.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/dispatcher/EventClass.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CmdExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h src/errors/SystemCmdError.h src/errors/ParseError.h src/test/TestApp.h src/events/DiffScanButtonClicked.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/dispatcher/EventClass.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CmdExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp src/errors/SystemCmdError.cpp src/errors/ParseError.cpp src/test/TestApp.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
 
@@ -959,8 +964,7 @@ build/.obj/main.o: src/main.cpp src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
 		src/gui/GUI.h \
-		src/gui/MainWindow.h \
-		src/test/TestApp.h
+		src/gui/MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
@@ -973,7 +977,8 @@ build/.obj/EventDispatcher.o: src/dispatcher/EventDispatcher.cpp src/dispatcher/
 		src/dispatcher/Event.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
-		src/errors/Error.h
+		src/errors/Error.h \
+		src/dispatcher/EventClass.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/EventDispatcher.o src/dispatcher/EventDispatcher.cpp
 
 build/.obj/IEventObserver.o: src/dispatcher/IEventObserver.cpp src/dispatcher/IEventObserver.h \
@@ -981,11 +986,16 @@ build/.obj/IEventObserver.o: src/dispatcher/IEventObserver.cpp src/dispatcher/IE
 		src/dispatcher/EventDispatcher.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
-		src/errors/Error.h
+		src/errors/Error.h \
+		src/dispatcher/EventClass.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/IEventObserver.o src/dispatcher/IEventObserver.cpp
 
 build/.obj/Event.o: src/dispatcher/Event.cpp src/dispatcher/Event.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Event.o src/dispatcher/Event.cpp
+
+build/.obj/EventClass.o: src/dispatcher/EventClass.cpp src/dispatcher/EventClass.h \
+		src/dispatcher/Event.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/EventClass.o src/dispatcher/EventClass.cpp
 
 build/.obj/ConfigLoader.o: src/config/ConfigLoader.cpp src/config/ConfigLoader.h \
 		src/config/ConfigProperties.h \
@@ -1059,7 +1069,12 @@ build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
 		build/.ui/ui_mainwindow.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
-		src/errors/Error.h
+		src/errors/Error.h \
+		src/events/DiffScanButtonClicked.h \
+		src/dispatcher/Event.h \
+		src/dispatcher/EventDispatcher.h \
+		src/dispatcher/IEventObserver.h \
+		src/dispatcher/EventClass.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h

@@ -17,6 +17,7 @@ HEADERS += \
            src/dispatcher/EventDispatcher.h \
            src/dispatcher/IEventObserver.h \
            src/dispatcher/Event.h \
+           src/dispatcher/EventClass.h \
            src/config/ConfigLoader.h \
            src/config/ConfigProperties.h \
            src/config/Database.h \
@@ -42,7 +43,8 @@ HEADERS += \
            src/utils/string_utils.h \
            src/errors/SystemCmdError.h \
            src/errors/ParseError.h \
-           src/test/TestApp.h
+           src/test/TestApp.h \
+           src/events/DiffScanButtonClicked.h
 
 FORMS += forms/mainwindow.ui
 
@@ -51,6 +53,7 @@ SOURCES += src/main.cpp \
 	       src/dispatcher/EventDispatcher.cpp \
 	       src/dispatcher/IEventObserver.cpp \
 	       src/dispatcher/Event.cpp \
+	       src/dispatcher/EventClass.cpp \
 	       src/config/ConfigLoader.cpp \
 	       src/config/ConfigProperties.cpp \
 	       src/config/Database.cpp \

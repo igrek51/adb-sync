@@ -5,6 +5,8 @@
 #include "MainWindow.h"
 #include "../../build/.ui/ui_mainwindow.h"
 #include "../logger/Logger.h"
+#include "../events/DiffScanButtonClicked.h"
+#include "../dispatcher/EventDispatcher.h"
 
 #include <QDesktopWidget>
 
@@ -33,7 +35,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_pb_scan_clicked() {
     Logger::info("click");
-
+    EventDispatcher::sendEvent(new DiffScanButtonClicked());
 }
 
 void MainWindow::on_pb_delete_clicked() {
