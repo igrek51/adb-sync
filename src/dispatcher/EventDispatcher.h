@@ -61,9 +61,7 @@ template<typename T>
 void EventDispatcher::registerEventObserver(IEventObserver* observer) {
 //    string s = boost::typeindex::type_id_with_cvr<decltype(T)>().pretty_name();
     string eventClass = typeid(T).name();
-
-    Logger::debug("registering observer for events " + eventClass);
-
+//    Logger::debug("registering observer for events " + eventClass);
     std::list<IEventObserver*>* observers = getInstance()->getObservers(eventClass);
     if (observers == nullptr) {
         observers = new list<IEventObserver*>();

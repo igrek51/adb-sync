@@ -37,4 +37,6 @@ boost::posix_time::ptime string2time(string s, string pattern);
 
 string replaceAll(string str, const string& from, const string& to);
 
+string to_string(const char* s);
+
 #endif //ADBSYNC_STRING_UTILS_H

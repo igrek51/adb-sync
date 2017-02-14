@@ -20,16 +20,13 @@ Synchronizer::~Synchronizer() {
 }
 
 void Synchronizer::registerEvents() {
-    Logger::debug("registering");
     EventDispatcher::registerEventObserver<DiffScanButtonClicked>(this);
 }
 
 void Synchronizer::onEvent(Event* e) {
-    Logger::info("Synchronizer on event");
     if (e->instanceof<DiffScanButtonClicked*>()) {
         scanDiffs();
     }
-
 }
 
 void Synchronizer::scanDiffs() {

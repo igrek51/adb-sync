@@ -28,7 +28,7 @@ private:
 
     Synchronizer* synchronizer;
 
-    static void stackTraceHandler(int sig);
+    static void signalTraceHandler(int sig);
 };
 
 

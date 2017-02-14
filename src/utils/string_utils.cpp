@@ -74,3 +74,7 @@ boost::posix_time::ptime string2time(string s, string pattern) {
     is >> pt;
     return pt;
 }
+
+string to_string(const char* s) {
+    return string(s);
+}

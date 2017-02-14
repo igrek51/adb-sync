@@ -20,14 +20,10 @@ EventDispatcher::EventDispatcher() {
     eventsQueue = new list<EventClass*>();
 }
 
-EventDispatcher::~EventDispatcher() {
-    Logger::debug("destructing EventDispatcher");
-}
+EventDispatcher::~EventDispatcher() {}
 
 void EventDispatcher::sendEvent(Event* event) {
-
-    Logger::debug("sending event " + EventClass::getClassName(event));
-
+//    Logger::debug("sending event " + EventClass::getClassName(event));
     getInstance()->eventsQueue->push_back(new EventClass(event));
     getInstance()->dispatchEvents();
 }
@@ -75,9 +71,7 @@ void EventDispatcher::dispatch(EventClass* ec) {
     }
     if (observers != nullptr) {
         for (IEventObserver* observer : *observers) {
-
-            Logger::debug("dispatching " + eventClass);
-
+//            Logger::debug("dispatching " + eventClass);
             observer->onEvent(event);
         }
     }

@@ -19,37 +19,42 @@ App::App(int argc, char** argv) {
 }
 
 App::~App() {
-    Logger::debug("destructing App...");
+    Logger::debug("destroying App...");
     delete gui;
     delete synchronizer;
     delete qapp;
 }
 
-void App::stackTraceHandler(int sig) {
+void App::signalTraceHandler(int sig) {
     void* array[10];
     int size = backtrace(array, 10);
 
-    fprintf(stderr, "Error: signal %d:\n", sig);
-    Logger::error("Signal " + to_string(sig) + ", stack trace:");
+    Logger::error("Signal " + to_string(sig) + " caught, stack trace:");
     backtrace_symbols_fd(array, size, STDOUT_FILENO);
     exit(1);
 }
 
 int App::run() {
-
-    Logger::info("running App...");
+    Logger::debug("running App...");
     //catching signals and printing stack trace
-    signal(SIGSEGV, App::stackTraceHandler); // segmentation fault
-    signal(SIGINT, App::stackTraceHandler);
-    signal(SIGFPE, App::stackTraceHandler);
-    signal(SIGILL, App::stackTraceHandler);
+    signal(SIGSEGV, App::signalTraceHandler); // segmentation fault
+    signal(SIGINT, App::signalTraceHandler);
+    signal(SIGFPE, App::signalTraceHandler);
+    signal(SIGILL, App::signalTraceHandler);
 
     try {
         return qapp->exec();
+    } catch (Error* e) {
+        Logger::error("uncaught Error: " + e->getMessage());
+        delete e;
     } catch (const std::bad_alloc&) {
         Logger::fatal("std::bad_alloc error caught from QApplication.exec()");
-        return -1;
+    } catch (std::exception& e) {
+        Logger::error("uncaught std::exception: " + string(e.what()));
+    } catch (...) {
+        Logger::error("unknown uncaught throwable");
     }
+    return -1;
 }
 
 
