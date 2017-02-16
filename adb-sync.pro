@@ -50,7 +50,7 @@ HEADERS += \
            src/events/DiffListUpdateRequest.h \
            src/events/DiffRemovedButtonClicked.h \
            src/events/DiffScanButtonClicked.h \
-           src/events/DiffScanCompleted.h \
+           src/events/DiffPartialScanCompleted.h \
            src/events/DiffSyncCompleted.h \
            src/events/ExecuteAllDiffsButtonClicked.h \
            src/events/ExecuteDiffButtonClicked.h \

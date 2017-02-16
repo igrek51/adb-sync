@@ -6,6 +6,7 @@
 #define ADBSYNC_MAINWINDOW_H
 
 #include <QMainWindow>
+#include "DiffListBox.h"
 
 using namespace std;
 
@@ -23,6 +24,16 @@ public:
 
     void resizeEvent(QResizeEvent*);
 
+    void uiMessage(string msg);
+
+    void setProgress(double p);
+
+    void buttonsEnable(bool enable);
+
+    void addDiff(Diff* diff);
+
+    void updateDiffs(vector<Diff*>* diffs);
+
 private slots:
     void on_pb_scan_clicked();
 
@@ -39,11 +50,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void uiMessage(string msg);
-
-    void buttonsEnable(bool enable);
-
-    void setProgress(double p);
+    DiffListBox* listBox;
 };
 
 

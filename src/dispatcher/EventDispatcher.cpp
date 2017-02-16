@@ -22,10 +22,18 @@ EventDispatcher::EventDispatcher() {
 
 EventDispatcher::~EventDispatcher() {}
 
-void EventDispatcher::sendEvent(Event* event) {
+void EventDispatcher::sendLater(Event* event) {
 //    Logger::debug("sending event " + EventClass::getClassName(event));
+    // add event to events queue and dispatch if no event is dispatching
     getInstance()->eventsQueue->push_back(new EventClass(event));
     getInstance()->dispatchEvents();
+}
+
+void EventDispatcher::sendNow(Event* event) {
+    // Avoid events queue, dispatch event immediately
+    EventClass* ec = new EventClass(event);
+    getInstance()->dispatch(ec);
+    delete ec;
 }
 
 void EventDispatcher::unregisterEventObserver(IEventObserver* eventObserver) {

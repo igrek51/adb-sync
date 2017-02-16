@@ -21,6 +21,8 @@ public:
     DiffType type;
     /// if diff direction is reversed (from remote to local)
     bool reversed;
+
+    static string diffTypeName(DiffType type);
 };
 
 

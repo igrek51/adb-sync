@@ -5,6 +5,11 @@
 #include "DiffScanner.h"
 #include "../config/ConfigLoader.h"
 #include "../logger/Logger.h"
+#include "../dispatcher/EventDispatcher.h"
+#include "../events/ProgressUpdated.h"
+#include "../events/ShowUIMessageRequest.h"
+#include "../events/DiffPartialScanCompleted.h"
+#include "../events/DiffListUpdateRequest.h"
 
 //TODO multithreading
 
@@ -31,14 +36,17 @@ DiffScanner::~DiffScanner() {
 void DiffScanner::scanDiffs() {
     diffs->clear();
     setProgress(0);
+    EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 
     adb->testADB();
     adb->detectDevice();
 
     if (dbs->empty()) {
-        //TODO send message ui: no databases to scan
+        EventDispatcher::sendNow(new ShowUIMessageRequest("no database defined to scan"));
         return;
     }
+
+    EventDispatcher::sendNow(new ShowUIMessageRequest("Scanning for differences..."));
 
     int index = 0;
     for (Database* db : *dbs) {
@@ -53,14 +61,15 @@ void DiffScanner::scanDiffs() {
             continue;
         }
 
-        Logger::debug("scanning differences for database " + db->localPath);
+        Logger::debug("scanning for differences in database " + db->localPath);
         scanDirs(db->localPath, db->remotePath,
                  calcProgres(index, dbs->size()),
                  calcProgres(index + 1, dbs->size()));
         index++;
     }
 
-    setProgress(1);
+    // scanning completed
+    EventDispatcher::sendNow(new DiffPartialScanCompleted(nullptr));
 }
 
 double DiffScanner::calcProgres(int index, unsigned long all) {
@@ -73,7 +82,7 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
     vector<File*>* localFiles = localFS->listPath(localPath);
     vector<File*>* remoteFiles = adb->listPath(remotePath);
 
-    Logger::debug("scanDirs: " + localPath + ", " + remotePath);
+    Logger::debug("scanning Dir: " + localPath);
 
     // check local files list as mirror pattern
     for (unsigned int i = 0; i < localFiles->size(); i++) {
@@ -84,8 +93,9 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                 addDiff(localFile, localPath, remotePath, DiffType::NO_DIRECTORY);
             } else {
                 if (instanceof<RegularFile*>(remoteFile)) { //found, but it is file
+                    Logger::warn(
+                            "incompatible file types: " + localPath + "/" + localFile->getName());
                     addDiff(localFile, localPath, remotePath, DiffType::NO_DIRECTORY);
-                    //TODO remove file with incompatible type
                 } else {
                     double progress1 =
                             (progressTo - progressFrom) * calcProgres(i, localFiles->size()) +
@@ -104,8 +114,9 @@ DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom, 
                 addDiff(localFile, localPath, remotePath, DiffType::NO_REGULAR_FILE);
             } else {
                 if (instanceof<Directory*>(remoteFile)) { //found, but it is directory
+                    Logger::warn(
+                            "incompatible file types: " + localPath + "/" + localFile->getName());
                     addDiff(localFile, localPath, remotePath, DiffType::NO_REGULAR_FILE);
-                    //TODO remove file with incompatible type
                 } else {
                     RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
                     RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
@@ -170,7 +181,7 @@ File* DiffScanner::findFile(vector<File*>* files, string name) {
 }
 
 void DiffScanner::setProgress(double p) {
-    //TODO send event to set progress in mainwindow
+    EventDispatcher::sendNow(new ProgressUpdated(p));
 }
 
 template<typename T>
@@ -184,6 +195,8 @@ void DiffScanner::addDiff(File* file, string localPath, string remotePath, DiffT
     string remoteFileName = File::subfolder(remotePath, fileName);
     Diff* diff = new Diff(localFileName, remoteFileName, type);
     diffs->push_back(diff);
+
+    EventDispatcher::sendNow(new DiffPartialScanCompleted(diff));
 }
 
 vector<Diff*>* DiffScanner::getDiffs() {

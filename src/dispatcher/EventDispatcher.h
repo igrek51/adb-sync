@@ -39,7 +39,9 @@ public:
     template<typename T>
     static void registerEventObserver(IEventObserver* observer);
 
-    static void sendEvent(Event* event);
+    static void sendLater(Event* event);
+
+    static void sendNow(Event* event);
 
     template<typename T>
     static void unregisterEvent();

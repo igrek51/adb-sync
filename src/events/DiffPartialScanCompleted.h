@@ -8,11 +8,11 @@
 #include "../dispatcher/Event.h"
 #include "../diffs/Diff.h"
 
-class DiffScanCompleted : public Event {
+class DiffPartialScanCompleted : public Event {
 public:
     Diff* newDiff;
 
-    DiffScanCompleted(Diff* newDiff) {
+    DiffPartialScanCompleted(Diff* newDiff) {
         this->newDiff = newDiff;
     }
 };

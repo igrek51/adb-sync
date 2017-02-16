@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget* parent) :
         ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    listBox = new DiffListBox(ui->list1);
+
 //    QDesktopWidget widget;
 //    QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
 //    int screen_w = mainScreenSize.width();
@@ -28,12 +30,13 @@ MainWindow::MainWindow(QWidget* parent) :
 }
 
 MainWindow::~MainWindow() {
+    delete listBox;
     delete ui;
 }
 
 void MainWindow::on_pb_scan_clicked() {
     Logger::info("click");
-    EventDispatcher::sendEvent(new DiffScanButtonClicked());
+    EventDispatcher::sendLater(new DiffScanButtonClicked());
 }
 
 void MainWindow::on_pb_delete_clicked() {
@@ -105,4 +108,12 @@ void MainWindow::setProgress(double p){
     if(p>1) p=1;
     ui->progress1->setValue((int) (p * 100));
     this->repaint();
+}
+
+void MainWindow::addDiff(Diff* diff) {
+    listBox->addDiff(diff);
+}
+
+void MainWindow::updateDiffs(vector<Diff*>* diffs) {
+    listBox->update(diffs);
 }
