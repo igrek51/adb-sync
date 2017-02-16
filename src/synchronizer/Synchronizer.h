@@ -7,6 +7,7 @@
 
 #include "../config/Database.h"
 #include "../dispatcher/IEventObserver.h"
+#include "DiffScanner.h"
 #include <vector>
 
 using namespace std;
@@ -24,9 +25,13 @@ public:
 private:
     vector<Database*>* databases;
 
+	DiffScanner* diffscanner;
+
     void loadConfig();
 
     void scanDiffs();
+
+	void removeDiff(int index);
 };
 
 

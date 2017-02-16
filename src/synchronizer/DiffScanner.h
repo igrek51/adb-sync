@@ -19,7 +19,7 @@ public:
 
     ~DiffScanner();
 
-    void scanDiffs();
+    void scanDiffs(vector<Database*>* dbs);
 
     vector<Diff*>* getDiffs();
 
@@ -27,8 +27,6 @@ private:
     ADB* adb;
 
     LocalFS* localFS;
-
-    vector<Database*>* dbs;
 
     vector<Diff*>* diffs;
 

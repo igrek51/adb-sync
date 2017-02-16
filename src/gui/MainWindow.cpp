@@ -7,6 +7,7 @@
 #include "../logger/Logger.h"
 #include "../events/DiffScanButtonClicked.h"
 #include "../dispatcher/EventDispatcher.h"
+#include "../events/DiffRemovedButtonClicked.h"
 
 MainWindow::MainWindow(QWidget* parent) :
         QMainWindow(parent),
@@ -23,8 +24,8 @@ MainWindow::MainWindow(QWidget* parent) :
 //               (screen_h - this->geometry().height()) / 2);
 
     setProgress(0);
-//    listbox_init();
-    buttonsEnable(false);
+	//TODO disable buttons until scan is completed
+//    buttonsEnable(false);
 
     uiMessage("Click \"Scan\" to search for differences.");
 }
@@ -35,13 +36,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_pb_scan_clicked() {
-    Logger::info("click");
     EventDispatcher::sendLater(new DiffScanButtonClicked());
 }
 
 void MainWindow::on_pb_delete_clicked() {
-    Logger::info("click");
-
+	EventDispatcher::sendLater(new DiffRemovedButtonClicked(listBox->selectedRowIndex()));
 }
 
 void MainWindow::on_pb_reverse_clicked() {
@@ -60,8 +59,7 @@ void MainWindow::on_pb_execute_all_clicked() {
 }
 
 void MainWindow::on_list1_cellClicked(int, int) {
-    Logger::info("click");
-
+//    Logger::info("click");
 }
 
 void MainWindow::uiMessage(string msg){

@@ -132,6 +132,12 @@
                                                               <verstretch>0</verstretch>
                                                           </sizepolicy>
                                                       </property>
+                                                      <property name="minimumSize">
+                                                          <size>
+                                                              <width>0</width>
+                                                              <height>30</height>
+                                                          </size>
+                                                      </property>
                                                       <property name="text">
                                                           <string>Scan</string>
                                                       </property>
@@ -150,6 +156,12 @@
                                                                       <verstretch>0</verstretch>
                                                                   </sizepolicy>
                                                               </property>
+                                                              <property name="minimumSize">
+                                                                  <size>
+                                                                      <width>0</width>
+                                                                      <height>30</height>
+                                                                  </size>
+                                                              </property>
                                                               <property name="text">
                                                                   <string>Execute</string>
                                                               </property>
@@ -164,6 +176,12 @@
                                                                       <horstretch>0</horstretch>
                                                                       <verstretch>0</verstretch>
                                                                   </sizepolicy>
+                                                              </property>
+                                                              <property name="minimumSize">
+                                                                  <size>
+                                                                      <width>0</width>
+                                                                      <height>30</height>
+                                                                  </size>
                                                               </property>
                                                               <property name="text">
                                                                   <string>Execute all</string>
@@ -185,6 +203,12 @@
                                                                       <verstretch>0</verstretch>
                                                                   </sizepolicy>
                                                               </property>
+                                                              <property name="minimumSize">
+                                                                  <size>
+                                                                      <width>0</width>
+                                                                      <height>30</height>
+                                                                  </size>
+                                                              </property>
                                                               <property name="text">
                                                                   <string>Delete</string>
                                                               </property>
@@ -199,6 +223,12 @@
                                                                       <horstretch>0</horstretch>
                                                                       <verstretch>0</verstretch>
                                                                   </sizepolicy>
+                                                              </property>
+                                                              <property name="minimumSize">
+                                                                  <size>
+                                                                      <width>0</width>
+                                                                      <height>30</height>
+                                                                  </size>
                                                               </property>
                                                               <property name="text">
                                                                   <string>Reverse</string>

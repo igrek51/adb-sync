@@ -26,7 +26,7 @@ public:
 
     void clear();
 
-    int currentIndex();
+	int selectedRowIndex();
 
     void selectRow(int rowIndex);
 
