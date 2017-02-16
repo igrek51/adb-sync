@@ -46,16 +46,16 @@ vector<string>* DiffSync::generateSyncCommands(Diff* diff) {
 	switch (diff->type) {
 		case DiffType::NO_DIRECTORY:
 			cmds->push_back("not existing directory");
-		case DiffType::NO_REGULAR_FILE:
-			return "not existing file";
-		case DiffType::MODIFIED_DATE:
-			return "different modify date";
-		case DiffType::DIFFERENT_SIZE:
-			return "different file size";
-		case DiffType::REDUNDANT_DIRECTORY:
-			return "reduntand directory";
-		case DiffType::REDUNDANT_REGULAR_FILE:
-			return "redundant file";
+//		case DiffType::NO_REGULAR_FILE:
+//			return "not existing file";
+//		case DiffType::MODIFIED_DATE:
+//			return "different modify date";
+//		case DiffType::DIFFERENT_SIZE:
+//			return "different file size";
+//		case DiffType::REDUNDANT_DIRECTORY:
+//			return "reduntand directory";
+//		case DiffType::REDUNDANT_REGULAR_FILE:
+//			return "redundant file";
 	}
 	return cmds;
 }

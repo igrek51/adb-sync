@@ -12,17 +12,21 @@ using namespace std;
 
 class Diff {
 public:
-    Diff(string localFile, string remoteFile, DiffType type);
+	Diff(string localFile, string remoteFile, DiffType type);
 
-    string localFile;
+	string localFile;
 
-    string remoteFile;
+	string remoteFile;
 
-    DiffType type;
-    /// if diff direction is reversed (from remote to local)
-    bool reversed;
+	time_t localModifyTime;
 
-    static string diffTypeName(DiffType type);
+	time_t remoteModifyTime;
+
+	DiffType type;
+	/// if diff direction is reversed (from remote to local)
+	bool reversed;
+
+	static string diffTypeName(DiffType type);
 };
 
 

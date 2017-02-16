@@ -9,7 +9,6 @@
 #include <vector>
 #include "File.h"
 #include "Directory.h"
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace std;
 
@@ -23,7 +22,7 @@ public:
 
     virtual vector<File*>* listPath(string path) = 0;
 
-    virtual void saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) = 0;
+	virtual void saveModifyDate(RegularFile* file, time_t modifyDate) = 0;
 
 protected:
     virtual RegularFile* getRegularFileDetails(string path, string name) = 0;

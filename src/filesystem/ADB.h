@@ -25,7 +25,7 @@ public:
 
     vector<File*>* listPath(string path) override;
 
-    virtual void saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) override;
+	virtual void saveModifyDate(RegularFile* file, time_t modifyDate) override;
 
 protected:
     RegularFile* getRegularFileDetails(string path, string name) override;

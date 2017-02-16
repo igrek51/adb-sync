@@ -5,9 +5,7 @@
 #ifndef ADBSYNC_REGUARFILE_H
 #define ADBSYNC_REGUARFILE_H
 
-
 #include "File.h"
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 class RegularFile : public File {
 public:
@@ -17,17 +15,17 @@ public:
 
     unsigned int getSize() const;
 
-    boost::posix_time::ptime getModifiedDate() const;
+    time_t getModifiedDate() const;
 
     void setSize(unsigned int size);
 
-    void setModifiedDate(boost::posix_time::ptime modifiedDate);
+    void setModifiedDate(time_t modifiedDate);
 
 private:
     unsigned int size;
 
-    //TODO optimize scanning by storing data in integer (seconds from epoch)
-    boost::posix_time::ptime modifiedDate;
+    /// last modification time defined in seconds from Epoch
+    time_t modifiedDate;
 };
 
 

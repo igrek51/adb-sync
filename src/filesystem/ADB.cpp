@@ -118,7 +118,7 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
     file->setSize((unsigned int) stoi(sizeStr));
 
     time_t t = (unsigned int) stoi(modificationTimeStr);
-    file->setModifiedDate(boost::posix_time::from_time_t(t));
+	file->setModifiedDate(t);
 
     return file;
 }
@@ -157,7 +157,7 @@ vector<File*>* ADB::listPath(string path) {
     return files;
 }
 
-void ADB::saveModifyDate(RegularFile* file, boost::posix_time::ptime modifyDate) {
+void ADB::saveModifyDate(RegularFile* file, time_t modifyDate) {
     //TODO
 }
 

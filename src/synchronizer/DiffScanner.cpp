@@ -170,7 +170,10 @@ void DiffScanner::addDiff(File* localFile, File* remoteFile, DiffType type) {
 
 	//save also modify dates
 	if (type == DiffType::MODIFIED_DATE) {
-
+		RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
+		RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
+		diff->localModifyTime = localRegFile->getModifiedDate();
+		diff->remoteModifyTime = remoteRegFile->getModifiedDate();
 	}
 
 	diffs->push_back(diff);

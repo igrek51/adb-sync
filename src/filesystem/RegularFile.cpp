@@ -16,7 +16,7 @@ unsigned int RegularFile::getSize() const {
     return size;
 }
 
-boost::posix_time::ptime RegularFile::getModifiedDate() const {
+time_t RegularFile::getModifiedDate() const {
     return modifiedDate;
 }
 
@@ -24,6 +24,6 @@ void RegularFile::setSize(unsigned int size) {
     this->size = size;
 }
 
-void RegularFile::setModifiedDate(boost::posix_time::ptime modifiedDate) {
+void RegularFile::setModifiedDate(time_t modifiedDate) {
     this->modifiedDate = modifiedDate;
 }
