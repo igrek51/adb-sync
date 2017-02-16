@@ -75,7 +75,6 @@ pair<string, string> ConfigLoader::parseLine(string line) {
                 string value = line.substr(j + 1);
                 key = trimSpaces(key);
                 value = trimSpaces(value);
-
                 return make_pair(key, value);
             }
         }

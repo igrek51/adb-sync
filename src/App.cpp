@@ -4,7 +4,6 @@
 
 #include "App.h"
 #include "logger/Logger.h"
-
 #include <execinfo.h>
 #include <signal.h>
 #include <unistd.h>
@@ -28,7 +27,6 @@ App::~App() {
 void App::signalTraceHandler(int sig) {
     void* array[10];
     int size = backtrace(array, 10);
-
     Logger::error("Signal " + to_string(sig) + " caught, stack trace:");
     backtrace_symbols_fd(array, size, STDOUT_FILENO);
     exit(1);
@@ -36,7 +34,7 @@ void App::signalTraceHandler(int sig) {
 
 int App::run() {
     Logger::debug("running App...");
-    //catching signals and printing stack trace
+    //catching signals and printing stack traces
     signal(SIGSEGV, App::signalTraceHandler); // segmentation fault
     signal(SIGINT, App::signalTraceHandler);
     signal(SIGFPE, App::signalTraceHandler);

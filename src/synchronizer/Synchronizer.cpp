@@ -6,6 +6,7 @@
 #include "../config/ConfigLoader.h"
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/DiffScanButtonClicked.h"
+#include "DiffScanner.h"
 
 Synchronizer::Synchronizer() {
     loadConfig();
@@ -33,21 +34,15 @@ void Synchronizer::scanDiffs() {
 
     try {
 
-//        ADB* adb = new ADB();
-//        vector<File*>* files = adb->listPath("/storage/extSdCard/guitarDB/0thers");
-//        for (File* file : *files) {
-//            Logger::info("file: " + file->getPathName());
-//        }
-
         Logger::info("scanning diffs");
-//        DiffScanner* diffscanner = new DiffScanner();
-//
-//        diffscanner->scanDiffs();
-//        vector<Diff*>* diffs = diffscanner->getDiffs();
-//
-//        for (Diff* diff : *diffs) {
-//            Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
-//        }
+        DiffScanner* diffscanner = new DiffScanner();
+
+        diffscanner->scanDiffs();
+        vector<Diff*>* diffs = diffscanner->getDiffs();
+
+        for (Diff* diff : *diffs) {
+            Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
+        }
 
     } catch (Error* e) {
         Logger::error(e);

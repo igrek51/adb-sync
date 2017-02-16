@@ -6,6 +6,9 @@
 #define ADBSYNC_EVENTCLASS_H
 
 #include "Event.h"
+#include <string>
+
+using namespace std;
 
 class EventClass {
 public:

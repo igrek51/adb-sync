@@ -46,7 +46,16 @@ HEADERS += \
            src/errors/SystemCmdError.h \
            src/errors/ParseError.h \
            src/test/TestApp.h \
-           src/events/DiffScanButtonClicked.h
+           src/events/DiffInvertedButtonClicked.h \
+           src/events/DiffListUpdateRequest.h \
+           src/events/DiffRemovedButtonClicked.h \
+           src/events/DiffScanButtonClicked.h \
+           src/events/DiffScanCompleted.h \
+           src/events/DiffSyncCompleted.h \
+           src/events/ExecuteAllDiffsButtonClicked.h \
+           src/events/ExecuteDiffButtonClicked.h \
+           src/events/ProgressUpdated.h \
+           src/events/ShowUIMessageRequest.h
 
 FORMS += forms/mainwindow.ui
 

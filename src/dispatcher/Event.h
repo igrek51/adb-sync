@@ -5,10 +5,6 @@
 #ifndef ADBSYNC_EVENT_H
 #define ADBSYNC_EVENT_H
 
-#include <string>
-
-using namespace std;
-
 class Event {
 
 public:
