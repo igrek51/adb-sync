@@ -15,33 +15,35 @@ using namespace std;
 
 class DiffScanner {
 public:
-    DiffScanner();
+	DiffScanner();
 
-    ~DiffScanner();
+	~DiffScanner();
 
-    void scanDiffs(vector<Database*>* dbs);
+	void scanDiffs(vector<Database*>* dbs);
 
-    vector<Diff*>* getDiffs();
+	vector<Diff*>* getDiffs();
 
 private:
-    ADB* adb;
+	ADB* adb;
 
-    LocalFS* localFS;
+	LocalFS* localFS;
 
-    vector<Diff*>* diffs;
+	vector<Diff*>* diffs;
 
-    double calcProgres(int index, unsigned long all);
+	double calcProgres(int index, unsigned long all);
 
-    void scanDirs(string localPath, string remotePath, double progressFrom, double progressTo);
+	void scanDirs(string localPath, string remotePath, double progressFrom, double progressTo);
 
-    void setProgress(double p);
+	void setProgress(double p);
 
-    File* findFile(vector<File*>* files, string name);
+	File* findFile(vector<File*>* files, string name);
 
-    template<typename T>
-    bool instanceof(File* file);
+	template<typename T>
+	bool instanceof(File* file);
 
-    void addDiff(File* file, string localPath, string remotePath, DiffType type);
+	void addDiff(File* localFile, File* remoteFile, DiffType type);
+
+	void deleteFilesList(vector<File*>* files);
 };
 
 

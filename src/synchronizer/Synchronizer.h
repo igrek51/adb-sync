@@ -25,6 +25,7 @@ public:
 private:
     vector<Database*>* databases;
 
+	//TODO remove, create for every scan in separate thread
 	DiffScanner* diffscanner;
 
     void loadConfig();
@@ -32,6 +33,10 @@ private:
     void scanDiffs();
 
 	void removeDiff(int index);
+
+	void syncDiff(int index);
+
+	void syncAllDiffs();
 };
 
 

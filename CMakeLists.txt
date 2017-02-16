@@ -38,7 +38,7 @@ set(SOURCE_FILES
         src/gui/MainWindow.cpp src/gui/MainWindow.h
         src/gui/DiffListBox.cpp src/gui/DiffListBox.h
         src/synchronizer/Synchronizer.cpp src/synchronizer/Synchronizer.h
-        src/system/CmdExecutor.cpp src/system/CmdExecutor.h
+        src/system/CommandExecutor.cpp src/system/CommandExecutor.h
         src/synchronizer/DiffScanner.cpp src/synchronizer/DiffScanner.h
         src/diffs/Diff.cpp src/diffs/Diff.h
         src/diffs/DiffType.h
@@ -61,7 +61,7 @@ set(SOURCE_FILES
         src/events/ExecuteDiffButtonClicked.h
         src/events/ProgressUpdated.h
         src/events/ShowUIMessageRequest.h
-        )
+        src/synchronizer/DiffSync.cpp src/synchronizer/DiffSync.h)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})

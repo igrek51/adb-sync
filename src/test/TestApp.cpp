@@ -4,7 +4,6 @@
 
 #include "TestApp.h"
 #include "../logger/Logger.h"
-#include "../synchronizer/DiffScanner.h"
 
 TestApp::TestApp(int argc, char** argv) : App(argc, argv) {}
 
@@ -17,7 +16,7 @@ int TestApp::run() {
         LocalFS* localFS = new LocalFS();
         vector<File*>* files = localFS->listPath("../test/");
         for (File* file : *files) {
-            Logger::info("file: " + file->getPathName());
+			Logger::info("file: " + file->getFullPathName());
         }
 
     } catch (Error* e) {

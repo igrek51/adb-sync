@@ -10,10 +10,10 @@
 
 class ExecuteDiffButtonClicked : public Event {
 public:
-    Diff* diff;
+	int index;
 
-    ExecuteDiffButtonClicked(Diff* diff) {
-        this->diff = diff;
+	ExecuteDiffButtonClicked(int index) {
+		this->index = index;
     }
 };
 

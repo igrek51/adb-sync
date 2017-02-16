@@ -6,7 +6,7 @@
 #include "../errors/ParseError.h"
 #include "../utils/string_utils.h"
 #include "../logger/Logger.h"
-#include "../system/CmdExecutor.h"
+#include "../system/CommandExecutor.h"
 #include <sys/stat.h>
 
 bool LocalFS::pathExists(string path) {
@@ -22,7 +22,7 @@ RegularFile* LocalFS::getRegularFileDetails(string path, string name) {
 
     // get output from stat: total size (bytes), last data modification, seconds since Epoch
     string output = CommandExecutor::executeAndRead(
-            "stat -c %s\\ %Y " + escapePath(file->getPathName()));
+			"stat -c %s\\ %Y " + escapePath(file->getFullPathName()));
     vector<string>* parts = splitByAny(output, " \n\r");
     unsigned int index = 0;
     string sizeStr = nextNonemptyPart(parts, index);

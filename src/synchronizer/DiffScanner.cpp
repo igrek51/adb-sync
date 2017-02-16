@@ -86,20 +86,18 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 		File* remoteFile = findFile(remoteFiles, localFile->getName());
 		if (instanceof<Directory*>(localFile)) { //directory
 			if (remoteFile == nullptr) {
-				addDiff(localFile, localPath, remotePath, DiffType::NO_DIRECTORY);
+				addDiff(localFile, remoteFile, DiffType::NO_DIRECTORY);
 			} else {
-				if (instanceof<RegularFile*>(remoteFile)) { //found, but it is file
+				if (instanceof<RegularFile*>(remoteFile)) { //found, but it is a file
 					Logger::warn(
 							"incompatible file types: " + localPath + "/" + localFile->getName());
-					addDiff(localFile, localPath, remotePath, DiffType::NO_DIRECTORY);
+					addDiff(localFile, remoteFile, DiffType::NO_DIRECTORY);
 				} else {
-					double progress1 =
-							(progressTo - progressFrom) * calcProgres(i, localFiles->size()) +
-							progressFrom;
-					double progress2 =
-							(progressTo - progressFrom) * calcProgres(i + 1, localFiles->size()) +
-							progressFrom;
-					//scan subfolder
+					double progress1 = (progressTo - progressFrom) *
+									   calcProgres(i, localFiles->size()) + progressFrom;
+					double progress2 = (progressTo - progressFrom) *
+									   calcProgres(i + 1, localFiles->size()) + progressFrom;
+					//scan subfolder recursively
 					scanDirs(File::subfolder(localPath, localFile->getName()),
 							 File::subfolder(remotePath, localFile->getName()),
 							 progress1, progress2);
@@ -107,35 +105,21 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 			}
 		} else if (instanceof<RegularFile*>(localFile)) { // regular file
 			if (remoteFile == nullptr) {
-				addDiff(localFile, localPath, remotePath, DiffType::NO_REGULAR_FILE);
+				addDiff(localFile, remoteFile, DiffType::NO_REGULAR_FILE);
 			} else {
-				if (instanceof<Directory*>(remoteFile)) { //found, but it is directory
+				if (instanceof<Directory*>(remoteFile)) { //found, but it is a directory
 					Logger::warn(
 							"incompatible file types: " + localPath + "/" + localFile->getName());
-					addDiff(localFile, localPath, remotePath, DiffType::NO_REGULAR_FILE);
+					addDiff(localFile, remoteFile, DiffType::NO_REGULAR_FILE);
 				} else {
 					RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
 					RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
 					//different size (block size)
 					if (localRegFile->getSize() != remoteRegFile->getSize()) {
-
-//                        Logger::debug("different size, file: " + localFile->getName() + ", local: " +
-//                                              to_string(localRegFile->getSize()) +
-//                                              ", remote: " +
-//                                              to_string(remoteRegFile->getSize()));
-
-						addDiff(localFile, localPath, remotePath, DiffType::DIFFERENT_SIZE);
+						addDiff(localFile, remoteFile, DiffType::DIFFERENT_SIZE);
 					} else if (localRegFile->getModifiedDate() !=
 							   remoteRegFile->getModifiedDate()) {
-
-//                        Logger::debug("modified date, file: " + localFile->getName() + ", local: " +
-//                                      time2string(localRegFile->getModifiedDate(),
-//                                                  "%Y-%m-%d %H:%M") +
-//                                      ", remote: " +
-//                                      time2string(remoteRegFile->getModifiedDate(),
-//                                                  "%Y-%m-%d %H:%M"));
-
-						addDiff(localFile, localPath, remotePath, DiffType::MODIFIED_DATE);
+						addDiff(localFile, remoteFile, DiffType::MODIFIED_DATE);
 					}
 				}
 			}
@@ -148,22 +132,16 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 		File* remoteFile = remoteFiles->at(i);
 		if (findFile(localFiles, remoteFile->getName()) == nullptr) { //if not found
 			if (instanceof<Directory*>(remoteFile)) { //directory
-				addDiff(remoteFile, localPath, remotePath, DiffType::REDUNDANT_DIRECTORY);
+				addDiff(nullptr, remoteFile, DiffType::REDUNDANT_DIRECTORY);
 			} else { //regular file
-				addDiff(remoteFile, localPath, remotePath, DiffType::REDUNDANT_REGULAR_FILE);
+				addDiff(nullptr, remoteFile, DiffType::REDUNDANT_REGULAR_FILE);
 			}
 		}
 	}
 
 	// clean up
-	for (unsigned int i = 0; i < localFiles->size(); i++) {
-		delete localFiles->at(i);
-	}
-	delete localFiles;
-	for (unsigned int i = 0; i < remoteFiles->size(); i++) {
-		delete remoteFiles->at(i);
-	}
-	delete remoteFiles;
+	deleteFilesList(localFiles);
+	deleteFilesList(remoteFiles);
 }
 
 File* DiffScanner::findFile(vector<File*>* files, string name) {
@@ -185,11 +163,16 @@ bool DiffScanner::instanceof(File* file) {
 	return dynamic_cast<T>(file) != nullptr;
 }
 
-void DiffScanner::addDiff(File* file, string localPath, string remotePath, DiffType type) {
-	string fileName = file->getName();
-	string localFileName = File::subfolder(localPath, fileName);
-	string remoteFileName = File::subfolder(remotePath, fileName);
+void DiffScanner::addDiff(File* localFile, File* remoteFile, DiffType type) {
+	string localFileName = localFile == nullptr ? "" : localFile->getFullPathName();
+	string remoteFileName = remoteFile == nullptr ? "" : remoteFile->getFullPathName();
 	Diff* diff = new Diff(localFileName, remoteFileName, type);
+
+	//save also modify dates
+	if (type == DiffType::MODIFIED_DATE) {
+
+	}
+
 	diffs->push_back(diff);
 
 	EventDispatcher::sendNow(new DiffPartialScanCompleted(diff));
@@ -197,4 +180,11 @@ void DiffScanner::addDiff(File* file, string localPath, string remotePath, DiffT
 
 vector<Diff*>* DiffScanner::getDiffs() {
 	return diffs;
+}
+
+void DiffScanner::deleteFilesList(vector<File*>* files) {
+	for (File* file : *files) {
+		delete file;
+	}
+	delete files;
 }

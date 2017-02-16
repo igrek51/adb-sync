@@ -27,7 +27,7 @@ void File::setPath(const string& path) {
     this->path = path;
 }
 
-string File::getPathName() {
+string File::getFullPathName() {
     return subfolder(path, name);
 }
 

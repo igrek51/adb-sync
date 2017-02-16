@@ -23,7 +23,7 @@ public:
 
     void setPath(const string& path);
 
-    string getPathName();
+	string getFullPathName();
 
     static string subfolder(string path, string dirName);
 

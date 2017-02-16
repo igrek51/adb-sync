@@ -34,7 +34,7 @@ HEADERS += \
            src/gui/MainWindow.h \
            src/gui/DiffListBox.h \
            src/synchronizer/Synchronizer.h \
-           src/system/CmdExecutor.h \
+           src/system/CommandExecutor.h \
            src/synchronizer/DiffScanner.h \
            src/diffs/Diff.h \
            src/diffs/DiffType.h \
@@ -55,7 +55,8 @@ HEADERS += \
            src/events/ExecuteAllDiffsButtonClicked.h \
            src/events/ExecuteDiffButtonClicked.h \
            src/events/ProgressUpdated.h \
-           src/events/ShowUIMessageRequest.h
+           src/events/ShowUIMessageRequest.h \
+           src/synchronizer/DiffSync.h
 
 FORMS += forms/mainwindow.ui
 
@@ -79,7 +80,7 @@ SOURCES += src/main.cpp \
 	       src/gui/MainWindow.cpp \
 	       src/gui/DiffListBox.cpp \
 	       src/synchronizer/Synchronizer.cpp \
-	       src/system/CmdExecutor.cpp \
+	       src/system/CommandExecutor.cpp \
 	       src/synchronizer/DiffScanner.cpp \
 	       src/diffs/Diff.cpp \
 	       src/threads/SingleThread.cpp \
@@ -89,7 +90,8 @@ SOURCES += src/main.cpp \
            src/utils/string_utils.cpp \
            src/errors/SystemCmdError.cpp \
            src/errors/ParseError.cpp \
-           src/test/TestApp.cpp 
+           src/test/TestApp.cpp \
+           src/synchronizer/DiffSync.cpp
 
 
 DESTDIR = bin

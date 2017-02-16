@@ -2,7 +2,7 @@
 // Created by igrek on 04/02/17.
 //
 
-#include "CmdExecutor.h"
+#include "CommandExecutor.h"
 #include "../logger/Logger.h"
 #include <sstream>
 

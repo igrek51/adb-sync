@@ -8,6 +8,8 @@
 #include "../events/DiffScanButtonClicked.h"
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/DiffRemovedButtonClicked.h"
+#include "../events/ExecuteDiffButtonClicked.h"
+#include "../events/ExecuteAllDiffsButtonClicked.h"
 
 MainWindow::MainWindow(QWidget* parent) :
         QMainWindow(parent),
@@ -15,13 +17,6 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->setupUi(this);
 
     listBox = new DiffListBox(ui->list1);
-
-//    QDesktopWidget widget;
-//    QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
-//    int screen_w = mainScreenSize.width();
-//    int screen_h = mainScreenSize.height();
-//    this->move((screen_w - this->geometry().width()) / 2,
-//               (screen_h - this->geometry().height()) / 2);
 
     setProgress(0);
 	//TODO disable buttons until scan is completed
@@ -49,13 +44,11 @@ void MainWindow::on_pb_reverse_clicked() {
 }
 
 void MainWindow::on_pb_execute_clicked() {
-    Logger::info("click");
-
+	EventDispatcher::sendLater(new ExecuteDiffButtonClicked(listBox->selectedRowIndex()));
 }
 
 void MainWindow::on_pb_execute_all_clicked() {
-    Logger::info("click");
-
+	EventDispatcher::sendLater(new ExecuteAllDiffsButtonClicked());
 }
 
 void MainWindow::on_list1_cellClicked(int, int) {
