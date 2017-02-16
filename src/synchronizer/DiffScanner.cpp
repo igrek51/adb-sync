@@ -12,6 +12,7 @@
 #include "../events/DiffListUpdateRequest.h"
 
 //TODO multithreading
+//TODO possibility to stop scanning
 
 DiffScanner::DiffScanner() {
     adb = new ADB();

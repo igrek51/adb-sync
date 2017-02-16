@@ -22,8 +22,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void resizeEvent(QResizeEvent*);
-
     void uiMessage(string msg);
 
     void setProgress(double p);

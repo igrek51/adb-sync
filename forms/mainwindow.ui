@@ -6,176 +6,217 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
-    <height>408</height>
+       <width>614</width>
+       <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ADB Sync</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="ui_messages">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>541</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ui messages</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::AutoText</enum>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>521</width>
-      <height>321</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Differences list</string>
-    </property>
-    <widget class="QTableWidget" name="list1">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>29</y>
-       <width>501</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="verticalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
-     </property>
-     <property name="horizontalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
-     </property>
-     <property name="showGrid">
-      <bool>true</bool>
-     </property>
-     <property name="gridStyle">
-      <enum>Qt::SolidLine</enum>
-     </property>
-     <property name="cornerButtonEnabled">
-      <bool>true</bool>
-     </property>
-     <attribute name="horizontalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="horizontalHeaderHighlightSections">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>21</number>
-     </attribute>
-     <attribute name="verticalHeaderHighlightSections">
-      <bool>true</bool>
-     </attribute>
-    </widget>
-    <widget class="QPushButton" name="pb_scan">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>250</y>
-       <width>160</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Scan</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_reverse">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>250</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Reverse</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_execute">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>250</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Execute</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_delete">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>280</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Delete</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pb_execute_all">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>280</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Execute all</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QProgressBar" name="progress1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>521</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-   </widget>
+      <property name="enabled">
+          <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+          </sizepolicy>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout">
+                  <property name="sizeConstraint">
+                      <enum>QLayout::SetMaximumSize</enum>
+                  </property>
+                  <item>
+                      <widget class="QLabel" name="ui_messages">
+                          <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                              </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                              <size>
+                                  <width>0</width>
+                                  <height>35</height>
+                              </size>
+                          </property>
+                          <property name="text">
+                              <string>ui messages</string>
+                          </property>
+                          <property name="textFormat">
+                              <enum>Qt::AutoText</enum>
+                          </property>
+                          <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                          </property>
+                          <property name="wordWrap">
+                              <bool>true</bool>
+                          </property>
+                      </widget>
+                  </item>
+                  <item>
+                      <widget class="QProgressBar" name="progress1">
+                          <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                  <horstretch>0</horstretch>
+                                  <verstretch>0</verstretch>
+                              </sizepolicy>
+                          </property>
+                          <property name="value">
+                              <number>0</number>
+                          </property>
+                      </widget>
+                  </item>
+                  <item>
+                      <widget class="QGroupBox" name="groupBox1">
+                          <property name="title">
+                              <string>Differences list</string>
+                          </property>
+                          <layout class="QGridLayout" name="gridLayout_2">
+                              <item row="0" column="0">
+                                  <layout class="QVBoxLayout" name="verticalLayout_2">
+                                      <item>
+                                          <widget class="QTableWidget" name="list1">
+                                              <property name="editTriggers">
+                                                  <set>QAbstractItemView::NoEditTriggers</set>
+                                              </property>
+                                              <property name="alternatingRowColors">
+                                                  <bool>true</bool>
+                                              </property>
+                                              <property name="verticalScrollMode">
+                                                  <enum>QAbstractItemView::ScrollPerPixel</enum>
+                                              </property>
+                                              <property name="horizontalScrollMode">
+                                                  <enum>QAbstractItemView::ScrollPerPixel</enum>
+                                              </property>
+                                              <property name="showGrid">
+                                                  <bool>true</bool>
+                                              </property>
+                                              <property name="gridStyle">
+                                                  <enum>Qt::SolidLine</enum>
+                                              </property>
+                                              <property name="cornerButtonEnabled">
+                                                  <bool>true</bool>
+                                              </property>
+                                              <attribute name="horizontalHeaderVisible">
+                                                  <bool>false</bool>
+                                              </attribute>
+                                              <attribute name="horizontalHeaderHighlightSections">
+                                                  <bool>true</bool>
+                                              </attribute>
+                                              <attribute name="verticalHeaderVisible">
+                                                  <bool>false</bool>
+                                              </attribute>
+                                              <attribute name="verticalHeaderDefaultSectionSize">
+                                                  <number>21</number>
+                                              </attribute>
+                                              <attribute name="verticalHeaderHighlightSections">
+                                                  <bool>true</bool>
+                                              </attribute>
+                                          </widget>
+                                      </item>
+                                      <item>
+                                          <layout class="QGridLayout" name="gridLayout_3">
+                                              <item row="0" column="0">
+                                                  <widget class="QPushButton" name="pb_scan">
+                                                      <property name="enabled">
+                                                          <bool>true</bool>
+                                                      </property>
+                                                      <property name="sizePolicy">
+                                                          <sizepolicy hsizetype="Minimum"
+                                                                      vsizetype="Preferred">
+                                                              <horstretch>0</horstretch>
+                                                              <verstretch>0</verstretch>
+                                                          </sizepolicy>
+                                                      </property>
+                                                      <property name="text">
+                                                          <string>Scan</string>
+                                                      </property>
+                                                  </widget>
+                                              </item>
+                                              <item row="0" column="2">
+                                                  <layout class="QVBoxLayout"
+                                                          name="verticalLayout_4">
+                                                      <item>
+                                                          <widget class="QPushButton"
+                                                                  name="pb_execute">
+                                                              <property name="sizePolicy">
+                                                                  <sizepolicy hsizetype="Minimum"
+                                                                              vsizetype="Preferred">
+                                                                      <horstretch>0</horstretch>
+                                                                      <verstretch>0</verstretch>
+                                                                  </sizepolicy>
+                                                              </property>
+                                                              <property name="text">
+                                                                  <string>Execute</string>
+                                                              </property>
+                                                          </widget>
+                                                      </item>
+                                                      <item>
+                                                          <widget class="QPushButton"
+                                                                  name="pb_execute_all">
+                                                              <property name="sizePolicy">
+                                                                  <sizepolicy hsizetype="Minimum"
+                                                                              vsizetype="Preferred">
+                                                                      <horstretch>0</horstretch>
+                                                                      <verstretch>0</verstretch>
+                                                                  </sizepolicy>
+                                                              </property>
+                                                              <property name="text">
+                                                                  <string>Execute all</string>
+                                                              </property>
+                                                          </widget>
+                                                      </item>
+                                                  </layout>
+                                              </item>
+                                              <item row="0" column="1">
+                                                  <layout class="QVBoxLayout"
+                                                          name="verticalLayout_3">
+                                                      <item>
+                                                          <widget class="QPushButton"
+                                                                  name="pb_delete">
+                                                              <property name="sizePolicy">
+                                                                  <sizepolicy hsizetype="Minimum"
+                                                                              vsizetype="Preferred">
+                                                                      <horstretch>0</horstretch>
+                                                                      <verstretch>0</verstretch>
+                                                                  </sizepolicy>
+                                                              </property>
+                                                              <property name="text">
+                                                                  <string>Delete</string>
+                                                              </property>
+                                                          </widget>
+                                                      </item>
+                                                      <item>
+                                                          <widget class="QPushButton"
+                                                                  name="pb_reverse">
+                                                              <property name="sizePolicy">
+                                                                  <sizepolicy hsizetype="Minimum"
+                                                                              vsizetype="Preferred">
+                                                                      <horstretch>0</horstretch>
+                                                                      <verstretch>0</verstretch>
+                                                                  </sizepolicy>
+                                                              </property>
+                                                              <property name="text">
+                                                                  <string>Reverse</string>
+                                                              </property>
+                                                          </widget>
+                                                      </item>
+                                                  </layout>
+                                              </item>
+                                          </layout>
+                                      </item>
+                                  </layout>
+                              </item>
+                          </layout>
+                      </widget>
+                  </item>
+              </layout>
+          </item>
+      </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
