@@ -86,12 +86,16 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 		File* remoteFile = findFile(remoteFiles, localFile->getName());
 		if (instanceof<Directory*>(localFile)) { //directory
 			if (remoteFile == nullptr) {
+				remoteFile = new Directory(remotePath, localFile->getName());
 				addDiff(localFile, remoteFile, DiffType::NO_DIRECTORY);
+				delete remoteFile;
 			} else {
 				if (instanceof<RegularFile*>(remoteFile)) { //found, but it is a file
 					Logger::warn(
 							"incompatible file types: " + localPath + "/" + localFile->getName());
+					remoteFile = new Directory(remotePath, localFile->getName());
 					addDiff(localFile, remoteFile, DiffType::NO_DIRECTORY);
+					delete remoteFile;
 				} else {
 					double progress1 = (progressTo - progressFrom) *
 									   calcProgres(i, localFiles->size()) + progressFrom;
@@ -105,12 +109,16 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 			}
 		} else if (instanceof<RegularFile*>(localFile)) { // regular file
 			if (remoteFile == nullptr) {
+				remoteFile = new RegularFile(remotePath, localFile->getName());
 				addDiff(localFile, remoteFile, DiffType::NO_REGULAR_FILE);
+				delete remoteFile;
 			} else {
 				if (instanceof<Directory*>(remoteFile)) { //found, but it is a directory
 					Logger::warn(
 							"incompatible file types: " + localPath + "/" + localFile->getName());
+					remoteFile = new RegularFile(remotePath, localFile->getName());
 					addDiff(localFile, remoteFile, DiffType::NO_REGULAR_FILE);
+					delete remoteFile;
 				} else {
 					RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
 					RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
@@ -119,7 +127,8 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 						addDiff(localFile, remoteFile, DiffType::DIFFERENT_SIZE);
 					} else if (localRegFile->getModifiedDate() !=
 							   remoteRegFile->getModifiedDate()) {
-						addDiff(localFile, remoteFile, DiffType::MODIFIED_DATE);
+						//TODO fix modify date setting
+//						addDiff(localFile, remoteFile, DiffType::MODIFIED_DATE);
 					}
 				}
 			}
@@ -131,11 +140,13 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 	for (unsigned int i = 0; i < remoteFiles->size(); i++) {
 		File* remoteFile = remoteFiles->at(i);
 		if (findFile(localFiles, remoteFile->getName()) == nullptr) { //if not found
+			File* localFile = new Directory(localPath, remoteFile->getName());
 			if (instanceof<Directory*>(remoteFile)) { //directory
-				addDiff(nullptr, remoteFile, DiffType::REDUNDANT_DIRECTORY);
+				addDiff(localFile, remoteFile, DiffType::REDUNDANT_DIRECTORY);
 			} else { //regular file
-				addDiff(nullptr, remoteFile, DiffType::REDUNDANT_REGULAR_FILE);
+				addDiff(localFile, remoteFile, DiffType::REDUNDANT_REGULAR_FILE);
 			}
+			delete localFile;
 		}
 	}
 
@@ -164,16 +175,22 @@ bool DiffScanner::instanceof(File* file) {
 }
 
 void DiffScanner::addDiff(File* localFile, File* remoteFile, DiffType type) {
-	string localFileName = localFile == nullptr ? "" : localFile->getFullPathName();
-	string remoteFileName = remoteFile == nullptr ? "" : remoteFile->getFullPathName();
+	string localFileName = localFile->getFullPathName();
+	string remoteFileName = remoteFile->getFullPathName();
 	Diff* diff = new Diff(localFileName, remoteFileName, type);
 
 	//save also modify dates
-	if (type == DiffType::MODIFIED_DATE) {
+	if (type == DiffType::MODIFIED_DATE || type == DiffType::DIFFERENT_SIZE) {
 		RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
 		RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
 		diff->localModifyTime = localRegFile->getModifiedDate();
 		diff->remoteModifyTime = remoteRegFile->getModifiedDate();
+	} else if (type == DiffType::NO_REGULAR_FILE) {
+		RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
+		diff->localModifyTime = localRegFile->getModifiedDate();
+	} else if (type == DiffType::REDUNDANT_REGULAR_FILE) {
+//		RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
+//		diff->remoteModifyTime = remoteRegFile->getModifiedDate();
 	}
 
 	diffs->push_back(diff);

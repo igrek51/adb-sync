@@ -28,8 +28,6 @@ private:
 	LocalFS* localFS;
 
 	void setProgress(double p);
-
-	vector<string>* generateSyncCommands(Diff* diff);
 };
 
 

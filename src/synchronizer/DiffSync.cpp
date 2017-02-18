@@ -5,7 +5,6 @@
 #include "DiffSync.h"
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/ProgressUpdated.h"
-#include "../system/CommandExecutor.h"
 
 //TODO multithreading
 
@@ -20,11 +19,37 @@ DiffSync::~DiffSync() {
 }
 
 void DiffSync::syncDiff(Diff* diff) {
-	vector<string>* commands = generateSyncCommands(diff);
-	for (string command : *commands) {
-		CommandExecutor::execute(command);
+	//TODO handle reversed diffs
+	switch (diff->type) {
+		case DiffType::NO_DIRECTORY:
+			//push whole directory
+			adb->push(diff->localFile, diff->remoteFile);
+			//TODO for all subfiles and subdirs: set modify date
+			break;
+		case DiffType::NO_REGULAR_FILE:
+			// copy file
+			adb->push(diff->localFile, diff->remoteFile);
+			// set modify date equal to local file
+			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
+			break;
+		case DiffType::MODIFIED_DATE:
+			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
+			break;
+		case DiffType::DIFFERENT_SIZE:
+			// remove remote file
+			adb->removeFile(diff->remoteFile);
+			// copy file from local
+			adb->push(diff->localFile, diff->remoteFile);
+			// set modify date equal to local file
+			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
+			break;
+		case DiffType::REDUNDANT_DIRECTORY:
+			adb->removeDirectory(diff->remoteFile);
+			break;
+		case DiffType::REDUNDANT_REGULAR_FILE:
+			adb->removeFile(diff->remoteFile);
+			break;
 	}
-	delete commands;
 }
 
 void DiffSync::syncDiffs(vector<Diff*>* diffs) {
@@ -38,24 +63,4 @@ void DiffSync::syncDiffs(vector<Diff*>* diffs) {
 
 void DiffSync::setProgress(double p) {
 	EventDispatcher::sendNow(new ProgressUpdated(p));
-}
-
-vector<string>* DiffSync::generateSyncCommands(Diff* diff) {
-	vector<string>* cmds = new vector<string>();
-	//TODO handle reversed diffs
-	switch (diff->type) {
-		case DiffType::NO_DIRECTORY:
-			cmds->push_back("not existing directory");
-//		case DiffType::NO_REGULAR_FILE:
-//			return "not existing file";
-//		case DiffType::MODIFIED_DATE:
-//			return "different modify date";
-//		case DiffType::DIFFERENT_SIZE:
-//			return "different file size";
-//		case DiffType::REDUNDANT_DIRECTORY:
-//			return "reduntand directory";
-//		case DiffType::REDUNDANT_REGULAR_FILE:
-//			return "redundant file";
-	}
-	return cmds;
 }

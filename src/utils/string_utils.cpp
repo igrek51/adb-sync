@@ -56,23 +56,10 @@ string replaceAll(string str, const string& from, const string& to) {
 }
 
 
-string time2string(boost::posix_time::ptime time, string pattern) {
-    boost::posix_time::time_facet* facet = new boost::posix_time::time_facet();
-    facet->format(pattern.c_str());
-    stringstream stream;
-    stream.imbue(std::locale(std::locale::classic(), facet));
-    stream << time;
-    return stream.str();
-}
-
-boost::posix_time::ptime string2time(string s, string pattern) {
-    const std::locale format = std::locale(std::locale::classic(),
-                                           new boost::posix_time::time_input_facet(pattern));
-    boost::posix_time::ptime pt;
-    std::istringstream is(s);
-    is.imbue(format);
-    is >> pt;
-    return pt;
+string time2string(time_t t, string pattern) {
+	char buff[20];
+	strftime(buff, 20, pattern.c_str(), localtime(&t));
+	return string(buff);
 }
 
 string to_string(const char* s) {

@@ -15,12 +15,14 @@ public:
 
     vector<File*>* listPath(string path) override;
 
-	virtual void saveModifyDate(RegularFile* file, time_t modifyDate) override;
+	virtual void saveModifyDate(string filePath, time_t modifyDate) override;
+
+	void mkdir(string path);
 
 protected:
     RegularFile* getRegularFileDetails(string path, string name) override;
 
-    string escapePath(string path) override;
+	string escapePath(string path);
 
 private:
     File* parseLsOutput(string path, string lsLine);

@@ -25,12 +25,22 @@ public:
 
     vector<File*>* listPath(string path) override;
 
-	virtual void saveModifyDate(RegularFile* file, time_t modifyDate) override;
+	virtual void saveModifyDate(string filePath, time_t modifyDate) override;
+
+	void mkdir(string remotePath);
+
+	void push(string localPath, string remotePath);
+
+	void removeFile(string remotePath);
+
+	void removeDirectory(string remotePath);
 
 protected:
     RegularFile* getRegularFileDetails(string path, string name) override;
 
-    string escapePath(string path) override;
+	string escapePath(string path);
+
+	string escapeShellPath(string path);
 
 private:
     File* parseLsOutput(string path, string lsLine);
