@@ -10,38 +10,38 @@
 #include "../events/DiffListUpdateRequest.h"
 
 GUI::GUI() {
-    mainwindow = new MainWindow();
-    mainwindow->show();
-    registerEvents();
+	mainwindow = new MainWindow();
+	mainwindow->show();
+	registerEvents();
 }
 
 GUI::~GUI() {
-    delete mainwindow;
+	delete mainwindow;
 }
 
 void GUI::registerEvents() {
-    EventDispatcher::registerEventObserver<ProgressUpdated>(this);
-    EventDispatcher::registerEventObserver<ShowUIMessageRequest>(this);
-    EventDispatcher::registerEventObserver<DiffPartialScanCompleted>(this);
-    EventDispatcher::registerEventObserver<DiffListUpdateRequest>(this);
+	EventDispatcher::registerEventObserver<ProgressUpdated>(this);
+	EventDispatcher::registerEventObserver<ShowUIMessageRequest>(this);
+	EventDispatcher::registerEventObserver<DiffPartialScanCompleted>(this);
+	EventDispatcher::registerEventObserver<DiffListUpdateRequest>(this);
 }
 
 void GUI::onEvent(Event* e) {
-    if (e->instanceof<ProgressUpdated*>()) {
-        mainwindow->setProgress(e->cast<ProgressUpdated*>()->progress);
-    } else if (e->instanceof<ShowUIMessageRequest*>()) {
-        mainwindow->uiMessage(e->cast<ShowUIMessageRequest*>()->message);
-    } else if (e->instanceof<DiffPartialScanCompleted*>()) {
-        Diff* newDiff = e->cast<DiffPartialScanCompleted*>()->newDiff;
-        if (newDiff == nullptr) {
-            // scanning finished
-            mainwindow->setProgress(1);
-            mainwindow->uiMessage("Difference scanning completed");
-        } else {
-            mainwindow->addDiff(newDiff);
-        }
-    } else if (e->instanceof<DiffListUpdateRequest*>()) {
-        vector<Diff*>* diffs = e->cast<DiffListUpdateRequest*>()->diffs;
-        mainwindow->updateDiffs(diffs);
-    }
+	if (e->instanceof<ProgressUpdated*>()) {
+		mainwindow->setProgress(e->cast<ProgressUpdated*>()->progress);
+	} else if (e->instanceof<ShowUIMessageRequest*>()) {
+		mainwindow->uiMessage(e->cast<ShowUIMessageRequest*>()->message);
+	} else if (e->instanceof<DiffPartialScanCompleted*>()) {
+		Diff* newDiff = e->cast<DiffPartialScanCompleted*>()->newDiff;
+		if (newDiff == nullptr) {
+			// scanning finished
+			mainwindow->setProgress(1);
+			mainwindow->uiMessage("Difference scanning completed");
+		} else {
+			mainwindow->addDiff(newDiff);
+		}
+	} else if (e->instanceof<DiffListUpdateRequest*>()) {
+		vector<Diff*>* diffs = e->cast<DiffListUpdateRequest*>()->diffs;
+		mainwindow->updateDiffs(diffs);
+	}
 }

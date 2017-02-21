@@ -12,11 +12,11 @@ using namespace std;
 
 class ShowUIMessageRequest : public Event {
 public:
-    string message;
+	string message;
 
-    ShowUIMessageRequest(string message) {
-        this->message = message;
-    }
+	ShowUIMessageRequest(string message) {
+		this->message = message;
+	}
 };
 
 #endif //ADBSYNC_SHOWUIMESSAGEREQUEST_H

@@ -12,24 +12,24 @@
 
 class App {
 public:
-    App(int argc, char** argv);
+	App(int argc, char** argv);
 
-    virtual ~App();
+	virtual ~App();
 
-    virtual int run();
+	virtual int run();
 
 protected:
-    int argc;
-    char** argv;
+	int argc;
+	char** argv;
 
 private:
-    QApplication* qapp;
+	QApplication* qapp;
 
-    GUI* gui;
+	GUI* gui;
 
-    Synchronizer* synchronizer;
+	Synchronizer* synchronizer;
 
-    static void signalTraceHandler(int sig);
+	static void signalTraceHandler(int sig);
 };
 
 

@@ -11,7 +11,7 @@
 using namespace std;
 
 namespace Ui {
-    class MainWindow;
+	class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -19,36 +19,38 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+	explicit MainWindow(QWidget* parent = 0);
 
-    void uiMessage(string msg);
+	~MainWindow();
 
-    void setProgress(double p);
+	void uiMessage(string msg);
 
-    void buttonsEnable(bool enable);
+	void setProgress(double p);
 
-    void addDiff(Diff* diff);
+	void buttonsEnable(bool enable);
 
-    void updateDiffs(vector<Diff*>* diffs);
+	void addDiff(Diff* diff);
+
+	void updateDiffs(vector<Diff*>* diffs);
 
 private slots:
-    void on_pb_scan_clicked();
 
-    void on_pb_delete_clicked();
+	void on_pb_scan_clicked();
 
-    void on_pb_reverse_clicked();
+	void on_pb_delete_clicked();
 
-    void on_pb_execute_clicked();
+	void on_pb_reverse_clicked();
 
-    void on_pb_execute_all_clicked();
+	void on_pb_execute_clicked();
 
-    void on_list1_cellClicked(int row, int column);
+	void on_pb_execute_all_clicked();
+
+	void on_list1_cellClicked(int row, int column);
 
 private:
-    Ui::MainWindow *ui;
+	Ui::MainWindow* ui;
 
-    DiffListBox* listBox;
+	DiffListBox* listBox;
 };
 
 

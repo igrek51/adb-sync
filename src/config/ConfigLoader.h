@@ -15,24 +15,24 @@ using namespace std;
 
 class ConfigLoader {
 public:
-    ConfigLoader();
+	ConfigLoader();
 
-    ~ConfigLoader();
+	~ConfigLoader();
 
-    vector<Database*>* loadDatabases();
+	vector<Database*>* loadDatabases();
 
 private:
-    ConfigProperties* loadProperties(string filename);
+	ConfigProperties* loadProperties(string filename);
 
-    vector<string>* loadFileLines(string filename);
+	vector<string>* loadFileLines(string filename);
 
-    pair<string, string> parseLine(string line);
+	pair<string, string> parseLine(string line);
 
-    static const string CONFIG_FILENAME;
+	static const string CONFIG_FILENAME;
 
-    static const string CONFIG_DB_PREFIX;
-    static const string CONFIG_LOCAL_PATH_SUFFIX;
-    static const string CONFIG_REMOTE_PATH_SUFFIX;
+	static const string CONFIG_DB_PREFIX;
+	static const string CONFIG_LOCAL_PATH_SUFFIX;
+	static const string CONFIG_REMOTE_PATH_SUFFIX;
 };
 
 

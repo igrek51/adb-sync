@@ -11,23 +11,23 @@
 
 class LocalFS : FileSystem {
 public:
-    bool pathExists(string path) override;
+	bool pathExists(string path) override;
 
-    vector<File*>* listPath(string path) override;
+	vector<File*>* listPath(string path) override;
 
 	void mkdir(string path);
 
 protected:
-    RegularFile* getRegularFileDetails(string path, string name) override;
+	RegularFile* getRegularFileDetails(string path, string name) override;
 
 	string escapePath(string path);
 
 private:
-    File* parseLsOutput(string path, string lsLine);
+	File* parseLsOutput(string path, string lsLine);
 
-    Directory* parseLsDirectory(string path, vector<string>* parts);
+	Directory* parseLsDirectory(string path, vector<string>* parts);
 
-    RegularFile* parseLsRegularFile(string path, vector<string>* parts);
+	RegularFile* parseLsRegularFile(string path, vector<string>* parts);
 };
 
 

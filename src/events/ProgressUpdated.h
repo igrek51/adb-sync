@@ -9,11 +9,11 @@
 
 class ProgressUpdated : public Event {
 public:
-    double progress;
+	double progress;
 
-    ProgressUpdated(double progress) {
-        this->progress = progress;
-    }
+	ProgressUpdated(double progress) {
+		this->progress = progress;
+	}
 };
 
 #endif //ADBSYNC_PROGRESSUPDATEDEVENT_H

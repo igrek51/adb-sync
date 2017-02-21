@@ -10,11 +10,11 @@
 
 class DiffPartialScanCompleted : public Event {
 public:
-    Diff* newDiff;
+	Diff* newDiff;
 
-    DiffPartialScanCompleted(Diff* newDiff) {
-        this->newDiff = newDiff;
-    }
+	DiffPartialScanCompleted(Diff* newDiff) {
+		this->newDiff = newDiff;
+	}
 };
 
 #endif //ADBSYNC_DIFFSCANCOMPLETED_H

@@ -9,11 +9,11 @@
 
 class DiffListUpdateRequest : public Event {
 public:
-    vector<Diff*>* diffs;
+	vector<Diff*>* diffs;
 
-    DiffListUpdateRequest(vector<Diff*>* diffs) {
-        this->diffs = diffs;
-    }
+	DiffListUpdateRequest(vector<Diff*>* diffs) {
+		this->diffs = diffs;
+	}
 };
 
 #endif //ADBSYNC_DIFFLISTUPDATEREQUEST_H

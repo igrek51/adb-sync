@@ -11,22 +11,22 @@
 
 class Directory : public File {
 public:
-    Directory(string path, string name);
+	Directory(string path, string name);
 
-    ~Directory();
+	~Directory();
 
-    vector<File*>* getAllFiles();
+	vector<File*>* getAllFiles();
 
-    vector<RegularFile*>* getRegularFiles();
+	vector<RegularFile*>* getRegularFiles();
 
-    vector<Directory*>* getDirectories();
+	vector<Directory*>* getDirectories();
 
-    void addFile(File* file);
+	void addFile(File* file);
 
-    void addFiles(vector<File*>* filesList);
+	void addFiles(vector<File*>* filesList);
 
 private:
-    vector<File*>* files;
+	vector<File*>* files;
 };
 
 

@@ -13,18 +13,18 @@ using namespace std;
 
 class ConfigProperties {
 public:
-    ConfigProperties(map<string, string>* variables);
+	ConfigProperties(map<string, string>* variables);
 
-    ~ConfigProperties();
+	~ConfigProperties();
 
-    bool keyExists(string key);
+	bool keyExists(string key);
 
-    string getValue(string key, string defaultValue = "");
+	string getValue(string key, string defaultValue = "");
 
-    vector<string>* getKeys();
+	vector<string>* getKeys();
 
 private:
-    map<string, string>* variables;
+	map<string, string>* variables;
 };
 
 

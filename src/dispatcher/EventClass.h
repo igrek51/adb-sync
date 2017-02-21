@@ -12,16 +12,16 @@ using namespace std;
 
 class EventClass {
 public:
-    EventClass(Event* event, string className);
+	EventClass(Event* event, string className);
 
-    EventClass(Event* event);
+	EventClass(Event* event);
 
-    ~EventClass();
+	~EventClass();
 
-    Event* event;
-    string className;
+	Event* event;
+	string className;
 
-    static string getClassName(Event* event);
+	static string getClassName(Event* event);
 };
 
 

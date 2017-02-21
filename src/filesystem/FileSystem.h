@@ -14,16 +14,16 @@ using namespace std;
 
 class FileSystem {
 public:
-    FileSystem();
+	FileSystem();
 
-    virtual ~FileSystem();
+	virtual ~FileSystem();
 
-    virtual bool pathExists(string path) = 0;
+	virtual bool pathExists(string path) = 0;
 
-    virtual vector<File*>* listPath(string path) = 0;
+	virtual vector<File*>* listPath(string path) = 0;
 
 protected:
-    virtual RegularFile* getRegularFileDetails(string path, string name) = 0;
+	virtual RegularFile* getRegularFileDetails(string path, string name) = 0;
 };
 
 

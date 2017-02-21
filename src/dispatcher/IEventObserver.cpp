@@ -5,10 +5,10 @@
 #include "IEventObserver.h"
 #include "EventDispatcher.h"
 
-IEventObserver::IEventObserver(){
+IEventObserver::IEventObserver() {
 //    registerEvents();
 }
 
-IEventObserver::~IEventObserver(){
-    EventDispatcher::unregisterEventObserver(this);
+IEventObserver::~IEventObserver() {
+	EventDispatcher::unregisterEventObserver(this);
 }

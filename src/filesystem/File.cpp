@@ -5,39 +5,39 @@
 #include "File.h"
 
 File::File(string path, string name) {
-    this->path = path;
-    this->name = name;
+	this->path = path;
+	this->name = name;
 }
 
 File::~File() {}
 
 string File::getName() {
-    return name;
+	return name;
 }
 
 void File::setName(const string& name) {
-    this->name = name;
+	this->name = name;
 }
 
 string File::getPath() {
-    return path;
+	return path;
 }
 
 void File::setPath(const string& path) {
-    this->path = path;
+	this->path = path;
 }
 
 string File::getFullPathName() {
-    return subfolder(path, name);
+	return subfolder(path, name);
 }
 
 string File::subfolder(string path, string dirName) {
-    if (path.empty()) {
-        return dirName;
-    }
-    // append "/" bettween folders
-    if (path.at(path.length() - 1) != '/') {
-        path += '/';
-    }
-    return path + dirName;
+	if (path.empty()) {
+		return dirName;
+	}
+	// append "/" bettween folders
+	if (path.at(path.length() - 1) != '/') {
+		path += '/';
+	}
+	return path + dirName;
 }

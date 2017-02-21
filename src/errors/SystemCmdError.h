@@ -9,20 +9,20 @@
 
 class SystemCmdError : public Error {
 public:
-    SystemCmdError(string cmd);
+	SystemCmdError(string cmd);
 
-    SystemCmdError(string cmd, int errorCode);
+	SystemCmdError(string cmd, int errorCode);
 
-    SystemCmdError(string cmd, int errorCode, string result);
+	SystemCmdError(string cmd, int errorCode, string result);
 
-    virtual ~SystemCmdError();
+	virtual ~SystemCmdError();
 
-    virtual string getMessage();
+	virtual string getMessage();
 
 protected:
-    string cmd;
-    int errorCode;
-    string output;
+	string cmd;
+	int errorCode;
+	string output;
 };
 
 

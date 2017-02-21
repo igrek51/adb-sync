@@ -7,26 +7,26 @@ using namespace std;
 
 class Thread {
 public:
-    Thread();
+	Thread();
 
-    virtual ~Thread();
+	virtual ~Thread();
 
-    static void sleepMs(int ms);
+	static void sleepMs(int ms);
 
 protected:
-    virtual void run() = 0;
+	virtual void run() = 0;
 
-    /// must be set to true to complete init
-    volatile bool init;
+	/// must be set to true to complete init
+	volatile bool init;
 
-    volatile bool closeSignal;
+	volatile bool closeSignal;
 
-    void* boostThread; // type void* to avoid including boost/thread.hpp in every including header
+	void* boostThread; // type void* to avoid including boost/thread.hpp in every including header
 
-    string threadName();
+	string threadName();
 
 private:
-    void start();
+	void start();
 
 };
 

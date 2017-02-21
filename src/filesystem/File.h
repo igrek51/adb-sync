@@ -11,25 +11,25 @@ using namespace std;
 
 class File {
 public:
-    File(string path, string name);
+	File(string path, string name);
 
-    virtual ~File();
+	virtual ~File();
 
-    string getName();
+	string getName();
 
-    void setName(const string& name);
+	void setName(const string& name);
 
-    string getPath();
+	string getPath();
 
-    void setPath(const string& path);
+	void setPath(const string& path);
 
 	string getFullPathName();
 
-    static string subfolder(string path, string dirName);
+	static string subfolder(string path, string dirName);
 
 protected:
-    string name;
-    string path;
+	string name;
+	string path;
 };
 
 

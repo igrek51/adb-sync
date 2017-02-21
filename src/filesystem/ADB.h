@@ -11,19 +11,19 @@
 
 class ADB : FileSystem {
 public:
-    ADB();
+	ADB();
 
-    void testADB();
+	void testADB();
 
-    void detectDevice();
+	void detectDevice();
 
-    void checkBusyBox();
+	void checkBusyBox();
 
-    string shell(string cmd);
+	string shell(string cmd);
 
-    bool pathExists(string path) override;
+	bool pathExists(string path) override;
 
-    vector<File*>* listPath(string path) override;
+	vector<File*>* listPath(string path) override;
 
 	void mkdir(string remotePath);
 
@@ -34,20 +34,20 @@ public:
 	void removeDirectory(string remotePath);
 
 protected:
-    RegularFile* getRegularFileDetails(string path, string name) override;
+	RegularFile* getRegularFileDetails(string path, string name) override;
 
 	string escapePath(string path);
 
 	string escapeShellPath(string path);
 
 private:
-    File* parseLsOutput(string path, string lsLine);
+	File* parseLsOutput(string path, string lsLine);
 
-    Directory* parseLsDirectory(string path, vector<string>* parts);
+	Directory* parseLsDirectory(string path, vector<string>* parts);
 
-    RegularFile* parseLsRegularFile(string path, vector<string>* parts);
+	RegularFile* parseLsRegularFile(string path, vector<string>* parts);
 
-    string busyboxPath;
+	string busyboxPath;
 };
 
 

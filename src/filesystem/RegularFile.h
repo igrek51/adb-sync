@@ -9,20 +9,20 @@
 
 class RegularFile : public File {
 public:
-    RegularFile(string path, string name);
+	RegularFile(string path, string name);
 
-    ~RegularFile();
+	~RegularFile();
 
-    unsigned int getSize() const;
+	unsigned int getSize() const;
 
 	string getChecksum() const;
 
-    void setSize(unsigned int size);
+	void setSize(unsigned int size);
 
 	void setChecksum(string checksum);
 
 private:
-    unsigned int size;
+	unsigned int size;
 
 	string checksum;
 };

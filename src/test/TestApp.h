@@ -12,7 +12,7 @@ class TestApp {
 public:
 	TestApp();
 
-    virtual int run();
+	virtual int run();
 
 	virtual void runTest() = 0;
 

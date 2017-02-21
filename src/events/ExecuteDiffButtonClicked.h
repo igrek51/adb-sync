@@ -14,7 +14,7 @@ public:
 
 	ExecuteDiffButtonClicked(int index) {
 		this->index = index;
-    }
+	}
 };
 
 #endif //ADBSYNC_EXECUTEDIFFBUTTONCLICKED_H

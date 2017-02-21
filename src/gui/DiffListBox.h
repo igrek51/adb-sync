@@ -14,30 +14,30 @@ using namespace std;
 
 class DiffListBox {
 public:
-    DiffListBox(QTableWidget* listWidget);
+	DiffListBox(QTableWidget* listWidget);
 
-    ~DiffListBox();
+	~DiffListBox();
 
-    void init();
+	void init();
 
-    int rowCount();
+	int rowCount();
 
-    void remove(int rowIndex);
+	void remove(int rowIndex);
 
-    void clear();
+	void clear();
 
 	int selectedRowIndex();
 
-    void selectRow(int rowIndex);
+	void selectRow(int rowIndex);
 
-    void addDiff(Diff* diff);
+	void addDiff(Diff* diff);
 
-    void addRow(string s1, string s2);
+	void addRow(string s1, string s2);
 
-    void update(vector<Diff*>* diffs);
+	void update(vector<Diff*>* diffs);
 
 private:
-    QTableWidget* listWidget;
+	QTableWidget* listWidget;
 };
 
 

@@ -5,21 +5,21 @@
 
 class LoopThread : public Thread {
 public:
-    LoopThread(int wait_for_close = 0);
+	LoopThread(int wait_for_close = 0);
 
-    virtual ~LoopThread();
+	virtual ~LoopThread();
 
 protected:
 
-    virtual void run() override;
+	virtual void run() override;
 
-    virtual void runLoop() = 0;
+	virtual void runLoop() = 0;
 
 private:
 
-    int wait_for_close;
-    /// if run() has completed
-    volatile bool closed;
+	int wait_for_close;
+	/// if run() has completed
+	volatile bool closed;
 };
 
 #endif

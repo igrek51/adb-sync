@@ -5,7 +5,7 @@
 #include "RegularFile.h"
 
 RegularFile::RegularFile(string path, string name) : File(path, name) {
-    size = 0;
+	size = 0;
 }
 
 RegularFile::~RegularFile() {
@@ -13,7 +13,7 @@ RegularFile::~RegularFile() {
 }
 
 unsigned int RegularFile::getSize() const {
-    return size;
+	return size;
 }
 
 string RegularFile::getChecksum() const {
@@ -21,7 +21,7 @@ string RegularFile::getChecksum() const {
 }
 
 void RegularFile::setSize(unsigned int size) {
-    this->size = size;
+	this->size = size;
 }
 
 void RegularFile::setChecksum(string checksum) {

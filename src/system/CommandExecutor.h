@@ -12,11 +12,11 @@ using namespace std;
 
 class CommandExecutor {
 public:
-    static void executeVerbose(string cmd);
+	static void executeVerbose(string cmd);
 
-    static void execute(string cmd);
+	static void execute(string cmd);
 
-    static string executeAndRead(string cmd);
+	static string executeAndRead(string cmd);
 };
 
 

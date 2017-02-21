@@ -14,23 +14,23 @@ using namespace std;
 
 class Synchronizer : public IEventObserver {
 public:
-    Synchronizer();
+	Synchronizer();
 
-    ~Synchronizer();
+	~Synchronizer();
 
-    virtual void registerEvents() override;
+	virtual void registerEvents() override;
 
-    virtual void onEvent(Event* e) override;
+	virtual void onEvent(Event* e) override;
 
 private:
-    vector<Database*>* databases;
+	vector<Database*>* databases;
 
 	//TODO remove, create for every scan in separate thread
 	DiffScanner* diffscanner;
 
-    void loadConfig();
+	void loadConfig();
 
-    void scanDiffs();
+	void scanDiffs();
 
 	void removeDiff(int index);
 

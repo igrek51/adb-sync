@@ -11,10 +11,10 @@ using namespace std;
 
 class Database {
 public:
-    Database(string localPath, string remotePath);
+	Database(string localPath, string remotePath);
 
-    string localPath;
-    string remotePath;
+	string localPath;
+	string remotePath;
 };
 
 

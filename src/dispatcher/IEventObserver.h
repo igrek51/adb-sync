@@ -9,13 +9,13 @@
 
 class IEventObserver {
 public:
-    IEventObserver();
+	IEventObserver();
 
-    virtual ~IEventObserver();
+	virtual ~IEventObserver();
 
-    virtual void registerEvents() = 0;
+	virtual void registerEvents() = 0;
 
-    virtual void onEvent(Event* e) = 0;
+	virtual void onEvent(Event* e) = 0;
 };
 
 #endif //ADBSYNC_IEVENTOBSERVER_H

@@ -10,16 +10,16 @@
 
 class GUI : public IEventObserver {
 public:
-    GUI();
+	GUI();
 
-    ~GUI();
+	~GUI();
 
-    virtual void registerEvents() override;
+	virtual void registerEvents() override;
 
-    virtual void onEvent(Event* e) override;
+	virtual void onEvent(Event* e) override;
 
 private:
-    MainWindow* mainwindow;
+	MainWindow* mainwindow;
 };
 
 

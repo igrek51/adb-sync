@@ -9,11 +9,11 @@
 
 class ParseError : public Error {
 public:
-    ParseError(string message);
+	ParseError(string message);
 
-    virtual ~ParseError();
+	virtual ~ParseError();
 
-    virtual string getMessage();
+	virtual string getMessage();
 
 protected:
 };
