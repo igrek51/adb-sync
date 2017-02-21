@@ -25,13 +25,13 @@ public:
 
 	vector<File*>* listPath(string path) override;
 
-	void mkdir(string remotePath);
-
 	void push(string localPath, string remotePath);
 
-	void removeFile(string remotePath);
+	void pull(string localPath, string remotePath);
 
-	void removeDirectory(string remotePath);
+	void removeFile(string path) override;
+
+	void removeDirectory(string path) override;
 
 protected:
 	RegularFile* getRegularFileDetails(string path, string name) override;

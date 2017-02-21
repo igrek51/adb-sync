@@ -177,3 +177,11 @@ string LocalFS::escapePath(string path) {
 	// 2. escaping backslash as \\ and " as \" in cpp file
 	return "\"" + path + "\"";
 }
+
+void LocalFS::removeFile(string path) {
+	CommandExecutor::execute("rm " + escapePath(path));
+}
+
+void LocalFS::removeDirectory(string path) {
+	CommandExecutor::execute("rm -rf " + escapePath(path));
+}

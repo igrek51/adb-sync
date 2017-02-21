@@ -17,29 +17,52 @@ DiffSync::~DiffSync() {
 }
 
 void DiffSync::syncDiff(Diff* diff) {
-	//TODO handle reversed diffs
-	switch (diff->type) {
-		case DiffType::NO_DIRECTORY:
-			//push whole directory
-			adb->push(diff->localFile, diff->remoteFile);
-			break;
-		case DiffType::NO_REGULAR_FILE:
-			// copy file
-			adb->push(diff->localFile, diff->remoteFile);
-			break;
-		case DiffType::DIFFERENT_CONTENT:
-		case DiffType::DIFFERENT_SIZE:
-			// remove remote file
-			adb->removeFile(diff->remoteFile);
-			// copy file from local
-			adb->push(diff->localFile, diff->remoteFile);
-			break;
-		case DiffType::REDUNDANT_DIRECTORY:
-			adb->removeDirectory(diff->remoteFile);
-			break;
-		case DiffType::REDUNDANT_REGULAR_FILE:
-			adb->removeFile(diff->remoteFile);
-			break;
+	if (!diff->inverted) { // synchronize from local to remote
+		switch (diff->type) {
+			case DiffType::NO_DIRECTORY:
+				//push whole directory
+				adb->push(diff->localFile, diff->remoteFile);
+				break;
+			case DiffType::NO_REGULAR_FILE:
+				// copy file
+				adb->push(diff->localFile, diff->remoteFile);
+				break;
+			case DiffType::DIFFERENT_CONTENT:
+			case DiffType::DIFFERENT_SIZE:
+				// remove remote file
+				adb->removeFile(diff->remoteFile);
+				// copy file from local
+				adb->push(diff->localFile, diff->remoteFile);
+				break;
+			case DiffType::REDUNDANT_DIRECTORY:
+				adb->removeDirectory(diff->remoteFile);
+				break;
+			case DiffType::REDUNDANT_REGULAR_FILE:
+				adb->removeFile(diff->remoteFile);
+				break;
+		}
+	} else { // synchronize from remote to local
+		switch (diff->type) {
+			case DiffType::NO_DIRECTORY: // no remote directory
+				localFS->removeDirectory(diff->localFile);
+				break;
+			case DiffType::NO_REGULAR_FILE: // no remote file
+				localFS->removeFile(diff->localFile);
+				break;
+			case DiffType::DIFFERENT_CONTENT: // different checksums
+			case DiffType::DIFFERENT_SIZE: // different file sizes
+				// remove remote file
+				localFS->removeFile(diff->localFile);
+				// copy file from local
+				adb->pull(diff->localFile, diff->remoteFile);
+				break;
+			case DiffType::REDUNDANT_DIRECTORY: // no local directory
+				adb->pull(diff->localFile, diff->remoteFile);
+				break;
+			case DiffType::REDUNDANT_REGULAR_FILE: // no local file
+				adb->pull(diff->localFile, diff->remoteFile);
+				break;
+		}
 	}
 }
 

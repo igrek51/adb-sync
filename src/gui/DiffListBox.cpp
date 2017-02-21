@@ -59,8 +59,8 @@ void DiffListBox::update(vector<Diff*>* diffs) {
 }
 
 void DiffListBox::addDiff(Diff* diff) {
-	//TODO showing reversed diff direction
-	addRow(Diff::diffTypeName(diff->type) + ":", diff->remoteFile);
+	string s2 = diff->inverted ? diff->localFile : diff->remoteFile;
+	addRow(diff->typeName() + ":", s2);
 }
 
 void DiffListBox::addRow(string s1, string s2) {

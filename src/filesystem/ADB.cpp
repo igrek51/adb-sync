@@ -250,12 +250,16 @@ void ADB::push(string localPath, string remotePath) {
 	CommandExecutor::execute("adb push " + escapePath(localPath) + " " + escapePath(remotePath));
 }
 
-void ADB::removeFile(string remotePath) {
-	shell("rm " + escapeShellPath(remotePath));
+void ADB::pull(string localPath, string remotePath) {
+	CommandExecutor::execute("adb pull " + escapePath(remotePath) + " " + escapePath(localPath));
 }
 
-void ADB::removeDirectory(string remotePath) {
-	shell("rm -rf " + escapeShellPath(remotePath));
+void ADB::removeFile(string path) {
+	shell("rm " + escapeShellPath(path));
+}
+
+void ADB::removeDirectory(string path) {
+	shell("rm -rf " + escapeShellPath(path));
 }
 
 string ADB::escapeShellPath(string path) {
@@ -273,3 +277,4 @@ string ADB::escapePath(string path) {
 	// 2. escaping backslash as \\ and " as \" in cpp file
 	return "\"" + path + "\"";
 }
+

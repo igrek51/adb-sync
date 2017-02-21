@@ -37,6 +37,8 @@ private:
 	void syncDiff(int index);
 
 	void syncAllDiffs();
+
+	void invertDiff(int index);
 };
 
 

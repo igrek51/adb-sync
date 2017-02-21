@@ -15,7 +15,9 @@ public:
 
 	vector<File*>* listPath(string path) override;
 
-	void mkdir(string path);
+	void removeFile(string path) override;
+
+	void removeDirectory(string path) override;
 
 protected:
 	RegularFile* getRegularFileDetails(string path, string name) override;

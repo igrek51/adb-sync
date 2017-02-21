@@ -11,6 +11,7 @@
 #include "../events/ExecuteDiffButtonClicked.h"
 #include "../events/ExecuteAllDiffsButtonClicked.h"
 #include "../version.h"
+#include "../events/DiffInvertedButtonClicked.h"
 
 MainWindow::MainWindow(QWidget* parent) :
 		QMainWindow(parent),
@@ -42,8 +43,7 @@ void MainWindow::on_pb_delete_clicked() {
 }
 
 void MainWindow::on_pb_reverse_clicked() {
-	Logger::info("click");
-
+	EventDispatcher::sendLater(new DiffInvertedButtonClicked(listBox->selectedRowIndex()));
 }
 
 void MainWindow::on_pb_execute_clicked() {

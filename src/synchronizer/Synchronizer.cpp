@@ -12,6 +12,7 @@
 #include "../events/ExecuteDiffButtonClicked.h"
 #include "../events/ExecuteAllDiffsButtonClicked.h"
 #include "DiffSync.h"
+#include "../events/DiffInvertedButtonClicked.h"
 
 Synchronizer::Synchronizer() {
 	loadConfig();
@@ -31,6 +32,7 @@ void Synchronizer::registerEvents() {
 	EventDispatcher::registerEventObserver<DiffRemovedButtonClicked>(this);
 	EventDispatcher::registerEventObserver<ExecuteDiffButtonClicked>(this);
 	EventDispatcher::registerEventObserver<ExecuteAllDiffsButtonClicked>(this);
+	EventDispatcher::registerEventObserver<DiffInvertedButtonClicked>(this);
 }
 
 void Synchronizer::onEvent(Event* e) {
@@ -44,6 +46,9 @@ void Synchronizer::onEvent(Event* e) {
 		syncDiff(selectedIndex);
 	} else if (e->instanceof<ExecuteAllDiffsButtonClicked*>()) {
 		syncAllDiffs();
+	} else if (e->instanceof<DiffInvertedButtonClicked*>()) {
+		int selectedIndex = e->cast<DiffInvertedButtonClicked*>()->selectedIndex;
+		invertDiff(selectedIndex);
 	}
 }
 
@@ -109,4 +114,17 @@ void Synchronizer::syncAllDiffs() {
 	diffscanner->getDiffs()->clear();
 	EventDispatcher::sendNow(new DiffListUpdateRequest(diffscanner->getDiffs()));
 	EventDispatcher::sendNow(new ShowUIMessageRequest("all differences synchronized"));
+}
+
+void Synchronizer::invertDiff(int index) {
+	if (index == -1 || index >= (int) diffscanner->getDiffs()->size()) {
+		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
+	} else {
+		Diff* diff = diffscanner->getDiffs()->at((unsigned long) index);
+		// invert synchronization direction
+		diff->inverted = !diff->inverted;
+
+		EventDispatcher::sendNow(new DiffListUpdateRequest(diffscanner->getDiffs()));
+		EventDispatcher::sendNow(new ShowUIMessageRequest("difference inverted"));
+	}
 }

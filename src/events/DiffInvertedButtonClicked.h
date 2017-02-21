@@ -8,7 +8,12 @@
 #include "../dispatcher/Event.h"
 
 class DiffInvertedButtonClicked : public Event {
+public:
+	int selectedIndex;
 
+	DiffInvertedButtonClicked(int selectedIndex) {
+		this->selectedIndex = selectedIndex;
+	}
 };
 
 #endif //ADBSYNC_DIFFINVERTEDBUTTONCLICKED_H

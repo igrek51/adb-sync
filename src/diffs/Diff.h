@@ -19,10 +19,10 @@ public:
 	string remoteFile;
 
 	DiffType type;
-	/// if diff direction is reversed (from remote to local)
-	bool reversed;
+	/// if diff direction is reversed (synchronzation from remote to local)
+	bool inverted;
 
-	static string diffTypeName(DiffType type);
+	string typeName();
 };
 
 

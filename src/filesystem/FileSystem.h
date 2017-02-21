@@ -22,6 +22,10 @@ public:
 
 	virtual vector<File*>* listPath(string path) = 0;
 
+	virtual void removeFile(string path) = 0;
+
+	virtual void removeDirectory(string path) = 0;
+
 protected:
 	virtual RegularFile* getRegularFileDetails(string path, string name) = 0;
 };
