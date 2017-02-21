@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+//TODO move to separate class with static methods
+
 using namespace std;
 
 string trimSpaces(string s);
@@ -30,5 +32,7 @@ string time2string(time_t t, string pattern);
 string replaceAll(string str, const string& from, const string& to);
 
 string to_string(const char* s);
+
+string nextNonemptyPart(vector<string>* parts, unsigned int& index);
 
 #endif //ADBSYNC_STRING_UTILS_H

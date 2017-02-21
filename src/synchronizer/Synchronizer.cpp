@@ -70,7 +70,7 @@ void Synchronizer::loadConfig() {
 }
 
 void Synchronizer::removeDiff(int index) {
-	if (index == -1 || index >= diffscanner->getDiffs()->size()) {
+	if (index == -1 || index >= (int) diffscanner->getDiffs()->size()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
 		Diff* diff = diffscanner->getDiffs()->at((unsigned long) index);
@@ -82,7 +82,7 @@ void Synchronizer::removeDiff(int index) {
 }
 
 void Synchronizer::syncDiff(int index) {
-	if (index == -1 || index >= diffscanner->getDiffs()->size()) {
+	if (index == -1 || index >= (int) diffscanner->getDiffs()->size()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
 		Diff* diff = diffscanner->getDiffs()->at((unsigned long) index);

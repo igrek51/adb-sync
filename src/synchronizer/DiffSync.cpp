@@ -24,24 +24,17 @@ void DiffSync::syncDiff(Diff* diff) {
 		case DiffType::NO_DIRECTORY:
 			//push whole directory
 			adb->push(diff->localFile, diff->remoteFile);
-			//TODO for all subfiles and subdirs: set modify date
 			break;
 		case DiffType::NO_REGULAR_FILE:
 			// copy file
 			adb->push(diff->localFile, diff->remoteFile);
-			// set modify date equal to local file
-			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
 			break;
-		case DiffType::MODIFIED_DATE:
-			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
-			break;
+		case DiffType::DIFFERENT_CONTENT:
 		case DiffType::DIFFERENT_SIZE:
 			// remove remote file
 			adb->removeFile(diff->remoteFile);
 			// copy file from local
 			adb->push(diff->localFile, diff->remoteFile);
-			// set modify date equal to local file
-			adb->saveModifyDate(diff->remoteFile, diff->localModifyTime);
 			break;
 		case DiffType::REDUNDANT_DIRECTORY:
 			adb->removeDirectory(diff->remoteFile);

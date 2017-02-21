@@ -122,13 +122,10 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 				} else {
 					RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
 					RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
-					//different size (block size)
 					if (localRegFile->getSize() != remoteRegFile->getSize()) {
 						addDiff(localFile, remoteFile, DiffType::DIFFERENT_SIZE);
-					} else if (localRegFile->getModifiedDate() !=
-							   remoteRegFile->getModifiedDate()) {
-						//TODO fix modify date setting
-//						addDiff(localFile, remoteFile, DiffType::MODIFIED_DATE);
+					} else if (localRegFile->getChecksum() != remoteRegFile->getChecksum()) {
+						addDiff(localFile, remoteFile, DiffType::DIFFERENT_CONTENT);
 					}
 				}
 			}
@@ -178,20 +175,6 @@ void DiffScanner::addDiff(File* localFile, File* remoteFile, DiffType type) {
 	string localFileName = localFile->getFullPathName();
 	string remoteFileName = remoteFile->getFullPathName();
 	Diff* diff = new Diff(localFileName, remoteFileName, type);
-
-	//save also modify dates
-	if (type == DiffType::MODIFIED_DATE || type == DiffType::DIFFERENT_SIZE) {
-		RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
-		RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
-		diff->localModifyTime = localRegFile->getModifiedDate();
-		diff->remoteModifyTime = remoteRegFile->getModifiedDate();
-	} else if (type == DiffType::NO_REGULAR_FILE) {
-		RegularFile* localRegFile = dynamic_cast<RegularFile*>(localFile);
-		diff->localModifyTime = localRegFile->getModifiedDate();
-	} else if (type == DiffType::REDUNDANT_REGULAR_FILE) {
-//		RegularFile* remoteRegFile = dynamic_cast<RegularFile*>(remoteFile);
-//		diff->remoteModifyTime = remoteRegFile->getModifiedDate();
-	}
 
 	diffs->push_back(diff);
 

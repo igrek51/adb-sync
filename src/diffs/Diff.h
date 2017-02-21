@@ -18,10 +18,6 @@ public:
 
 	string remoteFile;
 
-	time_t localModifyTime;
-
-	time_t remoteModifyTime;
-
 	DiffType type;
 	/// if diff direction is reversed (from remote to local)
 	bool reversed;

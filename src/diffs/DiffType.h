@@ -8,7 +8,7 @@
 enum class DiffType {
     NO_DIRECTORY = 1,
     NO_REGULAR_FILE = 2,
-    MODIFIED_DATE = 3, // different last modification date
+	DIFFERENT_CONTENT = 3, // different checksum
     DIFFERENT_SIZE = 4,
     REDUNDANT_DIRECTORY = 5,
     REDUNDANT_REGULAR_FILE = 6,

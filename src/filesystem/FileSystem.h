@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include "File.h"
-#include "Directory.h"
+#include "RegularFile.h"
 
 using namespace std;
 
@@ -22,12 +22,8 @@ public:
 
     virtual vector<File*>* listPath(string path) = 0;
 
-	virtual void saveModifyDate(string filePath, time_t modifyDate) = 0;
-
 protected:
     virtual RegularFile* getRegularFileDetails(string path, string name) = 0;
-
-    string nextNonemptyPart(vector<string>* parts, unsigned int& index);
 };
 
 

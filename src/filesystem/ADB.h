@@ -25,8 +25,6 @@ public:
 
     vector<File*>* listPath(string path) override;
 
-	virtual void saveModifyDate(string filePath, time_t modifyDate) override;
-
 	void mkdir(string remotePath);
 
 	void push(string localPath, string remotePath);

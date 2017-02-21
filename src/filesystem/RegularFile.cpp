@@ -16,14 +16,14 @@ unsigned int RegularFile::getSize() const {
     return size;
 }
 
-time_t RegularFile::getModifiedDate() const {
-    return modifiedDate;
+string RegularFile::getChecksum() const {
+	return checksum;
 }
 
 void RegularFile::setSize(unsigned int size) {
     this->size = size;
 }
 
-void RegularFile::setModifiedDate(time_t modifiedDate) {
-    this->modifiedDate = modifiedDate;
+void RegularFile::setChecksum(string checksum) {
+	this->checksum = checksum;
 }

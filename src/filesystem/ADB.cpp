@@ -59,6 +59,7 @@ void ADB::detectDevice() {
 
 void ADB::checkBusyBox() {
 	//TODO check if exists buxybox, if not, create it
+	//TODO create symbolic links
 	//TODO testbusybox execution
 }
 
@@ -98,27 +99,32 @@ bool ADB::pathExists(string path) {
 RegularFile* ADB::getRegularFileDetails(string path, string name) {
 	RegularFile* file = new RegularFile(path, name);
 
-	// get output from stat: total size (bytes), last data modification, seconds since Epoch
+	// get output from cksum: CRC checksum, total size (bytes), filename
 	string output = shell(busyboxPath +
-						  "stat -c %s\\\\ %Y " + escapeShellPath(file->getFullPathName()));
+						  "cksum " + escapeShellPath(file->getFullPathName()));
 	vector<string>* parts = splitByAny(output, " \n\r");
+	if (parts->size() < 3) {
+		delete parts;
+		throw new ParseError("not enough parts to parse: " + parts->size());
+	}
 	unsigned int index = 0;
+	string crcChecksum = nextNonemptyPart(parts, index);
 	string sizeStr = nextNonemptyPart(parts, index);
-	string modificationTimeStr = nextNonemptyPart(parts, index);
 	delete parts;
 
 	// validation
+	if (crcChecksum.empty())
+		throw new ParseError("CRC checksum part not found: " + output);
 	if (sizeStr.empty())
 		throw new ParseError("total size part not found: " + output);
-	if (modificationTimeStr.empty())
-		throw new ParseError("modification date part not found: " + output);
-	if (modificationTimeStr == "0")
-		throw new ParseError("undefined modification date: " + output);
 
-	file->setSize((unsigned int) stoi(sizeStr));
+	try {
+		file->setSize((unsigned int) stoi(sizeStr));
+	} catch (std::invalid_argument e) {
+		throw new ParseError("invalid total file size: " + sizeStr);
+	}
 
-	time_t t = (unsigned int) stoi(modificationTimeStr);
-	file->setModifiedDate(t);
+	file->setChecksum(crcChecksum);
 
 	return file;
 }
@@ -237,22 +243,9 @@ RegularFile* ADB::parseLsRegularFile(string path, vector<string>* parts) {
 	if (modifiedHour.length() == 0)
 		throw new ParseError("empty modifiedHour");
 
-//    //parsing modification time
-//    boost::posix_time::ptime modifiedTime = string2time(modifiedDate + " " + modifiedHour,
-//                                                        "%Y-%m-%d %H:%M");
-//    if (modifiedTime == boost::posix_time::ptime()) {
-//        throw new ParseError("invalid date: " + modifiedDate + " " + modifiedHour);
-//    }
-
 	return getRegularFileDetails(path, name);
 }
 
-
-void ADB::saveModifyDate(string filePath, time_t modifyDate) {
-	// set custom modify date
-	shell("touch -t " + time2string(modifyDate, "%Y%m%d%H%M.%S") + " " +
-		  escapeShellPath(filePath));
-}
 
 void ADB::mkdir(string remotePath) {
 	shell("mkdir " + escapeShellPath(remotePath));

@@ -21,27 +21,32 @@ bool LocalFS::pathExists(string path) {
 RegularFile* LocalFS::getRegularFileDetails(string path, string name) {
 	RegularFile* file = new RegularFile(path, name);
 
-	// get output from stat: total size (bytes), last data modification, seconds since Epoch
+	// get output from cksum: CRC checksum, total size (bytes), filename
 	string output = CommandExecutor::executeAndRead(
-			"stat -c %s\\ %Y " + escapePath(file->getFullPathName()));
+			"cksum " + escapePath(file->getFullPathName()));
 	vector<string>* parts = splitByAny(output, " \n\r");
+	if (parts->size() < 3) {
+		delete parts;
+		throw new ParseError("not enough parts to parse: " + parts->size());
+	}
 	unsigned int index = 0;
+	string crcChecksum = nextNonemptyPart(parts, index);
 	string sizeStr = nextNonemptyPart(parts, index);
-	string modificationTimeStr = nextNonemptyPart(parts, index);
 	delete parts;
 
 	// validation
+	if (crcChecksum.empty())
+		throw new ParseError("CRC checksum part not found: " + output);
 	if (sizeStr.empty())
 		throw new ParseError("total size part not found: " + output);
-	if (modificationTimeStr.empty())
-		throw new ParseError("modification date part not found: " + output);
-	if (modificationTimeStr == "0")
-		throw new ParseError("undefined modification date: " + output);
 
-	file->setSize((unsigned int) stoi(sizeStr));
+	try {
+		file->setSize((unsigned int) stoi(sizeStr));
+	} catch (std::invalid_argument e) {
+		throw new ParseError("invalid total file size: " + sizeStr);
+	}
 
-	time_t t = (unsigned int) stoi(modificationTimeStr);
-	file->setModifiedDate(t);
+	file->setChecksum(crcChecksum);
 
 	return file;
 }
@@ -78,25 +83,6 @@ vector<File*>* LocalFS::listPath(string path) {
 	delete lines;
 	return files;
 }
-
-void LocalFS::saveModifyDate(string filePath, time_t modifyDate) {
-	// set custom modify date
-	CommandExecutor::execute("touch -t " + time2string(modifyDate, "%Y%m%d%H%M.%S") + " " +
-							 escapePath(filePath));
-}
-
-void LocalFS::mkdir(string path) {
-	CommandExecutor::execute("mkdir " + escapePath(path));
-}
-
-
-string LocalFS::escapePath(string path) {
-	// adding quotes
-	// 1. escaping quote as \" in system command
-	// 2. escaping backslash as \\ and " as \" in cpp file
-	return "\"" + path + "\"";
-}
-
 
 File* LocalFS::parseLsOutput(string path, string lsLine) {
 	if (lsLine.empty())
@@ -189,4 +175,16 @@ RegularFile* LocalFS::parseLsRegularFile(string path, vector<string>* parts) {
 //    }
 
 	return getRegularFileDetails(path, name);
+}
+
+
+void LocalFS::mkdir(string path) {
+	CommandExecutor::execute("mkdir " + escapePath(path));
+}
+
+string LocalFS::escapePath(string path) {
+	// adding quotes
+	// 1. escaping quote as \" in system command
+	// 2. escaping backslash as \\ and " as \" in cpp file
+	return "\"" + path + "\"";
 }

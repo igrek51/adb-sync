@@ -15,17 +15,16 @@ public:
 
     unsigned int getSize() const;
 
-    time_t getModifiedDate() const;
+	string getChecksum() const;
 
     void setSize(unsigned int size);
 
-    void setModifiedDate(time_t modifiedDate);
+	void setChecksum(string checksum);
 
 private:
     unsigned int size;
 
-    /// last modification time defined in seconds from Epoch
-    time_t modifiedDate;
+	string checksum;
 };
 
 

@@ -8,8 +8,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-//TODO checking content by calculating control sum: md5 ? instead of checking date
-
 App::App(int argc, char** argv) {
 	Logger::debug("constructing App...");
 	this->argc = argc;
