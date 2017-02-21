@@ -3,27 +3,44 @@
 //
 
 #include "TestApp.h"
-#include "../logger/Logger.h"
+#include <execinfo.h>
+#include <signal.h>
+#include <unistd.h>
 
-TestApp::TestApp(int argc, char** argv) : App(argc, argv) {}
+TestApp::TestApp() {}
+
+void TestApp::signalTraceHandler(int sig) {
+	void* array[10];
+	int size = backtrace(array, 10);
+	Logger::error("Signal " + to_string(sig) + " caught, stack trace:");
+	backtrace_symbols_fd(array, size, STDOUT_FILENO);
+	exit(1);
+}
 
 int TestApp::run() {
 
-    Logger::info("test start");
+	//catching signals and printing stack traces
+	signal(SIGSEGV, TestApp::signalTraceHandler); // segmentation fault
+	signal(SIGINT, TestApp::signalTraceHandler);
+	signal(SIGFPE, TestApp::signalTraceHandler);
+	signal(SIGILL, TestApp::signalTraceHandler);
 
-    try {
+	try {
 
-        LocalFS* localFS = new LocalFS();
-        vector<File*>* files = localFS->listPath("../test/");
-        for (File* file : *files) {
-			Logger::info("file: " + file->getFullPathName());
-        }
+		Logger::info("TEST started");
+		runTest();
+		Logger::info("TEST ended");
+		return 0;
 
-    } catch (Error* e) {
-        Logger::error(e);
-    }
-
-    Logger::info("test end");
-
-    return 0;
+	} catch (Error* e) {
+		Logger::error("uncaught Error: " + e->getMessage());
+		delete e;
+	} catch (const std::bad_alloc&) {
+		Logger::fatal("std::bad_alloc error caught from QApplication.exec()");
+	} catch (std::exception& e) {
+		Logger::error("uncaught std::exception: " + string(e.what()));
+	} catch (...) {
+		Logger::error("unknown uncaught throwable");
+	}
+	return -1;
 }

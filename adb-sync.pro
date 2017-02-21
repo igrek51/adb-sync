@@ -45,7 +45,6 @@ HEADERS += \
            src/utils/string_utils.h \
            src/errors/SystemCmdError.h \
            src/errors/ParseError.h \
-           src/test/TestApp.h \
            src/events/DiffInvertedButtonClicked.h \
            src/events/DiffListUpdateRequest.h \
            src/events/DiffRemovedButtonClicked.h \
@@ -56,7 +55,11 @@ HEADERS += \
            src/events/ExecuteDiffButtonClicked.h \
            src/events/ProgressUpdated.h \
            src/events/ShowUIMessageRequest.h \
-           src/synchronizer/DiffSync.h
+           src/synchronizer/DiffSync.h \
+           src/test/TestApp.h \
+           src/test/LocalFSTest.h \
+           src/test/QApplicationTest.h \
+           src/test/ThreadsTest.h
 
 FORMS += forms/mainwindow.ui
 

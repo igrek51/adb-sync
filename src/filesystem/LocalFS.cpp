@@ -167,20 +167,9 @@ RegularFile* LocalFS::parseLsRegularFile(string path, vector<string>* parts) {
 	if (modifiedHour.length() == 0)
 		throw new ParseError("empty modifiedHour");
 
-//    //parsing modification time
-//    boost::posix_time::ptime modifiedTime = string2time(modifiedDate + " " + modifiedHour,
-//                                                        "%Y-%m-%d %H:%M");
-//    if (modifiedTime == boost::posix_time::ptime()) {
-//        throw new ParseError("invalid date: " + modifiedDate + " " + modifiedHour);
-//    }
-
 	return getRegularFileDetails(path, name);
 }
 
-
-void LocalFS::mkdir(string path) {
-	CommandExecutor::execute("mkdir " + escapePath(path));
-}
 
 string LocalFS::escapePath(string path) {
 	// adding quotes

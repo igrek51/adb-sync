@@ -6,13 +6,18 @@
 #define ADBSYNC_TESTAPP_H
 
 #include "../App.h"
+#include "../logger/Logger.h"
 
-class TestApp : App {
+class TestApp {
 public:
-    TestApp(int argc, char** argv);
+	TestApp();
 
     virtual int run();
 
+	virtual void runTest() = 0;
+
+private:
+	static void signalTraceHandler(int sig);
 };
 
 

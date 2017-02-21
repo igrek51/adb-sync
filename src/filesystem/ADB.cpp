@@ -10,8 +10,6 @@
 #include "../errors/ParseError.h"
 #include <sstream>
 
-//TODO get modified date and size from busybox stat
-
 ADB::ADB() {
 	//TODO move to configuration file
 	busyboxPath = "/data/local/tmp/adb-sync/";
@@ -100,6 +98,7 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
 	RegularFile* file = new RegularFile(path, name);
 
 	// get output from cksum: CRC checksum, total size (bytes), filename
+	//TODO do not check crc checksum if file is big (exceeds some filesize threshold), then check only total size
 	string output = shell(busyboxPath +
 						  "cksum " + escapeShellPath(file->getFullPathName()));
 	vector<string>* parts = splitByAny(output, " \n\r");
@@ -133,7 +132,7 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
 vector<File*>* ADB::listPath(string path) {
 	vector<File*>* files = new vector<File*>();
 
-	//TODO platform independent binaries
+	//TODO use platform independent binaries
 	string output = shell(
 			"ls -al " + escapeShellPath(path));
 	vector<string>* lines = splitLines(output);
@@ -246,10 +245,6 @@ RegularFile* ADB::parseLsRegularFile(string path, vector<string>* parts) {
 	return getRegularFileDetails(path, name);
 }
 
-
-void ADB::mkdir(string remotePath) {
-	shell("mkdir " + escapeShellPath(remotePath));
-}
 
 void ADB::push(string localPath, string remotePath) {
 	CommandExecutor::execute("adb push " + escapePath(localPath) + " " + escapePath(remotePath));

@@ -93,6 +93,8 @@ vector<Database*>* ConfigLoader::loadDatabases() {
 	ConfigProperties* properties = loadProperties(CONFIG_FILENAME);
 	if (properties != nullptr) {
 
+		//TODO search for all keys starting with CONFIG_DB_PREFIX
+
 		// counts databases defined in configuration
 		int dbsCount = 0;
 		while (properties->keyExists(

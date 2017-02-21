@@ -10,7 +10,6 @@
 #include "../events/DiffPartialScanCompleted.h"
 #include "../events/DiffListUpdateRequest.h"
 
-//TODO multithreading
 //TODO possibility to stop scanning
 //TODO synchronizing single files from configuration
 

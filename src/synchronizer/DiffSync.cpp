@@ -6,8 +6,6 @@
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/ProgressUpdated.h"
 
-//TODO multithreading
-
 DiffSync::DiffSync() {
 	adb = new ADB();
 	localFS = new LocalFS();

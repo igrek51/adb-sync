@@ -18,10 +18,11 @@ public:
 
     virtual int run();
 
-private:
+protected:
     int argc;
     char** argv;
 
+private:
     QApplication* qapp;
 
     GUI* gui;

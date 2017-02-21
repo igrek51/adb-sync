@@ -49,7 +49,7 @@ void Synchronizer::onEvent(Event* e) {
 
 void Synchronizer::scanDiffs() {
 	try {
-		Logger::info("scanning diffs");
+		//TODO execute in another thread
 
 		diffscanner->scanDiffs(databases);
 		vector<Diff*>* diffs = diffscanner->getDiffs();
@@ -86,6 +86,7 @@ void Synchronizer::syncDiff(int index) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
 		Diff* diff = diffscanner->getDiffs()->at((unsigned long) index);
+		//TODO execute in another thread
 		DiffSync* diffSync = new DiffSync();
 		diffSync->syncDiff(diff);
 		delete diffSync;
@@ -97,6 +98,7 @@ void Synchronizer::syncDiff(int index) {
 }
 
 void Synchronizer::syncAllDiffs() {
+	//TODO execute in another thread
 	DiffSync* diffSync = new DiffSync();
 	diffSync->syncDiffs(diffscanner->getDiffs());
 	delete diffSync;

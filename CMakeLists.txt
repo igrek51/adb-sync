@@ -61,7 +61,7 @@ set(SOURCE_FILES
         src/events/ExecuteDiffButtonClicked.h
         src/events/ProgressUpdated.h
         src/events/ShowUIMessageRequest.h
-        src/synchronizer/DiffSync.cpp src/synchronizer/DiffSync.h)
+        src/synchronizer/DiffSync.cpp src/synchronizer/DiffSync.h src/test/ThreadsTest.h src/test/QApplicationTest.h src/test/LocalFSTest.h)
 
 # highlighted included qt libraries
 add_executable(cmakebuilt ${SOURCE_FILES})
