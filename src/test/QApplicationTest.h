@@ -12,7 +12,7 @@
 
 class QApplicationTest : public TestApp {
 public:
-	virtual void runTest() {
+	virtual void runTest() override {
 
 		int argc = 0;
 		char** argv = new char* [0];

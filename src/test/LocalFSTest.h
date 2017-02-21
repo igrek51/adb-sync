@@ -9,7 +9,7 @@
 
 class LocalFSTest : public TestApp {
 public:
-	virtual void runTest() {
+	virtual void runTest() override {
 
 		LocalFS* localFS = new LocalFS();
 		vector<File*>* files = localFS->listPath("../test/");
