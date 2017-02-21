@@ -979,7 +979,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-build/.obj/main.o: src/main.cpp src/App.h \
+build/.obj/main.o: src/main.cpp src/test/ThreadsTest.h \
+		src/test/TestApp.h \
+		src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
 		src/dispatcher/IEventObserver.h \
@@ -995,7 +997,11 @@ build/.obj/main.o: src/main.cpp src/App.h \
 		src/filesystem/ADB.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
-		src/gui/DiffListBox.h
+		src/gui/DiffListBox.h \
+		src/logger/Logger.h \
+		src/logger/LogLevel.h \
+		src/errors/Error.h \
+		src/threads/SingleThread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \

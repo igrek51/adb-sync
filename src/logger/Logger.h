@@ -5,9 +5,10 @@
 #ifndef ADBSYNC_LOGGER_H
 #define ADBSYNC_LOGGER_H
 
-#include <iostream>
 #include "LogLevel.h"
 #include "../errors/Error.h"
+#include <iostream>
+#include <mutex>
 
 using namespace std;
 
@@ -47,7 +48,7 @@ public:
     static void log(string s, LogLevel level);
 
 private:
-    static volatile bool LOCK;
+	static mutex mtx;
 
 };
 
