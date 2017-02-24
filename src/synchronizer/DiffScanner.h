@@ -21,14 +21,10 @@ public:
 
 	void scanDiffs(vector<Database*>* dbs);
 
-	vector<Diff*>* getDiffs();
-
 private:
 	ADB* adb;
 
 	LocalFS* localFS;
-
-	vector<Diff*>* diffs;
 
 	double calcProgres(int index, unsigned long all);
 

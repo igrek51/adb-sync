@@ -25,8 +25,7 @@ public:
 private:
 	vector<Database*>* databases;
 
-	//TODO remove, create for every scan in separate thread
-	DiffScanner* diffscanner;
+	vector<Diff*>* diffs;
 
 	void loadConfig();
 

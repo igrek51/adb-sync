@@ -16,22 +16,19 @@
 DiffScanner::DiffScanner() {
 	adb = new ADB();
 	localFS = new LocalFS();
-	diffs = new vector<Diff*>();
 }
 
 DiffScanner::~DiffScanner() {
-	for (Diff* diff : *diffs) {
-		delete diff;
-	}
-	diffs->clear();
 	delete adb;
 	delete localFS;
 }
 
 void DiffScanner::scanDiffs(vector<Database*>* dbs) {
-	diffs->clear();
 	setProgress(0);
+	// set diffs list empty
+	vector<Diff*>* diffs = new vector<Diff*>();
 	EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
+	delete diffs;
 
 	adb->testADB();
 	adb->detectDevice();
@@ -175,13 +172,7 @@ void DiffScanner::addDiff(File* localFile, File* remoteFile, DiffType type) {
 	string remoteFileName = remoteFile->getFullPathName();
 	Diff* diff = new Diff(localFileName, remoteFileName, type);
 
-	diffs->push_back(diff);
-
 	EventDispatcher::sendNow(new DiffPartialScanCompleted(diff));
-}
-
-vector<Diff*>* DiffScanner::getDiffs() {
-	return diffs;
 }
 
 void DiffScanner::deleteFilesList(vector<File*>* files) {
