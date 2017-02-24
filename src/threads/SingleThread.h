@@ -12,26 +12,26 @@ using namespace std;
 //TODO inherit from Thread
 class SingleThread {
 public:
-    SingleThread();
+	SingleThread();
 
-    virtual ~SingleThread();
+	virtual ~SingleThread();
 
-    bool busy();
+	bool busy();
 
 protected:
 
-    virtual void run() = 0;
+	virtual void run() = 0;
 
-    string threadName();
+	string threadName();
 
 private:
 
-    void* boostThread; // type void* to avoid including boost/thread.hpp in every including header
+	void* boostThread; // type void* to avoid including boost/thread.hpp in every file including header
 
-    void start();
+	void start();
 
-    /// if run() has completed
-    volatile bool closed;
+	/// if run() has completed
+	volatile bool closed;
 };
 
 

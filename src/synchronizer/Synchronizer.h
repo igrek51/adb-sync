@@ -9,6 +9,7 @@
 #include "../dispatcher/IEventObserver.h"
 #include "DiffScanner.h"
 #include <vector>
+#include <mutex>
 
 using namespace std;
 
@@ -26,6 +27,9 @@ private:
 	vector<Database*>* databases;
 
 	vector<Diff*>* diffs;
+	mutex diffsMutex;
+
+	DiffScanner* diffscanner;
 
 	void loadConfig();
 

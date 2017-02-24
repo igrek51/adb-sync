@@ -23,9 +23,10 @@ public:
 
 	~MainWindow();
 
-	void uiMessage(string msg);
-
+signals:
 	void setProgress(double p);
+
+	void uiMessage(string msg);
 
 	void buttonsEnable(bool enable);
 
@@ -33,8 +34,19 @@ public:
 
 	void updateDiffs(vector<Diff*>* diffs);
 
-private slots:
+public slots:
 
+	void setProgressSlot(double p);
+
+	void uiMessageSlot(string msg);
+
+	void buttonsEnableSlot(bool enable);
+
+	void addDiffSlot(Diff* diff);
+
+	void updateDiffsSlot(vector<Diff*>* diffs);
+
+private slots:
 	void on_pb_scan_clicked();
 
 	void on_pb_delete_clicked();

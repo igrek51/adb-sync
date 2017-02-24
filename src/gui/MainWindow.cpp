@@ -12,11 +12,20 @@
 #include "../events/ExecuteAllDiffsButtonClicked.h"
 #include "../version.h"
 #include "../events/DiffInvertedButtonClicked.h"
+#include <QThread>
 
 MainWindow::MainWindow(QWidget* parent) :
 		QMainWindow(parent),
 		ui(new Ui::MainWindow) {
 	ui->setupUi(this);
+
+	// signals connected to slots to ensure repainting window in same thread
+	connect(this, SIGNAL(setProgress(double)), this, SLOT(setProgressSlot(double)));
+	connect(this, SIGNAL(uiMessage(string)), this, SLOT(uiMessageSlot(string)));
+	connect(this, SIGNAL(buttonsEnable(bool)), this, SLOT(buttonsEnableSlot(bool)));
+	connect(this, SIGNAL(addDiff(Diff * )), this, SLOT(addDiffSlot(Diff * )));
+	connect(this, SIGNAL(updateDiffs(vector<Diff*> * )), this,
+			SLOT(updateDiffsSlot(vector<Diff*> * )));
 
 	listBox = new DiffListBox(ui->list1);
 
@@ -58,12 +67,12 @@ void MainWindow::on_list1_cellClicked(int, int) {
 //    Logger::info("click");
 }
 
-void MainWindow::uiMessage(string msg) {
+void MainWindow::uiMessageSlot(string msg) {
 	ui->ui_messages->setText(msg.c_str());
 	Logger::info("UI: " + msg);
 }
 
-void MainWindow::buttonsEnable(bool enable) {
+void MainWindow::buttonsEnableSlot(bool enable) {
 	ui->pb_delete->setEnabled(enable);
 	ui->pb_execute->setEnabled(enable);
 	ui->pb_execute_all->setEnabled(enable);
@@ -71,16 +80,16 @@ void MainWindow::buttonsEnable(bool enable) {
 //    ui->pb_scan->setEnabled(enable);
 }
 
-void MainWindow::setProgress(double p) {
+void MainWindow::setProgressSlot(double p) {
 	if (p > 1) p = 1;
 	ui->progress1->setValue((int) (p * 100));
 	this->repaint();
 }
 
-void MainWindow::addDiff(Diff* diff) {
+void MainWindow::addDiffSlot(Diff* diff) {
 	listBox->addDiff(diff);
 }
 
-void MainWindow::updateDiffs(vector<Diff*>* diffs) {
+void MainWindow::updateDiffsSlot(vector<Diff*>* diffs) {
 	listBox->update(diffs);
 }

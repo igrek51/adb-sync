@@ -19,6 +19,7 @@ Synchronizer::Synchronizer() {
 	loadConfig();
 	registerEvents();
 	diffs = new vector<Diff*>();
+	diffscanner = nullptr; // not initialized
 }
 
 Synchronizer::~Synchronizer() {
@@ -26,6 +27,11 @@ Synchronizer::~Synchronizer() {
 		delete db;
 	}
 	databases->clear();
+	// close thread
+	if (diffscanner != nullptr) {
+		delete diffscanner;
+		diffscanner = nullptr;
+	}
 }
 
 void Synchronizer::registerEvents() {
@@ -54,23 +60,29 @@ void Synchronizer::onEvent(Event* e) {
 	} else if (e->instanceof<DiffPartialScanCompleted*>()) {
 		Diff* newDiff = e->cast<DiffPartialScanCompleted*>()->newDiff;
 		if (newDiff != nullptr) {
+			diffsMutex.lock();
 			diffs->push_back(newDiff);
+			diffsMutex.unlock();
 		}
 	}
 }
 
 void Synchronizer::scanDiffs() {
 	try {
-		//TODO execute in another thread
-		// TODO mutexy na diffs
+		if (diffscanner == nullptr || !diffscanner->busy()) {
+			// destroy previous scanner
+			if (diffscanner != nullptr) {
+				delete diffscanner;
+				diffscanner = nullptr;
+			}
 
-		diffs->clear();
-
-		DiffScanner* diffscanner = new DiffScanner();
-		diffscanner->scanDiffs(databases);
-
-		for (Diff* diff : *diffs) {
-			Logger::info("diff: " + diff->localFile + ", type: " + to_string((int) diff->type));
+			// new scanning in separate thread
+			diffsMutex.lock();
+			diffs->clear();
+			diffsMutex.unlock();
+			diffscanner = new DiffScanner(databases);
+		} else {
+			Logger::warn("Difference scanning already running");
 		}
 
 	} catch (Error* e) {
@@ -85,6 +97,7 @@ void Synchronizer::loadConfig() {
 }
 
 void Synchronizer::removeDiff(int index) {
+	diffsMutex.lock();
 	if (index == -1 || index >= (int) diffs->size()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
@@ -94,9 +107,11 @@ void Synchronizer::removeDiff(int index) {
 		EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 		EventDispatcher::sendNow(new ShowUIMessageRequest("difference removed"));
 	}
+	diffsMutex.unlock();
 }
 
 void Synchronizer::syncDiff(int index) {
+	diffsMutex.lock();
 	if (index == -1 || index >= (int) diffs->size()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
@@ -110,9 +125,11 @@ void Synchronizer::syncDiff(int index) {
 		EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 		EventDispatcher::sendNow(new ShowUIMessageRequest("difference synchronized"));
 	}
+	diffsMutex.unlock();
 }
 
 void Synchronizer::syncAllDiffs() {
+	diffsMutex.lock();
 	//TODO execute in another thread
 	DiffSync* diffSync = new DiffSync();
 	diffSync->syncDiffs(diffs);
@@ -124,9 +141,11 @@ void Synchronizer::syncAllDiffs() {
 	diffs->clear();
 	EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 	EventDispatcher::sendNow(new ShowUIMessageRequest("all differences synchronized"));
+	diffsMutex.unlock();
 }
 
 void Synchronizer::invertDiff(int index) {
+	diffsMutex.lock();
 	if (index == -1 || index >= (int) diffs->size()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
@@ -137,4 +156,5 @@ void Synchronizer::invertDiff(int index) {
 		EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 		EventDispatcher::sendNow(new ShowUIMessageRequest("difference inverted"));
 	}
+	diffsMutex.unlock();
 }

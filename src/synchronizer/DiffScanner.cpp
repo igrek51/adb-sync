@@ -13,7 +13,8 @@
 //TODO possibility to stop scanning
 //TODO synchronizing single files from configuration
 
-DiffScanner::DiffScanner() {
+DiffScanner::DiffScanner(vector<Database*>* dbs) {
+	this->dbs = dbs;
 	adb = new ADB();
 	localFS = new LocalFS();
 }
@@ -23,12 +24,14 @@ DiffScanner::~DiffScanner() {
 	delete localFS;
 }
 
-void DiffScanner::scanDiffs(vector<Database*>* dbs) {
+void DiffScanner::scanDiffs() {
+
 	setProgress(0);
 	// set diffs list empty
 	vector<Diff*>* diffs = new vector<Diff*>();
 	EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
-	delete diffs;
+	//FIXME delete empty diffs list, but beware of multithreading and repainting gui
+//	delete diffs;
 
 	adb->testADB();
 	adb->detectDevice();
@@ -180,4 +183,8 @@ void DiffScanner::deleteFilesList(vector<File*>* files) {
 		delete file;
 	}
 	delete files;
+}
+
+void DiffScanner::run() {
+	scanDiffs();
 }

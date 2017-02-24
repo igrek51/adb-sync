@@ -9,22 +9,29 @@
 #include "../config/Database.h"
 #include "../filesystem/LocalFS.h"
 #include "../filesystem/ADB.h"
+#include "../threads/SingleThread.h"
 #include <vector>
 
 using namespace std;
 
-class DiffScanner {
+class DiffScanner : public SingleThread {
 public:
-	DiffScanner();
+	DiffScanner(vector<Database*>* dbs);
 
 	~DiffScanner();
 
-	void scanDiffs(vector<Database*>* dbs);
+	void scanDiffs();
+
+protected:
+
+	virtual void run() override;
 
 private:
 	ADB* adb;
 
 	LocalFS* localFS;
+
+	vector<Database*>* dbs;
 
 	double calcProgres(int index, unsigned long all);
 

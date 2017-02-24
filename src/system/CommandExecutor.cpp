@@ -14,7 +14,7 @@ void CommandExecutor::executeVerbose(string cmd) {
 }
 
 void CommandExecutor::execute(string cmd) {
-	Logger::debug("executing: " + cmd);
+//	Logger::debug("executing: " + cmd);
 
 	FILE* fp = popen(cmd.c_str(), "r");
 	int errorCode = pclose(fp);
@@ -24,7 +24,7 @@ void CommandExecutor::execute(string cmd) {
 }
 
 string CommandExecutor::executeAndRead(string cmd) {
-	Logger::debug("executing: " + cmd);
+//	Logger::debug("executing: " + cmd);
 
 	char buffer[128];
 	stringstream result;
