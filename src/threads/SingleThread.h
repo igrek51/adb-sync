@@ -9,7 +9,6 @@
 
 using namespace std;
 
-//TODO inherit from Thread
 class SingleThread {
 public:
 	SingleThread();
@@ -18,18 +17,19 @@ public:
 
 	bool busy();
 
-protected:
+	void start();
 
+protected:
 	virtual void run() = 0;
 
 	string threadName();
 
 private:
+	void runContainer();
 
 	void* boostThread; // type void* to avoid including boost/thread.hpp in every file including header
 
-	void start();
-
+	volatile bool started;
 	/// if run() has completed
 	volatile bool closed;
 };

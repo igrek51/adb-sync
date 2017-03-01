@@ -34,12 +34,43 @@ public:
 	}
 };
 
+class Thread3 : public SingleThread {
+public:
+	virtual void run() {
+		Logger::info("running thread 3.1");
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		Logger::info("running thread 3.2");
+	}
+};
+
 class ThreadsTest : public TestApp {
 public:
 	virtual void runTest() override {
 
+		// running thread and waiting for finishing
+		Logger::info("Test 1:");
+		SingleThread* thread3 = new Thread3();
+		thread3->start();
+		while (thread3->busy()) {
+			continue;
+		}
+		delete thread3;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+		// interrupting thread
+		Logger::info("Test 2:");
+		thread3 = new Thread3();
+		thread3->start();
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		delete thread3;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+		// multithreading
+		Logger::info("Test 3:");
 		SingleThread* thread1 = new Thread1();
 		SingleThread* thread2 = new Thread2();
+		thread1->start();
+		thread2->start();
 
 		while (thread1->busy() || thread2->busy()) {
 //			Logger::info("waiting...");

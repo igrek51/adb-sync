@@ -7,36 +7,50 @@
 #include <boost/thread.hpp>
 
 SingleThread::SingleThread() {
+	started = false;
 	closed = false;
-	boostThread = reinterpret_cast<void*>(new boost::thread(
-			boost::bind(&SingleThread::start, this)));
-	Logger::debug("Thread has been created");
+	boostThread = nullptr;
 }
 
 SingleThread::~SingleThread() {
-	boost::thread* boost_thread2 = reinterpret_cast<boost::thread*>(boostThread);
-	boost_thread2->interrupt();
-	boost_thread2->detach();
-	delete boost_thread2;
-	boostThread = nullptr;
-	if (!closed) {
-		Logger::debug("Thread " + threadName() + " has been interrupted.");
+	if (boostThread != nullptr) {
+		boost::thread* boost_thread2 = reinterpret_cast<boost::thread*>(boostThread);
+		boost_thread2->interrupt();
+		boost_thread2->detach();
+		delete boost_thread2;
+		boostThread = nullptr;
+		if (!closed) {
+			Logger::debug("Thread " + threadName() + " has been interrupted.");
+		}
+		closed = true;
 	}
 	Logger::debug("Thread has been destroyed");
 }
 
 bool SingleThread::busy() {
-	return !closed;
+	return started && !closed;
 }
 
 void SingleThread::start() {
-	Logger::debug("Thread " + threadName() + " has started");
-	run();
-	closed = true;
-	Logger::debug("Thread " + threadName() + " has finished");
+	if (started) {
+		Logger::warn("Thread has been started already");
+	}
+	started = true;
+
+	boostThread = reinterpret_cast<void*>(new boost::thread(
+			boost::bind(&SingleThread::runContainer, this)));
 }
 
 string SingleThread::threadName() {
 	return typeid(*this).name();
 //    return boost::typeindex::type_id_with_cvr<decltype(*this)>().pretty_name();
+}
+
+void SingleThread::runContainer() {
+	Logger::debug("Thread " + threadName() + " has been started");
+	run();
+	if (closed) // if had been interrupted
+		return;
+	closed = true;
+	Logger::debug("Thread " + threadName() + " has finished");
 }
