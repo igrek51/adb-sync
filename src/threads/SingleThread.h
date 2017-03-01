@@ -24,14 +24,14 @@ protected:
 
 	string threadName();
 
+	/// if run() has completed
+	volatile bool closed;
 private:
 	void runContainer();
 
 	void* boostThread; // type void* to avoid including boost/thread.hpp in every file including header
 
 	volatile bool started;
-	/// if run() has completed
-	volatile bool closed;
 };
 
 

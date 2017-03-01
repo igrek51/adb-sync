@@ -1,25 +1,28 @@
 #ifndef LOOP_THREAD_H
 #define LOOP_THREAD_H
 
-#include "Thread.h"
+#include "SingleThread.h"
 
-class LoopThread : public Thread {
+class LoopThread : public SingleThread {
 public:
-	LoopThread(int wait_for_close = 0);
+	/**
+	 * @param waitForCloseMs milliseconds waiting for self closing the thread before force close
+	 */
+	LoopThread(int waitForCloseMs = 0);
 
 	virtual ~LoopThread();
 
 protected:
-
 	virtual void run() override;
 
 	virtual void runLoop() = 0;
 
-private:
+	static void sleepMs(int ms);
 
-	int wait_for_close;
-	/// if run() has completed
-	volatile bool closed;
+	volatile bool closeRequest;
+
+private:
+	int waitForCloseMs;
 };
 
 #endif

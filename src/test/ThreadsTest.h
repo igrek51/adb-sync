@@ -6,6 +6,7 @@
 
 #include "TestApp.h"
 #include "../threads/SingleThread.h"
+#include "../threads/LoopThread.h"
 #include <thread>
 
 
@@ -40,6 +41,16 @@ public:
 		Logger::info("running thread 3.1");
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		Logger::info("running thread 3.2");
+	}
+};
+
+class Loop1 : public LoopThread {
+public:
+	Loop1() : LoopThread(10) {}
+
+	virtual void runLoop() {
+		Logger::info("running loop..");
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 };
 
@@ -79,6 +90,16 @@ public:
 
 		delete thread1;
 		delete thread2;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+		// loop thread
+		Logger::info("Test 4:");
+		Loop1* loop1 = new Loop1();
+		loop1->start();
+		std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+		delete loop1;
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
 	}
 };
 
