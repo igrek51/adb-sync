@@ -18,6 +18,8 @@ public:
 
 private:
 	static void signalTraceHandler(int sig);
+
+	static string signalName(int number);
 };
 
 

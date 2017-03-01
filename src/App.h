@@ -30,6 +30,8 @@ private:
 	Synchronizer* synchronizer;
 
 	static void signalTraceHandler(int sig);
+
+	static string signalName(int number);
 };
 
 

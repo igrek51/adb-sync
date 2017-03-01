@@ -27,9 +27,21 @@ App::~App() {
 void App::signalTraceHandler(int sig) {
 	void* array[10];
 	int size = backtrace(array, 10);
-	Logger::error("Signal " + to_string(sig) + " caught, stack trace:");
+	Logger::error("Signal " + signalName(sig) + " caught, stack trace:");
 	backtrace_symbols_fd(array, size, STDOUT_FILENO);
 	exit(1);
+}
+
+string App::signalName(int number) {
+	switch (number) {
+		case SIGSEGV:
+			return "Segmentation violation";
+		case SIGINT:
+			return "Interrupt";
+		case SIGILL:
+			return "Illegal instruction";
+	}
+	return to_string(number);
 }
 
 int App::run() {
