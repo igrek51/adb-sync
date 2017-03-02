@@ -979,9 +979,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-build/.obj/main.o: src/main.cpp src/test/ThreadsTest.h \
-		src/test/TestApp.h \
-		src/App.h \
+build/.obj/main.o: src/main.cpp src/App.h \
 		src/synchronizer/Synchronizer.h \
 		src/config/Database.h \
 		src/dispatcher/IEventObserver.h \
@@ -995,13 +993,15 @@ build/.obj/main.o: src/main.cpp src/test/ThreadsTest.h \
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
+		src/threads/SingleThread.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
+		src/test/ThreadsTest.h \
+		src/test/TestApp.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
-		src/errors/Error.h \
-		src/threads/SingleThread.h
+		src/errors/Error.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
@@ -1130,7 +1130,9 @@ build/.obj/MainWindow.o: src/gui/MainWindow.cpp src/gui/MainWindow.h \
 		src/dispatcher/EventClass.h \
 		src/events/DiffRemovedButtonClicked.h \
 		src/events/ExecuteDiffButtonClicked.h \
-		src/events/ExecuteAllDiffsButtonClicked.h
+		src/events/ExecuteAllDiffsButtonClicked.h \
+		src/version.h \
+		src/events/DiffInvertedButtonClicked.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/MainWindow.o src/gui/MainWindow.cpp
 
 build/.obj/DiffListBox.o: src/gui/DiffListBox.cpp src/gui/DiffListBox.h \
@@ -1151,6 +1153,7 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
+		src/threads/SingleThread.h \
 		src/config/ConfigLoader.h \
 		src/config/ConfigProperties.h \
 		src/dispatcher/EventDispatcher.h \
@@ -1164,7 +1167,9 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 		src/events/DiffListUpdateRequest.h \
 		src/events/ExecuteDiffButtonClicked.h \
 		src/events/ExecuteAllDiffsButtonClicked.h \
-		src/synchronizer/DiffSync.h
+		src/synchronizer/DiffSync.h \
+		src/events/DiffInvertedButtonClicked.h \
+		src/events/DiffPartialScanCompleted.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
 build/.obj/CommandExecutor.o: src/system/CommandExecutor.cpp src/system/CommandExecutor.h \
@@ -1184,6 +1189,7 @@ build/.obj/DiffScanner.o: src/synchronizer/DiffScanner.cpp src/synchronizer/Diff
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
+		src/threads/SingleThread.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
 		src/errors/Error.h \
@@ -1234,6 +1240,7 @@ build/.obj/App.o: src/App.cpp src/App.h \
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
+		src/threads/SingleThread.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
@@ -1268,6 +1275,7 @@ build/.obj/TestApp.o: src/test/TestApp.cpp src/test/TestApp.h \
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
+		src/threads/SingleThread.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
@@ -1285,6 +1293,7 @@ build/.obj/DiffSync.o: src/synchronizer/DiffSync.cpp src/synchronizer/DiffSync.h
 		src/filesystem/RegularFile.h \
 		src/filesystem/Directory.h \
 		src/filesystem/LocalFS.h \
+		src/threads/SingleThread.h \
 		src/dispatcher/EventDispatcher.h \
 		src/dispatcher/IEventObserver.h \
 		src/dispatcher/Event.h \

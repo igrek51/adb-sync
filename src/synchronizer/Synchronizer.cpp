@@ -11,15 +11,17 @@
 #include "../events/DiffListUpdateRequest.h"
 #include "../events/ExecuteDiffButtonClicked.h"
 #include "../events/ExecuteAllDiffsButtonClicked.h"
-#include "DiffSync.h"
 #include "../events/DiffInvertedButtonClicked.h"
 #include "../events/DiffPartialScanCompleted.h"
+#include "../events/DiffSyncCompleted.h"
+#include <algorithm>
 
 Synchronizer::Synchronizer() {
 	loadConfig();
 	registerEvents();
 	diffs = new vector<Diff*>();
 	diffscanner = nullptr; // not initialized
+	diffSync = nullptr; // not initialized
 }
 
 Synchronizer::~Synchronizer() {
@@ -27,10 +29,14 @@ Synchronizer::~Synchronizer() {
 		delete db;
 	}
 	databases->clear();
-	// close thread
+	// close threads
 	if (diffscanner != nullptr) {
 		delete diffscanner;
 		diffscanner = nullptr;
+	}
+	if (diffSync != nullptr) {
+		delete diffSync;
+		diffSync = nullptr;
 	}
 }
 
@@ -41,6 +47,7 @@ void Synchronizer::registerEvents() {
 	EventDispatcher::registerEventObserver<ExecuteAllDiffsButtonClicked>(this);
 	EventDispatcher::registerEventObserver<DiffInvertedButtonClicked>(this);
 	EventDispatcher::registerEventObserver<DiffPartialScanCompleted>(this);
+	EventDispatcher::registerEventObserver<DiffSyncCompleted>(this);
 }
 
 void Synchronizer::onEvent(Event* e) {
@@ -64,7 +71,35 @@ void Synchronizer::onEvent(Event* e) {
 			diffs->push_back(newDiff);
 			diffsMutex.unlock();
 		}
+	} else if (e->instanceof<DiffSyncCompleted*>()) {
+		Diff* diff = e->cast<DiffSyncCompleted*>()->diff;
+		if (diff != nullptr) {
+			diffSynced(diff);
+		} else {
+			// synchronizing finished
+			EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
+			EventDispatcher::sendNow(new ShowUIMessageRequest("all differences synchronized"));
+		}
 	}
+}
+
+void Synchronizer::diffSynced(Diff* diff) {
+	diffsMutex.lock();
+
+	// find diff on the list
+	auto it = find(diffs->begin(), diffs->end(), diff);
+	if (it == diffs->end()) {
+		Logger::error("diff not found on the list");
+	} else {
+		//remove synchronized diff
+		diffs->erase(it);
+		delete diff;
+
+		EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
+		EventDispatcher::sendNow(new ShowUIMessageRequest("difference synchronized"));
+	}
+
+	diffsMutex.unlock();
 }
 
 void Synchronizer::scanDiffs() {
@@ -81,6 +116,7 @@ void Synchronizer::scanDiffs() {
 			diffs->clear();
 			diffsMutex.unlock();
 			diffscanner = new DiffScanner(databases);
+			diffscanner->start();
 		} else {
 			Logger::warn("Difference scanning already running");
 		}
@@ -116,31 +152,41 @@ void Synchronizer::syncDiff(int index) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no difference selected"));
 	} else {
 		Diff* diff = diffs->at((unsigned long) index);
-		//TODO execute in another thread
-		DiffSync* diffSync = new DiffSync();
-		diffSync->syncDiff(diff);
-		delete diffSync;
-		//remove synchronized diff
-		diffs->erase(diffs->begin() + index);
-		EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
-		EventDispatcher::sendNow(new ShowUIMessageRequest("difference synchronized"));
+
+		if (diffSync == nullptr || !diffSync->busy()) {
+			// destroy previous sync
+			if (diffSync != nullptr) {
+				delete diffSync;
+				diffSync = nullptr;
+			}
+
+			// sync in separate thread
+			diffSync = new DiffSync(diff);
+			diffSync->start();
+		} else {
+			Logger::warn("Difference synchronizing already running");
+		}
 	}
 	diffsMutex.unlock();
 }
 
 void Synchronizer::syncAllDiffs() {
 	diffsMutex.lock();
-	//TODO execute in another thread
-	DiffSync* diffSync = new DiffSync();
-	diffSync->syncDiffs(diffs);
-	delete diffSync;
-	//remove synchronized diffs
-	for (Diff* diff : *diffs) {
-		delete diff;
+
+	if (diffSync == nullptr || !diffSync->busy()) {
+		// destroy previous sync
+		if (diffSync != nullptr) {
+			delete diffSync;
+			diffSync = nullptr;
+		}
+
+		// sync in separate thread
+		diffSync = new DiffSync(diffs);
+		diffSync->start();
+	} else {
+		Logger::warn("Difference synchronizing already running");
 	}
-	diffs->clear();
-	EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
-	EventDispatcher::sendNow(new ShowUIMessageRequest("all differences synchronized"));
+
 	diffsMutex.unlock();
 }
 

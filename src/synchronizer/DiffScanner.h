@@ -23,7 +23,6 @@ public:
 	void scanDiffs();
 
 protected:
-
 	virtual void run() override;
 
 private:

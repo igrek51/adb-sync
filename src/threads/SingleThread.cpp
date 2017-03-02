@@ -48,7 +48,14 @@ string SingleThread::threadName() {
 
 void SingleThread::runContainer() {
 	Logger::debug("Thread " + threadName() + " has been started");
-	run();
+
+	try {
+		run();
+	} catch (Error* e) {
+		Logger::error("Uncaught error:" + e->getMessage());
+		delete e;
+	}
+
 	if (closed) // if had been interrupted
 		return;
 	closed = true;

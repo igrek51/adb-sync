@@ -8,26 +8,39 @@
 #include "../diffs/Diff.h"
 #include "../filesystem/ADB.h"
 #include "../filesystem/LocalFS.h"
+#include "../threads/SingleThread.h"
 #include <vector>
 
 using namespace std;
 
-class DiffSync {
-public:
+class DiffSync : public SingleThread {
+private:
 	DiffSync();
+
+public:
+	DiffSync(Diff* diff);
+
+	DiffSync(vector<Diff*>* diffs);
 
 	~DiffSync();
 
-	void syncDiff(Diff* diff);
-
-	void syncDiffs(vector<Diff*>* diffs);
+protected:
+	virtual void run() override;
 
 private:
 	ADB* adb;
 
 	LocalFS* localFS;
 
+	Diff* diff;
+
+	vector<Diff*>* diffs;
+
 	void setProgress(double p);
+
+	void syncDiff(Diff* diff);
+
+	void syncDiffs(vector<Diff*>* diffs);
 };
 
 

@@ -186,5 +186,10 @@ void DiffScanner::deleteFilesList(vector<File*>* files) {
 }
 
 void DiffScanner::run() {
-	scanDiffs();
+	try {
+		scanDiffs();
+	} catch (Error* e) {
+		Logger::error("error scanning diffs: " + e->getMessage());
+		delete e;
+	}
 }

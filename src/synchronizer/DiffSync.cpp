@@ -5,11 +5,23 @@
 #include "DiffSync.h"
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/ProgressUpdated.h"
+#include "../events/DiffSyncCompleted.h"
 
 DiffSync::DiffSync() {
 	adb = new ADB();
 	localFS = new LocalFS();
 }
+
+DiffSync::DiffSync(Diff* diff) : DiffSync() {
+	this->diff = diff;
+	this->diffs = nullptr;
+}
+
+DiffSync::DiffSync(vector<Diff*>* diffs) : DiffSync() {
+	this->diff = nullptr;
+	this->diffs = diffs;
+}
+
 
 DiffSync::~DiffSync() {
 	delete adb;
@@ -64,6 +76,9 @@ void DiffSync::syncDiff(Diff* diff) {
 				break;
 		}
 	}
+
+	//send event - sync finished
+	EventDispatcher::sendNow(new DiffSyncCompleted(diff));
 }
 
 void DiffSync::syncDiffs(vector<Diff*>* diffs) {
@@ -73,8 +88,19 @@ void DiffSync::syncDiffs(vector<Diff*>* diffs) {
 		syncDiff(diff);
 	}
 	setProgress(1);
+
+	//send event - all sync finished
+	EventDispatcher::sendNow(new DiffSyncCompleted(nullptr));
 }
 
 void DiffSync::setProgress(double p) {
 	EventDispatcher::sendNow(new ProgressUpdated(p));
+}
+
+void DiffSync::run() {
+	if (diff != nullptr) {
+		syncDiff(diff);
+	} else if (diffs != nullptr) {
+		syncDiffs(diffs);
+	}
 }

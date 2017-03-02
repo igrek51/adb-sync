@@ -8,6 +8,7 @@
 #include "../config/Database.h"
 #include "../dispatcher/IEventObserver.h"
 #include "DiffScanner.h"
+#include "DiffSync.h"
 #include <vector>
 #include <mutex>
 
@@ -31,6 +32,8 @@ private:
 
 	DiffScanner* diffscanner;
 
+	DiffSync* diffSync;
+
 	void loadConfig();
 
 	void scanDiffs();
@@ -42,6 +45,8 @@ private:
 	void syncAllDiffs();
 
 	void invertDiff(int index);
+
+	void diffSynced(Diff* diff);
 };
 
 
