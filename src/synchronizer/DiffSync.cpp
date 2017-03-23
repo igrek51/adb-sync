@@ -82,12 +82,21 @@ void DiffSync::syncDiff(Diff* diff) {
 }
 
 void DiffSync::syncDiffs(vector<Diff*>* diffs) {
-	for (unsigned int i = 0; i < diffs->size(); i++) {
-		setProgress((double) (i) / diffs->size());
-		Diff* diff = diffs->at(i);
+	// create copy of diffs because diffs list will be modified by DiffSyncCompleted event
+	vector<Diff*>* diffsCopy = new vector<Diff*>();
+	for (Diff* diff : *diffs) {
+		diffsCopy->push_back(diff);
+	}
+
+	for (unsigned int i = 0; i < diffsCopy->size(); i++) {
+		setProgress((double) (i) / diffsCopy->size());
+		Diff* diff = diffsCopy->at(i);
 		syncDiff(diff);
 	}
 	setProgress(1);
+
+	diffsCopy->clear();
+	delete diffsCopy;
 
 	//send event - all sync finished
 	EventDispatcher::sendNow(new DiffSyncCompleted(nullptr));

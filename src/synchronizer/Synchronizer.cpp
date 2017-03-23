@@ -76,6 +76,13 @@ void Synchronizer::onEvent(Event* e) {
 		if (diff != nullptr) {
 			diffSynced(diff);
 		} else {
+			// clear all diffs
+			diffsMutex.lock();
+			for (Diff* diff : *diffs) {
+				delete diff;
+			}
+			diffs->clear();
+			diffsMutex.unlock();
 			// synchronizing finished
 			EventDispatcher::sendNow(new DiffListUpdateRequest(diffs));
 			EventDispatcher::sendNow(new ShowUIMessageRequest("all differences synchronized"));
