@@ -47,7 +47,7 @@ private:
 
 	RegularFile* parseLsRegularFile(string path, vector<string>* parts);
 
-	string busyboxPath;
+	string busyboxDirPath;
 };
 
 

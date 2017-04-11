@@ -35,6 +35,7 @@ void DiffScanner::scanDiffs() {
 
 	adb->testADB();
 	adb->detectDevice();
+	adb->checkBusyBox();
 
 	if (dbs->empty()) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("no database defined to scan"));

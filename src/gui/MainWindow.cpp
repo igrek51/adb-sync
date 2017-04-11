@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget* parent) :
 		ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 
+	qRegisterMetaType<std::string>("string");
+
 	// signals connected to slots to ensure repainting window in same thread
 	connect(this, SIGNAL(setProgress(double)), this, SLOT(setProgressSlot(double)));
 	connect(this, SIGNAL(uiMessage(string)), this, SLOT(uiMessageSlot(string)));

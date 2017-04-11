@@ -12,7 +12,7 @@
 
 ADB::ADB() {
 	//TODO move to configuration file
-	busyboxPath = "/data/local/tmp/adb-sync/";
+	busyboxDirPath = "/data/local/tmp/adb-sync/";
 }
 
 void ADB::testADB() {
@@ -56,9 +56,23 @@ void ADB::detectDevice() {
 }
 
 void ADB::checkBusyBox() {
-	//TODO check if exists buxybox, if not, create it
-	//TODO create symbolic links
-	//TODO testbusybox execution
+	// check if directory for busybox exists in tmp folder
+	if (!pathExists(busyboxDirPath)) {
+		Logger::debug("creating directory for busybox: " + busyboxDirPath);
+		shell("mkdir " + busyboxDirPath);
+	}
+	// check if busybox exists
+	string busyboxPath = busyboxDirPath + "busybox";
+	if (!pathExists(busyboxPath)) {
+		Logger::debug("copying busybox...");
+		push("busybox", busyboxPath);
+	}
+	// check if symbolic links exists
+	string cksumPath = busyboxDirPath + "cksum";
+	if (!pathExists(cksumPath)) {
+		Logger::debug("creating cksum link...");
+		shell("ln -s " + busyboxPath + " " + cksumPath);
+	}
 }
 
 string ADB::shell(string cmd) {
@@ -99,7 +113,7 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
 
 	// get output from cksum: CRC checksum, total size (bytes), filename
 	//TODO do not check crc checksum if file is big (exceeds some filesize threshold), then check only total size
-	string output = shell(busyboxPath +
+	string output = shell(busyboxDirPath +
 						  "cksum " + escapeShellPath(file->getFullPathName()));
 	vector<string>* parts = splitByAny(output, " \n\r");
 	if (parts->size() < 3) {

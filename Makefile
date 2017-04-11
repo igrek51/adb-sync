@@ -387,7 +387,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		src/test/TestApp.h \
 		src/test/LocalFSTest.h \
 		src/test/QApplicationTest.h \
-		src/test/ThreadsTest.h src/main.cpp \
+		src/test/ThreadsTest.h \
+		src/test/BusyboxTest.h src/main.cpp \
 		src/logger/Logger.cpp \
 		src/dispatcher/EventDispatcher.cpp \
 		src/dispatcher/IEventObserver.cpp \
@@ -915,7 +916,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/dispatcher/EventClass.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CommandExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h src/errors/SystemCmdError.h src/errors/ParseError.h src/events/DiffInvertedButtonClicked.h src/events/DiffListUpdateRequest.h src/events/DiffRemovedButtonClicked.h src/events/DiffScanButtonClicked.h src/events/DiffPartialScanCompleted.h src/events/DiffSyncCompleted.h src/events/ExecuteAllDiffsButtonClicked.h src/events/ExecuteDiffButtonClicked.h src/events/ProgressUpdated.h src/events/ShowUIMessageRequest.h src/synchronizer/DiffSync.h src/test/TestApp.h src/test/LocalFSTest.h src/test/QApplicationTest.h src/test/ThreadsTest.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/logger/Logger.h src/dispatcher/EventDispatcher.h src/dispatcher/IEventObserver.h src/dispatcher/Event.h src/dispatcher/EventClass.h src/config/ConfigLoader.h src/config/ConfigProperties.h src/config/Database.h src/errors/Error.h src/filesystem/FileSystem.h src/filesystem/LocalFS.h src/filesystem/ADB.h src/filesystem/File.h src/filesystem/Directory.h src/filesystem/RegularFile.h src/gui/GUI.h src/gui/MainWindow.h src/gui/DiffListBox.h src/synchronizer/Synchronizer.h src/system/CommandExecutor.h src/synchronizer/DiffScanner.h src/diffs/Diff.h src/diffs/DiffType.h src/threads/SingleThread.h src/threads/Thread.h src/threads/LoopThread.h src/App.h src/utils/string_utils.h src/errors/SystemCmdError.h src/errors/ParseError.h src/events/DiffInvertedButtonClicked.h src/events/DiffListUpdateRequest.h src/events/DiffRemovedButtonClicked.h src/events/DiffScanButtonClicked.h src/events/DiffPartialScanCompleted.h src/events/DiffSyncCompleted.h src/events/ExecuteAllDiffsButtonClicked.h src/events/ExecuteDiffButtonClicked.h src/events/ProgressUpdated.h src/events/ShowUIMessageRequest.h src/synchronizer/DiffSync.h src/test/TestApp.h src/test/LocalFSTest.h src/test/QApplicationTest.h src/test/ThreadsTest.h src/test/BusyboxTest.h $(DISTDIR)/
 	$(COPY_FILE) --parents src/main.cpp src/logger/Logger.cpp src/dispatcher/EventDispatcher.cpp src/dispatcher/IEventObserver.cpp src/dispatcher/Event.cpp src/dispatcher/EventClass.cpp src/config/ConfigLoader.cpp src/config/ConfigProperties.cpp src/config/Database.cpp src/errors/Error.cpp src/filesystem/FileSystem.cpp src/filesystem/LocalFS.cpp src/filesystem/ADB.cpp src/filesystem/File.cpp src/filesystem/Directory.cpp src/filesystem/RegularFile.cpp src/gui/GUI.cpp src/gui/MainWindow.cpp src/gui/DiffListBox.cpp src/synchronizer/Synchronizer.cpp src/system/CommandExecutor.cpp src/synchronizer/DiffScanner.cpp src/diffs/Diff.cpp src/threads/SingleThread.cpp src/threads/Thread.cpp src/threads/LoopThread.cpp src/App.cpp src/utils/string_utils.cpp src/errors/SystemCmdError.cpp src/errors/ParseError.cpp src/test/TestApp.cpp src/synchronizer/DiffSync.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui $(DISTDIR)/
 
@@ -994,14 +995,10 @@ build/.obj/main.o: src/main.cpp src/App.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
 		src/threads/SingleThread.h \
+		src/synchronizer/DiffSync.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
-		src/gui/DiffListBox.h \
-		src/test/ThreadsTest.h \
-		src/test/TestApp.h \
-		src/logger/Logger.h \
-		src/logger/LogLevel.h \
-		src/errors/Error.h
+		src/gui/DiffListBox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/main.o src/main.cpp
 
 build/.obj/Logger.o: src/logger/Logger.cpp src/logger/Logger.h \
@@ -1154,6 +1151,7 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
 		src/threads/SingleThread.h \
+		src/synchronizer/DiffSync.h \
 		src/config/ConfigLoader.h \
 		src/config/ConfigProperties.h \
 		src/dispatcher/EventDispatcher.h \
@@ -1167,9 +1165,9 @@ build/.obj/Synchronizer.o: src/synchronizer/Synchronizer.cpp src/synchronizer/Sy
 		src/events/DiffListUpdateRequest.h \
 		src/events/ExecuteDiffButtonClicked.h \
 		src/events/ExecuteAllDiffsButtonClicked.h \
-		src/synchronizer/DiffSync.h \
 		src/events/DiffInvertedButtonClicked.h \
-		src/events/DiffPartialScanCompleted.h
+		src/events/DiffPartialScanCompleted.h \
+		src/events/DiffSyncCompleted.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Synchronizer.o src/synchronizer/Synchronizer.cpp
 
 build/.obj/CommandExecutor.o: src/system/CommandExecutor.cpp src/system/CommandExecutor.h \
@@ -1220,7 +1218,7 @@ build/.obj/Thread.o: src/threads/Thread.cpp src/threads/Thread.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/Thread.o src/threads/Thread.cpp
 
 build/.obj/LoopThread.o: src/threads/LoopThread.cpp src/threads/LoopThread.h \
-		src/threads/Thread.h \
+		src/threads/SingleThread.h \
 		src/logger/Logger.h \
 		src/logger/LogLevel.h \
 		src/errors/Error.h
@@ -1241,6 +1239,7 @@ build/.obj/App.o: src/App.cpp src/App.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
 		src/threads/SingleThread.h \
+		src/synchronizer/DiffSync.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
@@ -1276,6 +1275,7 @@ build/.obj/TestApp.o: src/test/TestApp.cpp src/test/TestApp.h \
 		src/filesystem/Directory.h \
 		src/filesystem/ADB.h \
 		src/threads/SingleThread.h \
+		src/synchronizer/DiffSync.h \
 		src/gui/GUI.h \
 		src/gui/MainWindow.h \
 		src/gui/DiffListBox.h \
@@ -1301,7 +1301,8 @@ build/.obj/DiffSync.o: src/synchronizer/DiffSync.cpp src/synchronizer/DiffSync.h
 		src/logger/LogLevel.h \
 		src/errors/Error.h \
 		src/dispatcher/EventClass.h \
-		src/events/ProgressUpdated.h
+		src/events/ProgressUpdated.h \
+		src/events/DiffSyncCompleted.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/.obj/DiffSync.o src/synchronizer/DiffSync.cpp
 
 build/.obj/moc_MainWindow.o: build/.moc/moc_MainWindow.cpp 

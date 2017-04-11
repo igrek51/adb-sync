@@ -59,7 +59,8 @@ HEADERS += \
            src/test/TestApp.h \
            src/test/LocalFSTest.h \
            src/test/QApplicationTest.h \
-           src/test/ThreadsTest.h
+           src/test/ThreadsTest.h \
+           src/test/BusyboxTest.h
 
 FORMS += forms/mainwindow.ui
 
