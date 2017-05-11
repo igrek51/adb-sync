@@ -13,8 +13,9 @@
 //TODO possibility to stop scanning
 //TODO synchronizing single files from configuration
 
-DiffScanner::DiffScanner(vector<Database*>* dbs) {
+DiffScanner::DiffScanner(vector<Database*>* dbs, vector<string>* excludedFiles) {
 	this->dbs = dbs;
+	this->excludedFiles = excludedFiles;
 	adb = new ADB();
 	localFS = new LocalFS();
 }
@@ -75,8 +76,8 @@ double DiffScanner::calcProgres(int index, unsigned long all) {
 void DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom,
 						   double progressTo) {
 	setProgress(progressFrom);
-	vector<File*>* localFiles = localFS->listPath(localPath);
-	vector<File*>* remoteFiles = adb->listPath(remotePath);
+	vector<File*>* localFiles = excludeIgnoredFiles(localFS->listPath(localPath));
+	vector<File*>* remoteFiles = excludeIgnoredFiles(adb->listPath(remotePath));
 
 	Logger::debug("scanning Dir: " + localPath);
 
@@ -151,6 +152,20 @@ void DiffScanner::scanDirs(string localPath, string remotePath, double progressF
 	deleteFilesList(localFiles);
 	deleteFilesList(remoteFiles);
 }
+
+vector<File*>* DiffScanner::excludeIgnoredFiles(vector<File*>* files){
+	for(unsigned int i = 0; i < files->size(); i++){
+		for(std::vector<string>::iterator it = excludedFiles->begin(); it != excludedFiles->end(); it++) {
+			if((*it) == files->at(i)->getName()){
+				files->erase(files->begin() + i);
+				Logger::debug("Ignored file: " + (*it));
+				continue;
+			}
+		}
+	}
+	return files;
+}
+
 
 File* DiffScanner::findFile(vector<File*>* files, string name) {
 	//TODO quick search from set

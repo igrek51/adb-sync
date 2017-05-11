@@ -23,7 +23,7 @@ string Diff::typeName() {
 			case DiffType::DIFFERENT_SIZE:
 				return "different size";
 			case DiffType::REDUNDANT_DIRECTORY:
-				return "reduntand directory";
+				return "reduntant directory";
 			case DiffType::REDUNDANT_REGULAR_FILE:
 				return "redundant file";
 		}

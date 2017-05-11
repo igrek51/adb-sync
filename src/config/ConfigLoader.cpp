@@ -6,12 +6,14 @@
 #include "../logger/Logger.h"
 #include "../utils/string_utils.h"
 #include <fstream>
+#include <sstream>
 
 const string ConfigLoader::CONFIG_FILENAME = "config.properties";
 
 const string ConfigLoader::CONFIG_DB_PREFIX = "database.";
 const string ConfigLoader::CONFIG_LOCAL_PATH_SUFFIX = ".localPath";
 const string ConfigLoader::CONFIG_REMOTE_PATH_SUFFIX = ".remotePath";
+const string ConfigLoader::CONFIG_EXCLUDED_FILES = "excludedFiles";
 
 ConfigLoader::ConfigLoader() {
 
@@ -118,4 +120,37 @@ vector<Database*>* ConfigLoader::loadDatabases() {
 	}
 
 	return databases;
+}
+
+template<typename Out>
+void split(const std::string &s, char delim, Out result) {
+	stringstream ss;
+	ss.str(s);
+	string item;
+	while (std::getline(ss, item, delim)) {
+		*(result++) = item;
+	}
+}
+
+vector<string>* split(std::string &s, char delim) {
+	vector<string>* elems = new vector<string>();
+	split(s, delim, std::back_inserter(*elems));
+	return elems;
+}
+
+vector<string>* ConfigLoader::loadExcludedFiles() {
+
+	vector<string>* excludedFiles = new vector<string>();
+
+	ConfigProperties* properties = loadProperties(CONFIG_FILENAME);
+	if (properties != nullptr) {
+
+		string excludedFilesA = properties->getValue(CONFIG_EXCLUDED_FILES);
+		if(excludedFilesA.length() > 0){
+			excludedFiles = split(excludedFilesA, ' ');
+		}
+
+	}
+
+	return excludedFiles;
 }

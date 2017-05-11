@@ -26,6 +26,7 @@ public:
 
 private:
 	vector<Database*>* databases;
+	vector<string>* excludedFiles;
 
 	vector<Diff*>* diffs;
 	mutex diffsMutex;

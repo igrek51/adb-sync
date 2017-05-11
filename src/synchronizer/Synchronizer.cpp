@@ -122,7 +122,7 @@ void Synchronizer::scanDiffs() {
 			diffsMutex.lock();
 			diffs->clear();
 			diffsMutex.unlock();
-			diffscanner = new DiffScanner(databases);
+			diffscanner = new DiffScanner(databases, excludedFiles);
 			diffscanner->start();
 		} else {
 			Logger::warn("Difference scanning already running");
@@ -136,6 +136,7 @@ void Synchronizer::scanDiffs() {
 void Synchronizer::loadConfig() {
 	ConfigLoader* loader = new ConfigLoader();
 	databases = loader->loadDatabases();
+	excludedFiles = loader->loadExcludedFiles();
 	delete loader;
 }
 

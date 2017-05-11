@@ -16,7 +16,7 @@ using namespace std;
 
 class DiffScanner : public SingleThread {
 public:
-	DiffScanner(vector<Database*>* dbs);
+	DiffScanner(vector<Database*>* dbs, vector<string>* excludedFiles);
 
 	~DiffScanner();
 
@@ -32,6 +32,8 @@ private:
 
 	vector<Database*>* dbs;
 
+	vector<string>* excludedFiles;
+
 	double calcProgres(int index, unsigned long all);
 
 	void scanDirs(string localPath, string remotePath, double progressFrom, double progressTo);
@@ -46,6 +48,8 @@ private:
 	void addDiff(File* localFile, File* remoteFile, DiffType type);
 
 	void deleteFilesList(vector<File*>* files);
+
+	vector<File*>* excludeIgnoredFiles(vector<File*>* files);
 };
 
 

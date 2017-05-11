@@ -21,6 +21,8 @@ public:
 
 	vector<Database*>* loadDatabases();
 
+	vector<string>* loadExcludedFiles();
+
 private:
 	ConfigProperties* loadProperties(string filename);
 
@@ -33,6 +35,7 @@ private:
 	static const string CONFIG_DB_PREFIX;
 	static const string CONFIG_LOCAL_PATH_SUFFIX;
 	static const string CONFIG_REMOTE_PATH_SUFFIX;
+	static const string CONFIG_EXCLUDED_FILES;
 };
 
 
