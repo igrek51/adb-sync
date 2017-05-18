@@ -9,6 +9,8 @@
 #include <sstream>
 
 const string ConfigLoader::CONFIG_FILENAME = "config.properties";
+// TODO move to home/config dir
+const string ConfigLoader::DEFAULT_CONFIG_FILENAME = "/mnt/data/Igrek/c++/adb-sync/bin/config.properties";
 
 const string ConfigLoader::CONFIG_DB_PREFIX = "database.";
 const string ConfigLoader::CONFIG_LOCAL_PATH_SUFFIX = ".localPath";
@@ -68,6 +70,18 @@ ConfigProperties* ConfigLoader::loadProperties(string filename) {
 	return new ConfigProperties(variables);
 }
 
+ConfigProperties* ConfigLoader::loadProperties() {
+
+	ConfigProperties* properties = loadProperties(CONFIG_FILENAME);
+	// if missing load from default config location
+	if (properties == nullptr) {
+		Logger::warn("missing properties file, loading from default one");
+		properties = loadProperties(DEFAULT_CONFIG_FILENAME);
+	}
+
+	return properties;
+}
+
 pair<string, string> ConfigLoader::parseLine(string line) {
 	if (line.length() > 0) {
 		if (!startsWith(line, "#")) { // if is not comment
@@ -92,7 +106,7 @@ vector<Database*>* ConfigLoader::loadDatabases() {
 
 	vector<Database*>* databases = new vector<Database*>();
 
-	ConfigProperties* properties = loadProperties(CONFIG_FILENAME);
+	ConfigProperties* properties = loadProperties();
 	if (properties != nullptr) {
 
 		//TODO search for all keys starting with CONFIG_DB_PREFIX
@@ -142,7 +156,7 @@ vector<string>* ConfigLoader::loadExcludedFiles() {
 
 	vector<string>* excludedFiles = new vector<string>();
 
-	ConfigProperties* properties = loadProperties(CONFIG_FILENAME);
+	ConfigProperties* properties = loadProperties();
 	if (properties != nullptr) {
 
 		string excludedFilesA = properties->getValue(CONFIG_EXCLUDED_FILES);

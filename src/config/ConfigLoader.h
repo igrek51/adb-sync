@@ -24,6 +24,8 @@ public:
 	vector<string>* loadExcludedFiles();
 
 private:
+	ConfigProperties* loadProperties();
+
 	ConfigProperties* loadProperties(string filename);
 
 	vector<string>* loadFileLines(string filename);
@@ -31,6 +33,7 @@ private:
 	pair<string, string> parseLine(string line);
 
 	static const string CONFIG_FILENAME;
+	static const string DEFAULT_CONFIG_FILENAME;
 
 	static const string CONFIG_DB_PREFIX;
 	static const string CONFIG_LOCAL_PATH_SUFFIX;
