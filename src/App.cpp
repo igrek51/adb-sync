@@ -13,7 +13,7 @@ App::App(int argc, char** argv) {
 	this->argc = argc;
 	this->argv = argv;
 	qapp = new QApplication(argc, argv);
-	synchronizer = new Synchronizer();
+	synchronizer = new Synchronizer(argc, argv);
 	gui = new GUI();
 }
 

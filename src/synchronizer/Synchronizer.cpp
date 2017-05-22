@@ -3,7 +3,6 @@
 //
 
 #include "Synchronizer.h"
-#include "../config/ConfigLoader.h"
 #include "../dispatcher/EventDispatcher.h"
 #include "../events/DiffScanButtonClicked.h"
 #include "../events/DiffRemovedButtonClicked.h"
@@ -16,7 +15,9 @@
 #include "../events/DiffSyncCompleted.h"
 #include <algorithm>
 
-Synchronizer::Synchronizer() {
+Synchronizer::Synchronizer(int argc, char** argv) {
+	this->argc = argc;
+	this->argv = argv;
 	loadConfig();
 	registerEvents();
 	diffs = new vector<Diff*>();
@@ -135,7 +136,7 @@ void Synchronizer::scanDiffs() {
 
 void Synchronizer::loadConfig() {
 	ConfigLoader* loader = new ConfigLoader();
-	databases = loader->loadDatabases();
+	databases = getDatabases(loader);
 	excludedFiles = loader->loadExcludedFiles();
 	delete loader;
 }
@@ -211,4 +212,21 @@ void Synchronizer::invertDiff(int index) {
 		EventDispatcher::sendNow(new ShowUIMessageRequest("difference inverted"));
 	}
 	diffsMutex.unlock();
+}
+
+vector<Database*>* Synchronizer::getDatabases(ConfigLoader* loader) {
+	if (argc == 3) { // database defined by command line arguments
+		vector<Database*>* databases = new vector<Database*>();
+
+		string localPath = argv[1];
+		string remotePath = argv[2];
+		Logger::info(
+				"database loaded from command line arguments: " + localPath + " -> " + remotePath);
+		Database* db = new Database(localPath, remotePath);
+
+		databases->push_back(db);
+		return databases;
+	} else { // databases loaded from config file
+		return loader->loadDatabases();
+	}
 }

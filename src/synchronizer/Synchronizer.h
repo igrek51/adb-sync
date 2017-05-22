@@ -9,6 +9,7 @@
 #include "../dispatcher/IEventObserver.h"
 #include "DiffScanner.h"
 #include "DiffSync.h"
+#include "../config/ConfigLoader.h"
 #include <vector>
 #include <mutex>
 
@@ -16,7 +17,7 @@ using namespace std;
 
 class Synchronizer : public IEventObserver {
 public:
-	Synchronizer();
+	Synchronizer(int argc, char** argv);
 
 	~Synchronizer();
 
@@ -25,6 +26,9 @@ public:
 	virtual void onEvent(Event* e) override;
 
 private:
+	int argc;
+	char** argv;
+
 	vector<Database*>* databases;
 	vector<string>* excludedFiles;
 
@@ -48,6 +52,8 @@ private:
 	void invertDiff(int index);
 
 	void diffSynced(Diff* diff);
+
+	vector<Database*>* getDatabases(ConfigLoader* loader);
 };
 
 
