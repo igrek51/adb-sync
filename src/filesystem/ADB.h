@@ -43,9 +43,9 @@ protected:
 private:
 	File* parseLsOutput(string path, string lsLine);
 
-	Directory* parseLsDirectory(string path, vector<string>* parts);
+    Directory *parseLsDirectory(string path, string name);
 
-	RegularFile* parseLsRegularFile(string path, vector<string>* parts);
+    RegularFile *parseLsRegularFile(string path, string lsName);
 
 	string busyboxDirPath;
 };

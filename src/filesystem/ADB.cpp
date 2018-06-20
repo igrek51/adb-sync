@@ -146,9 +146,9 @@ RegularFile* ADB::getRegularFileDetails(string path, string name) {
 vector<File*>* ADB::listPath(string path) {
 	vector<File*>* files = new vector<File*>();
 
-	//TODO use platform independent binaries
+    // list all files but . and .., one file per line, append /dir *exe @sym |FIFO
 	string output = shell(
-			"ls -al " + escapeShellPath(path));
+            "ls -AF1 " + escapeShellPath(path));
 	vector<string>* lines = splitLines(output);
 	for (string line : *lines) {
 		if (endsWith(line, "No such file or directory")) {
@@ -180,83 +180,26 @@ File* ADB::parseLsOutput(string path, string lsLine) {
 	if (lsLine.empty())
 		return nullptr;
 
-//    Logger::debug("parsing ls line: " + lsLine);
-	vector<string>* parts = splitByAny(lsLine, "\t ");
-
-	if (parts->size() >= 7) {
-		if (parts->at(0).size() == 10) {
-			if (startsWith(parts->at(0), "d")) {
-				File* result = parseLsDirectory(path, parts);
-				delete parts;
-				return result;
-			} else if (startsWith(parts->at(0), "-")) {
-				File* result = parseLsRegularFile(path, parts);
-				delete parts;
-				return result;
-			}
-		}
+    if (endsWith(lsLine, "/")) {
+        // directory
+        return parseLsDirectory(path, lsLine);
+    } else {
+        return parseLsRegularFile(path, lsLine);
 	}
-
-	delete parts;
-	return nullptr;
 }
 
-Directory* ADB::parseLsDirectory(string path, vector<string>* parts) {
-	unsigned int index = 0;
-	string permissions = nextNonemptyPart(parts, index);
-	string owner = nextNonemptyPart(parts, index);
-	string group = nextNonemptyPart(parts, index);
-	string modifiedDate = nextNonemptyPart(parts, index);
-	string modifiedHour = nextNonemptyPart(parts, index);
-	stringstream ss;
-	for (; index < parts->size(); index++) {
-		string& part = parts->at(index);
-		ss << part;
-		if (index < parts->size() - 1) { // not last part
-			ss << " ";
-		}
-	}
-	string name = ss.str();
-
-	if (name == "." || name == "..") {
-		return nullptr; // skip symbolic folders
-	}
-
-	// verification
-	if (name.length() == 0)
-		throw new ParseError("empty directory name");
-
+Directory *ADB::parseLsDirectory(string path, string name) {
+    name = name.substr(0, name.length() - 1); // remove ending slash
 	return new Directory(path, name);
 }
 
-RegularFile* ADB::parseLsRegularFile(string path, vector<string>* parts) {
-	unsigned int index = 0;
-	string permissions = nextNonemptyPart(parts, index);
-	string owner = nextNonemptyPart(parts, index);
-	string group = nextNonemptyPart(parts, index);
-	string blockSize = nextNonemptyPart(parts, index);
-	string modifiedDate = nextNonemptyPart(parts, index);
-	string modifiedHour = nextNonemptyPart(parts, index);
-	stringstream ss;
-	for (; index < parts->size(); index++) {
-		string& part = parts->at(index);
-		ss << part;
-		if (index < parts->size() - 1) { // not last part
-			ss << " ";
-		}
-	}
-	string name = ss.str();
-
-	if (name.length() == 0)
-		throw new ParseError("empty filename");
-	if (blockSize.length() == 0)
-		throw new ParseError("empty blockSize");
-	if (modifiedDate.length() == 0)
-		throw new ParseError("empty modifiedDate");
-	if (modifiedHour.length() == 0)
-		throw new ParseError("empty modifiedHour");
-
-	return getRegularFileDetails(path, name);
+RegularFile *ADB::parseLsRegularFile(string path, string lsName) {
+    if (endsWith(lsName, "*")) {
+        lsName = lsName.substr(0, lsName.length() - 1);
+    } else if (endsWith(lsName, "@")) {
+        lsName = lsName.substr(0, lsName.length() - 1);
+    }
+    return getRegularFileDetails(path, lsName);
 }
 
 

@@ -76,10 +76,11 @@ double DiffScanner::calcProgres(int index, unsigned long all) {
 void DiffScanner::scanDirs(string localPath, string remotePath, double progressFrom,
 						   double progressTo) {
 	setProgress(progressFrom);
+
+    Logger::debug("scanning Dir: " + localPath);
+
 	vector<File*>* localFiles = excludeIgnoredFiles(localFS->listPath(localPath));
 	vector<File*>* remoteFiles = excludeIgnoredFiles(adb->listPath(remotePath));
-
-	Logger::debug("scanning Dir: " + localPath);
 
 	// check local files list as mirror pattern
 	for (unsigned int i = 0; i < localFiles->size(); i++) {
