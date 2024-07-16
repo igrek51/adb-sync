@@ -9,8 +9,8 @@
 # On Android:
 # 5. Close sshd: pkill sshd
 rsync:
-	rsync -avh --delete --size-only --info=progress2 /mnt/data/Igrek/mp3/ termux:/data/data/com.termux/files/home/sd/mp3
+	rsync -rvh --delete --size-only --info=progress2 /mnt/data/Igrek/mp3/ termux:/data/data/com.termux/files/home/sd/mp3
 
 rsync-dry:
-	rsync -rvn --size-only --delete /mnt/data/Igrek/mp3/ termux:/data/data/com.termux/files/home/sd/mp3
+	rsync -rvhn --delete --size-only /mnt/data/Igrek/mp3/ termux:/data/data/com.termux/files/home/sd/mp3
 
