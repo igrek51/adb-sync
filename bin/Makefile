@@ -5,7 +5,7 @@
 # Copy key with `adb connect`,
 # `adb push ~/.ssh/id_rsa.pub /sdcard/`
 # Copy to ~/.ssh/authorized_keys
-# 4. Run: sshd -D -d -p 8023
+# 4. Run: sshd -D -p 8023
 # On Host:
 # Add to ~/.ssh/config
 #Host termux
@@ -22,4 +22,7 @@ rsync:
 
 rsync-dry:
 	rsync -rvhn --delete --size-only /opt/dump/mp3/ termux:/data/data/com.termux/files/home/shared/mp3
+
+run:
+	LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH ./adb-sync
 
