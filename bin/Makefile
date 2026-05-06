@@ -26,3 +26,10 @@ rsync-dry:
 run:
 	LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH ./adb-sync
 
+# Mount SSH FS
+sshfs:
+	sshfs -o uid=1000,gid=1000 termux:/storage/emulated/0 /mnt/termux
+
+sshfs-unmount:
+	umount /mnt/termux
+
